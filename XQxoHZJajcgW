@@ -1,0 +1,21 @@
+#Internal strings need to use "" instead of '' to match up with the write functions, so external should always be ''.
+#double the power of all dice in a roll. 
+#reassigning dice or rerolling them. 
+#Add opportunities
+#allow some specials to be reusable/permanent. Can just have them add another of themselves as part of their effects.
+#remove a defense of whatever you're attacking
+$global:AVNSpecials = @()
+#Generals
+$global:AVNSpecials += @{Name = 'General placeholder'; Type = 'General'; Description = 'General placeholder description'; Effect = 'General placeholder effect'; GlobalNotice = 'General placeholder globalnotice'; TeamsCost = 0}
+#Interrupts
+$global:AVNSpecials += @{Name = 'On Fire'; Type = 'Interrupt'; Description = 'Reset your dice rolls during any wave of a service ticket encounter.'; Effect = '$AVNAvailableDice = GatherAvailableDice'; GlobalNotice = 'was on fire today.'; TeamsCost = 0}
+#Instants
+$global:AVNSpecials += @{Name = 'After Hours Approval'; Type = 'Instant'; Description = 'The client approved after-hours work, and it is going to be a long evening. Immediately gain two turns.'; Effect = '$global:AVNCompanyData_CurrentPlayer.turns += 2'; GlobalNotice = 'had to work after hours.'; TeamsCost = 0}
+$global:AVNSpecials += @{Name = 'Christmas Cookies'; Type = 'Instant'; Description = 'Cookies--a salve that heals many ills. Immediately add ten to client health.'; Effect = '$global:AVNCompanyData_CurrentPlayer.clienthealth += 10'; GlobalNotice = 'took Christmas cookies out to the clients, and no, you cannot have one.'; TeamsCost = 0}
+$global:AVNSpecials += @{Name = 'Pinball Tournament'; Type = 'Instant'; Description = 'Everyone loves Pinball, right? Immediately increase team health by ten.'; Effect = '$global:AVNCompanyData_CurrentPlayer.teamhealth += 10'; GlobalNotice = 'organized a pinball tournament for everyone! Team health gets a +10 boost.'; TeamsCost = 0}
+$global:AVNSpecials += @{Name = 'Slow Day'; Type = 'Instant'; Description = 'As a result of less tickets than normal, you have extra time for training. Immediately gain another training.'; Effect = '$global:AVNPlayerData_CurrentPlayer.training += 1'; GlobalNotice = 'had a slow day and found more time for training.'; TeamsCost = 0}
+#PreEmptives
+$global:AVNSpecials += @{Name = 'Surprise ITGlue Document'; Type = 'PreEmptive'; Description = 'Sometimes you find out there is a document you just did not know was there. Add an ITGlue dice for the remainder of the round.'; Effect = '$AVNSTSpecialDice += "ITGlue"; $AVNAvailableDice = GatherAvailableDice'; GlobalNotice = 'started writing a document in ITGlue that he discovered someone else had already written.'; TeamsCost = 0}
+#Teams
+##Generals
+$global:AVNSpecials += @{Name = 'Purchase Placeholder'; Type = 'General'; Description = 'Placeholder'; Effect = 'Placeholder'; GlobalNotice = 'placeholder.'; TeamsCost = 100}

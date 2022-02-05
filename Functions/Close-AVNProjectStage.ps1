@@ -1,0 +1,532 @@
+<#
+.Synopsis
+.Description
+.Parameter Text
+.Example 
+.Inputs
+.Outputs
+.Notes
+.Link
+.Component
+.Role
+.Functionality
+#>
+Function Close-AVNProjectStage {
+    #Same as service tickets but harder. Assumes the player has trained numerous times and horded some specials. Each player faces the same, designed waves. The project stage counter attacks after a player successfully defeats a wave. Players may attempt stages repeatedly, according to the configured alottment of allowed attempts per day.
+
+    Get-AVNConfig
+
+    #Prep
+    $global:AVNPlayerData_CurrentPlayer.ProjectStageAttempts += 1
+    #Writing data so that if the player tries to use ctrl+c to get out of it, he's already lost whatever it is.
+    $global:AVNCompanyData_CurrentPlayer.teamhealth -= 2
+    ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile
+    Get-AVNConfig
+
+    $AVNProjectStage1Waves = @(
+        @{
+            Wave = 1
+            Name = 'S1W1Name'; 
+            Description = 'S1W1Description';
+            Defenses = @();
+            CounterAttack = 'Get-Date'
+            CounterAttackText = 'S1W1 counterattack text'
+            IntroductionText = 'S1W1 IntroText';
+            FailureText = 'S1W1 FailureText';
+            FailurePenalty = '';
+            DeathText = 'S1W1 DeathText';
+        },
+        @{
+            Wave = 2
+            Name = ''; 
+            Description = '';
+            Defenses = @();
+            CounterAttack = 'get-date'
+            CounterAttackText = ''
+            IntroductionText = '';
+            FailureText = '';
+            FailurePenalty = '';
+            DeathText = '';
+        },
+        @{
+            Wave = 3
+            Name = ''; 
+            Description = '';
+            Defenses = @();
+            CounterAttack = 'get-date'
+            CounterAttackText = ''
+            IntroductionText = '';
+            FailureText = '';
+            FailurePenalty = '';
+            DeathText = '';
+        }
+    )
+    
+    $AVNProjectStage2Waves = @(
+        @{
+            Wave = 1
+            Name = ''; 
+            Description = '';
+            Defenses = @();
+            CounterAttack = ''
+            CounterAttackText = ''
+            IntroductionText = '';
+            FailureText = '';
+            FailurePenalty = '';
+            DeathText = '';
+        },
+        @{
+            Wave = 2
+            Name = ''; 
+            Description = '';
+            Defenses = @();
+            CounterAttack = ''
+            CounterAttackText = ''
+            IntroductionText = '';
+            FailureText = '';
+            FailurePenalty = '';
+            DeathText = '';
+        },
+        @{
+            Wave = 3
+            Name = ''; 
+            Description = '';
+            Defenses = @();
+            CounterAttack = ''
+            CounterAttackText = ''
+            IntroductionText = '';
+            FailureText = '';
+            FailurePenalty = '';
+            DeathText = '';
+        }
+    )
+
+    $AVNProjectStage3Waves = @(
+        @{
+            Wave = 1
+            Name = ''; 
+            Description = '';
+            Defenses = @();
+            CounterAttack = ''
+            CounterAttackText = ''
+            IntroductionText = '';
+            FailureText = '';
+            FailurePenalty = '';
+            DeathText = '';
+        },
+        @{
+            Wave = 2
+            Name = ''; 
+            Description = '';
+            Defenses = @();
+            CounterAttack = ''
+            CounterAttackText = ''
+            IntroductionText = '';
+            FailureText = '';
+            FailurePenalty = '';
+            DeathText = '';
+        },
+        @{
+            Wave = 3
+            Name = ''; 
+            Description = '';
+            Defenses = @();
+            CounterAttack = ''
+            CounterAttackText = ''
+            IntroductionText = '';
+            FailureText = '';
+            FailurePenalty = '';
+            DeathText = '';
+        }
+    )
+
+    #Intro text and assigning correct stage to current
+    If ($global:AVNPlayerData_CurrentPlayer.ProjectStageAttempts -ge $global:AVNProjectStageDailyAllowance) {
+        Write-Host "You have already attempted Project Stages the maximum number of times for your current Invoke-AVNSignOn." -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Wait-AVNKeyPress
+        Return
+    } Else {
+        If ($global:AVNCompanyDataCommon.ProjectStage1WavesRemaining -gt 0) {
+            [int]$AVNProjectCurrentStage = 1
+            $AVNProjectCurrentStageArray = $AVNProjectStage1Waves
+            Write-Host "                                                       `n   ███████ ████████  █████   ██████  ███████      ██   `n   ██         ██    ██   ██ ██       ██          ███   `n   ███████    ██    ███████ ██   ███ █████        ██   `n        ██    ██    ██   ██ ██    ██ ██           ██   `n   ███████    ██    ██   ██  ██████  ███████      ██   `n                                                       `n                                                       `n`n" -foregroundcolor $global:AVNDefaultBannerForegroundColor -backgroundcolor $global:AVNDefaultBannerBackgroundColor
+        } ElseIf ($global:AVNCompanyDataCommon.ProjectStage2WavesRemaining -gt 0) {
+            [int]$AVNProjectCurrentStage = 2
+            $AVNProjectCurrentStageArray = $AVNProjectStage2Waves
+            Write-Host "                                                       `n ███████ ████████  █████   ██████  ███████     ██████  `n ██         ██    ██   ██ ██       ██               ██ `n ███████    ██    ███████ ██   ███ █████        █████  `n      ██    ██    ██   ██ ██    ██ ██          ██      `n ███████    ██    ██   ██  ██████  ███████     ███████ `n                                                       `n                                                       `n`n" -foregroundcolor $global:AVNDefaultBannerForegroundColor -backgroundcolor $global:AVNDefaultBannerBackgroundColor
+        } ElseIf ($global:AVNCompanyDataCommon.ProjectStage3WavesRemaining -gt 0) {
+            [int]$AVNProjectCurrentStage = 3
+            $AVNProjectCurrentStageArray = $AVNProjectStage2Waves
+            Write-Host "                                                       `n ███████ ████████  █████   ██████  ███████     ██████  `n ██         ██    ██   ██ ██       ██               ██ `n ███████    ██    ███████ ██   ███ █████        █████  `n      ██    ██    ██   ██ ██    ██ ██               ██ `n ███████    ██    ██   ██  ██████  ███████     ██████  `n                                                       `n                                                       `n`n" -foregroundcolor $global:AVNDefaultBannerForegroundColor -backgroundcolor $global:AVNDefaultBannerBackgroundColor
+        } Else {
+            Write-Host "                                                                                                         `n              █████  ██      ██          ███████ ████████  █████   ██████  ███████ ███████               `n             ██   ██ ██      ██          ██         ██    ██   ██ ██       ██      ██                    `n             ███████ ██      ██          ███████    ██    ███████ ██   ███ █████   ███████               `n             ██   ██ ██      ██               ██    ██    ██   ██ ██    ██ ██           ██               `n             ██   ██ ███████ ███████     ███████    ██    ██   ██  ██████  ███████ ███████               `n                                                                                                         `n                                                                                                         `n                  ██████  ██████  ███    ███ ██████  ██      ███████ ████████ ███████                    `n                 ██      ██    ██ ████  ████ ██   ██ ██      ██         ██    ██                         `n                 ██      ██    ██ ██ ████ ██ ██████  ██      █████      ██    █████                      `n                 ██      ██    ██ ██  ██  ██ ██      ██      ██         ██    ██                         `n                  ██████  ██████  ██      ██ ██      ███████ ███████    ██    ███████                    `n                                                                                                         `n                                                                                                         `n`n" -foregroundcolor $global:AVNDefaultBannerForegroundColor -backgroundcolor $global:AVNDefaultBannerBackgroundColor
+            
+            Write-Host "After all remaining turns have been used, this season of AdventureNet will have been completed." -foregroundcolor $global:AVNDefaultTextForegroundColor
+            Wait-AVNKeyPress
+            Return
+        }
+    }
+
+    #Getting dice info table.
+    (Get-Content -path ($global:AVNRootPath + "\bGBIuKWniXYw")) | ForEach-Object {
+        Invoke-Expression $_
+    }
+
+    #Gathering resources as functions, so I can call them more easily later on.
+    Function GatherAvailablePreEmptiveSpecials {
+        #Cycling through the player's specials and creating a full version of it in a temporary variable to be used in this function.
+        #If this goes in the function, I just have to remove the special from the global variable and then run the function to get the current ones again.
+        $AVNProjectPreEmptiveSpecials = @()
+        $global:AVNSpecials_CurrentPlayer | ForEach-Object {
+            ForEach ($AVNProjectRawSpecial in $global:AVNSpecials) {
+                If (($AVNProjectRawSpecial.name -eq $_) -and ($AVNProjectRawSpecial.type -eq 'preemptive')) {
+                    $AVNProjectPreEmptiveSpecials += $AVNProjectRawSpecial
+                }
+            }
+        }
+        Return $AVNProjectPreEmptiveSpecials
+    }
+
+    Function GatherAvailableInterruptSpecials {
+        #Cycling through the player's specials and creating a full version of it in a temporary variable to be used in this function.
+        #If this goes in the function, I just have to remove the special from the global variable and then run the function to get the current ones again.
+        $AVNProjectInterruptSpecials = @()
+        $global:AVNSpecials_CurrentPlayer | ForEach-Object {
+            ForEach ($AVNProjectRawSpecial in $global:AVNSpecials) {
+                If (($AVNProjectRawSpecial.name -eq $_) -and ($AVNProjectRawSpecial.type -eq 'interrupt')) {
+                    $AVNProjectInterruptSpecials += $AVNProjectRawSpecial
+                }
+            }
+        }
+        Return $AVNProjectInterruptSpecials
+    }
+
+    $AVNProjectSpecialDice = @()
+    Function GatherAvailableDice {
+        $AVNProjectAvailableDice = [ordered]@{}
+        [int]$AvailableDiceI = 0
+        $global:AVNDicePerm_CurrentPlayer | ForEach-Object {
+            $AvailableDiceI++
+            $AVNProjectAvailableDice.add($AvailableDiceI, $_)
+        }
+        $global:AVNDiceDaily_CurrentPlayer | ForEach-Object {
+            $AvailableDiceI++
+            $AVNProjectAvailableDice.add($AvailableDiceI, $_)
+        }
+        If ($AVNProjectSpecialDice.count -gt 0) {
+            $AVNProjectSpecialDice | ForEach-Object {
+                $AvailableDiceI++
+                $AVNProjectAvailableDice.add($AvailableDiceI, $_)
+            }
+        }
+        Return $AVNProjectAvailableDice
+    }
+
+    #Doing this here instead of the loop because it should only be used at the beginning, unless a special runs it again. When they are used, I will remove them from these variables, and for specials, I remove them from the master variable as well.
+    $AVNAvailableDice = GatherAvailableDice
+    $AVNInterruptSpecials = GatherAvailableInterruptSpecials
+    $AVNPreEmptiveSpecials = GatherAvailablePreEmptiveSpecials
+    
+
+
+
+
+    $AVNProjectCurrentWave = 1
+    $AVNProjectAllWavesComplete = $False
+    Do {
+        #Cycles waves until all waves complete. Includes rolls. If the player's roll succeeds for a wave, increase the wave integer, invoke the wave's counterattack, and circle back through this loop with the appropriate wave criteria.
+        Do {
+            #Cycles choice entries until the player rolls. Includes info and pre-emptive special use.
+            Do {
+                #Cycles entries until the player's entry is valid
+
+                #Gathering the current wave's info.
+                $Iteration = 0
+                $AVNProjectCurrentStageArray | ForEach-Object {
+                    If ($_.wave -eq $AVNProjectCurrentWave) {
+                        $AVNProjectCurrentStageCurrentWaveHashTable = $_
+                    }
+                }
+                'AVNProjectCurrentStageCurrentWaveHashTable'
+                $AVNProjectCurrentStageCurrentWaveHashTable
+
+                #Informing/prepping the player
+                Write-Host "The project looms before you--three stages with three waves apiece. You are on Stage " $AVNProjectCurrentStage ", Wave " $AVNProjectCurrentWave "`n`nYou see the following defenses for this wave:" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                
+                Write-Host $AVNProjectCurrentStageCurrentWaveHashTable.defenses -foregroundcolor $global:AVNDefaultTextForegroundColor
+
+                Wait-AVNKeyPress
+
+                #Default choices.
+                [int]$AVNOptionI = 1
+                $AVNProjectCurrentWaveOptions = [ordered]@{
+                    '?' = 'Show information about your options.'
+                    $AVNOptionI = 'Attack!'
+                }
+                #Adding specials to the choices. Changes based on what wave we're on. Also adds all the ints of these specials to $AVNSpecialIntegers, so I can know a special has been chosen later. I might not need, this, though, if I only do ?, attack, and specials. I'd always know the range, and the ints of those options would be constant.
+                If ($AVNProjectCurrentWave -eq 1) {
+                    $AVNSpecialIntegers = @()
+                    If ($AVNPreEmptiveSpecials.count -gt 0) {
+                        $AVNPreEmptiveSpecials | ForEach-Object {
+                            $AVNOptionI++
+                            $AVNSpecialIntegers += $AVNOptionI
+                            $AVNProjectCurrentWaveOptions.add($AVNOptionI, $_.name)
+                        }
+                    }
+                } Else {
+                    $AVNSpecialIntegers = @()
+                    If ($AVNInterruptSpecials.count -gt 0) {
+                        $AVNInterruptSpecials | ForEach-Object {
+                            $AVNOptionI++
+                            $AVNSpecialIntegers += $AVNOptionI
+                            $AVNProjectCurrentWaveOptions.add($AVNOptionI, $_.name)
+                        }
+                    }
+                }
+
+                Write-Host "You have the following options:" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                $AVNProjectCurrentWaveOptions
+                $AVNProjectCurrentWaveChoice = Read-Host "Enter your choice"
+
+                #Validating entry
+                If (($AVNProjectCurrentWaveChoice -notmatch "\d+") -and ($AVNProjectCurrentWaveChoice -ne "?")) {
+                    Write-Host "Something seems to be wrong with your entry. Please make sure to enter only the integer that's next to your choice or a single ?." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                    Wait-AVNKeyPress
+                }
+                If ($AVNProjectCurrentWaveChoice -notin $AVNProjectCurrentWaveOptions.keys) {
+                    Write-Host "Please only enter ? or the integer of an item in the list." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                    Wait-AVNKeyPress
+                }
+            } Until ($AVNProjectCurrentWaveChoice -in $AVNProjectCurrentWaveOptions.keys)
+
+            #Now go through results of the player's choice, not including dice.
+            If ($AVNProjectCurrentWaveChoice -eq "?") {
+                Get-AVNHelp -dice
+            }
+            Write-Host "Other info placeholder." -foregroundcolor $global:AVNDefaultTextForegroundColor
+
+            #Identifying special, using it, and removing it from the player's global variable.
+            $AVNProjectCurrentWaveChoice = [int]$AVNProjectCurrentWaveChoice
+            If ($AVNProjectCurrentWaveChoice -gt 1) {
+                If ($AVNProjectCurrentWave -eq 1) {
+                    $AVNPreEmptiveSpecials | ForEach-Object {
+                        If ($_.name -eq $AVNProjectCurrentWaveOptions.$AVNProjectCurrentWaveChoice) {
+                            $AVNProjectCurrentWaveChosenSpecial = $_
+                        }
+                    }
+                } Else {
+                    $AVNInterruptSpecials | ForEach-Object {
+                        If ($_.name -eq $AVNProjectCurrentWaveOptions.$AVNProjectCurrentWaveChoice) {
+                            $AVNProjectCurrentWaveChosenSpecial = $_
+                        }
+                    }
+                }   
+                
+                Write-Host "You used your " $AVNProjectCurrentWaveChosenSpecial.name -foregroundcolor $global:AVNDefaultTextForegroundColor
+                $AVNProjectCurrentWaveChosenSpecial.description
+                Invoke-Expression $AVNProjectCurrentWaveChosenSpecial.effect
+
+                $AVNPlayerDataSpecialsTempArray = @()
+                $AVNProjectSpecialSingleEntryLimiter = $False
+                $global:AVNSpecials_CurrentPlayer | ForEach-Object {
+                    If ($_ -eq $AVNProjectCurrentWaveChosenSpecial.name) {
+                        #Skips the first special matching the variable if there are multiple.
+                        If ($AVNProjectSpecialSingleEntryLimiter -eq $True) {
+                            $AVNPlayerDataSpecialsTempArray += $_
+                        } Else {
+                            $AVNProjectSpecialSingleEntryLimiter = $True
+                        }
+                    } Else {
+                        $AVNPlayerDataSpecialsTempArray += $_
+                    }
+                }
+                $global:AVNSpecials_CurrentPlayer = $AVNPlayerDataSpecialsTempArray
+                #End with getting all specials again, which will remove the specials item from the pre-emptive specials array.
+                If ($AVNProjectCurrentWave -eq 1) {
+                    $AVNPreEmptiveSpecials = GatherAvailablePreEmptiveSpecials
+                } Else {
+                    $AVNInterruptSpecials = GatherAvailableInterruptSpecials
+                }
+                Wait-AVNKeypress
+            }
+        } Until ($AVNProjectCurrentWaveChoice -eq "1")
+
+        #Presenting player with dice to roll, accepting and then validating their choices.
+        Do {
+            $AVNDiceRollChoicePass = $True
+
+            Write-Host "Defenses for this wave are:`n" $AVNProjectCurrentStageCurrentWaveHashTable.defenses "`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
+            Write-Host "And you have the following dice available to roll:" -ForegroundColor $global:AVNDefaultTextForegroundColor
+            $AVNAvailableDice
+            #Create entry hash that includes ?
+
+            [string]$AVNDiceRollChoice = Read-Host "Choose which you'd like to roll by its number in the above table; for multiple, separate numbers by a comma (ex: 1,2), or else enter ? to display work-type value alottment per dice"
+
+            If ($AVNDiceRollChoice -eq '?') {
+                Write-Host "Dice info blah blah blah for each of the player's dice" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Wait-AVNKeyPress
+                $AVNDiceRollChoicePass = $False
+            } Else {
+                $AVNDiceRollChoiceArray = $AVNDiceRollChoice -split ","
+                $AVNDiceRollChoiceArrayComparer = $AVNDiceRollChoiceArray | Select-Object -unique
+                If ($AVNDiceRollChoiceArray.count -ne $AVNDiceRollChoiceArrayComparer.count) {
+                    Write-Host "You appear to have entered the same value more than once. You can only roll any dice once without an appropriate special." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                    $AVNDiceRollChoicePass = $False
+                    #A special might change this.
+                    Wait-AVNKeyPress
+                }
+                $AVNDiceRollChoiceArray | ForEach-Object {
+                    If ($_ -notmatch "\d+") {
+                        $AVNDiceRollChoicePass = $False
+                        Write-Host "Something is odd about your entry. Please make sure to enter using the appropriate format. No letters or special characters are permitted, and if you're trying to get information about the dice, please enter a solitary ?." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                        Wait-AVNKeyPress
+                    }
+                    If ([int]$_ -notin $AVNAvailableDice.keys){
+                        $AVNDiceRollChoicePass = $False
+                        Write-Host "Please only enter a number that's in your list of available dice." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                        Wait-AVNKeyPress
+                    }
+                }
+            }
+        } Until ($AVNDiceRollChoicePass -eq $True)
+
+        #Gathering dice, evaluating worktypes per dice, weighting and randomizing their rolls. Ends with the $AVNDiceRolls array variable, which just has the worktypes that are rolled by all chosen dice.
+        $AVNDiceRolls = @()
+        $AVNDiceRollChoiceArray | ForEach-Object {
+            #Converting the current int that the person entered into the worktype that it represents.
+            $AVNProjectRollChoiceType = $AVNAvailableDice.([int]$_)
+            $AVNDiceRollChoiceTypeHashTable = $AVNDiceValues.$AVNProjectRollChoiceType
+            #Removing it from the available dice by the int that the player entered.
+            $AVNAvailableDice.remove([int]$_)
+            $AVNDiceRollChoiceTypeWeightArray = @()
+            #Goes through each dice type's values and adds an array entry for each side of the die, so to speak, to properly weight a random roll. Dice with multiple sides that have the same value should end up with multiple of that value in the array, and then get-random chooses from all of them--even the multiples. This basically just adds an entry to the $AVNDiceRollChoiceTypeWeightArray array for each int in $AVNDiceRollChoiceTypeHashTable.
+            $AVNDiceRollChoiceTypeHashTable.keys | ForEach-Object {
+                For ($AVNDiceRollChoiceTypeHashTableValueI = 0; $AVNDiceRollChoiceTypeHashTableValueI -lt $AVNDiceRollChoiceTypeHashTable.$_; $AVNDiceRollChoiceTypeHashTableValueI++) {
+                    $AVNDiceRollChoiceTypeWeightArray += $_
+                }
+            }
+            #This should be an array of all rolls that are chosen. It'll be a string of the work type rolled by that dice, weighted by the numbers in the types hash table. I'm just getting a random selection from all the sides of the die and adding it to the $avndicerolls variable, which is a collection of all the player's rolls for this wave. 
+            $AVNDiceRolls += $AVNDiceRollChoiceTypeWeightArray[(Get-Random -minimum 0 -maximum 5)]
+        }
+        #All above seems to be working. I have the ability to choose a # of dice and then to end up with a weighted random roll of each die. Results are the work type names.
+        Write-Host "`nYou rolled the following work types:`n" $AVNDiceRolls -foregroundcolor $global:AVNDefaultTextForegroundColor
+
+        #Matching dice rolls to defenses and seeing if the player rolled enough of each work type to beat the wave.
+        $AVNDiceRollSuccess = $True
+        #Cycling through defenses.
+        For ($AVNDefI = 0; $AVNDefI -lt (($AVNProjectCurrentStageCurrentWaveHashTable.defenses).count); $AVNDefI++) {
+            $AVNDiceRollsLooper = @()
+            #For each defense, cycling through the rolled dice to see if any match. Adds all the dice that do NOT match to the $AVNDiceRollsLooper array both for use for additional defenses iterations (assuming one of the dice matches this one) or else for comparing the total count of the looper to the count of the dice to see if any matched at all (in which case they weren't added to the looper).
+            For ($AVNDiceI = 0; $AVNDiceI -lt $AVNDiceRolls.count; $AVNDiceI++){
+                #Cycling ALL dice through the defense in question. 
+                If ($AVNDiceRolls[$AVNDiceI] -ne $AVNProjectCurrentStageCurrentWaveHashTable.defenses[$AVNDefI]) {
+                    #If the dice doesn't match the defense, add it to the array of dice to keep for the next round.
+                    $AVNDiceRollsLooper += $AVNDiceRolls[$AVNDiceI]
+                } Else {
+                    #If there's a match, automatically add the rest of the dice to the $AVNDiceRollsLooper array so they aren't discarded like this one. And since I am advancing $AVNDiceI all the way, it should end the parent loop, and the def loop should resume.
+                    $AVNDiceI++
+                    For ($AVNDiceRolls[$AVNDiceI]; $AVNDiceI -lt $AVNDiceRolls.count; $AVNDiceI++) {
+                        $AVNDiceRollsLooper += $AVNDiceRolls[$AVNDiceI]
+                    }
+                }
+            }
+            If ($AVNDiceRollsLooper.count -eq $AVNDiceRolls.count) {
+                #There was no match. Break the loop to stop its process and set the success flag to false. If the count isn't equal, one of the dice matched the defense and wasn't added to the looper array.
+                $AVNDiceRollSuccess = $False
+            }
+            #Setting the dice rolls to what's in the looper, since that represents everything that was rolled that didn't match, that way the next time through, I'm not counting dice that have already matched. 
+            $AVNDiceRolls = $AVNDiceRollsLooper
+        }
+
+        If ($True -eq $AVNDiceRollSuccess) {
+            If ($AVNProjectCurrentWave -eq 3) {
+                $AVNProjectAllWavesComplete = $True
+                $AVNProjectCurrentWave++
+            } Else {
+                Write-Host "Success! You defeated the current wave." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                $AVNProjectCurrentWave++
+
+                #Rolling for counterattack.
+                $AVNProjectCounterAttackRoll = Get-Random -minimum 0 -maximum 100
+                #Penalty for low team health.
+                If ($global:AVNCompanyDataCommon.teamhealth -lt 10) {
+                    $global:AVNProjectCounterAttackRate *= 1.25
+                }
+                If ($AVNProjectCounterAttackRoll -le ($global:AVNProjectCounterAttackRate * 100)) {
+                    Write-Host "The Project Retaliates!" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                    Invoke-Expression $AVNProjectCurrentStageCurrentWaveHashTable.counterattack
+                    Write-Host $AVNProjectCurrentStageCurrentWaveHashTable.counterattacktext -foregroundcolor $global:AVNDefaultTextForegroundColor
+                }
+                Wait-AVNKeyPress
+            }
+        } Else {
+            Write-Host "You have failed to defeat the current wave." -foregroundcolor $global:AVNDefaultTextForegroundColor
+            $AVNProjectCurrentWave = 4
+            Wait-AVNKeyPress
+        }
+        #If successful, update wave and proceed. Keep going until wave = 4 I guess, and then set the following to that to complete.
+    } Until ($AVNProjectCurrentWave -gt 3)
+ 
+    $AVNProjectPrecedeDeadlineSwitch = $False
+    If ($True -eq $AVNProjectAllWavesComplete) {
+        If ($AVNProjectCurrentStage -eq 1) {
+            $global:AVNCompanyData_CurrentPlayer.ProjectStage1WaveDefeated = 1
+            If ((Get-Date) -lt $global:AVNProjectStage1Deadline) {
+                $AVNProjectPrecedeDeadlineSwitch = $True
+            }
+        } ElseIf ($AVNProjectCurrentStage -eq 2) {
+            $global:AVNCompanyData_CurrentPlayer.ProjectStage2WaveDefeated = 1
+            If ((Get-Date) -lt $global:AVNProjectStage2Deadline) {
+                $AVNProjectPrecedeDeadlineSwitch = $True
+            }
+        } ElseIf ($AVNProjectCurrentStage -eq 3) {
+            $global:AVNCompanyData_CurrentPlayer.ProjectStage3WaveDefeated = 1
+            If ((Get-Date) -lt $global:AVNProjectStage3Deadline) {
+                $AVNProjectPrecedeDeadlineSwitch = $True
+            }
+        }
+        
+        Write-Host "                                                                                                         `n                         ██    ██ ██  ██████ ████████  ██████  ██████  ██    ██                          `n                         ██    ██ ██ ██         ██    ██    ██ ██   ██  ██  ██                           `n                         ██    ██ ██ ██         ██    ██    ██ ██████    ████                            `n                          ██  ██  ██ ██         ██    ██    ██ ██   ██    ██                             `n                           ████   ██  ██████    ██     ██████  ██   ██    ██                             `n                                                                                                         `n                                                                                                         `n`n" -foregroundcolor $global:AVNDefaultBannerForegroundColor -backgroundcolor $global:AVNDefaultBannerBackgroundColor
+        
+        #I've taken away two already. That stays for the failure branch.
+        $global:AVNCompanyData_CurrentPlayer.teamhealth += 1
+
+        If ($AVNProjectCurrentStage -lt 3) {
+            Write-Host "You completed Stage " $AVNProjectCurrentStage " of the Project. Go now, and prepare for the next one." -foregroundcolor $global:AVNDefaultTextForegroundColor
+            If ($True -eq $AVNProjectPrecedeDeadlineSwitch) {
+                Write-Host "For completing this stage prior to its deadline, you..." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                #Invoke bonuses
+                $global:AVNPlayerData_CurrentPlayer.globalnotice = "defeated a Project Stage before its deadline."
+                $global:AVNPlayerData_CurrentPlayer.kudos += 5
+                $global:AVNCompanyData_CurrentPlayer.clienthealth += 2
+            } Else {
+                $global:AVNPlayerData_CurrentPlayer.globalnotice = "defeated a Project Stage."
+                $global:AVNPlayerData_CurrentPlayer.kudos += 2
+            }
+            Wait-AVNKeyPress
+        } Else {
+            Write-Host "You completed the final stage of the project! The season is now complete, and all tallies, once players finish all remaining turns, are final." -foregroundcolor $global:AVNDefaultTextForegroundColor
+            If ($True -eq $AVNProjectPrecedeDeadlineSwitch) {
+                Write-Host "And for completing it prior to its deadline, you..." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                #Invoke bonuses
+                $global:AVNPlayerData_CurrentPlayer.globalnotice = "defeated the final Project Stage and finished the season before its deadline."
+                $global:AVNPlayerData_CurrentPlayer.kudos += 5
+                $global:AVNCompanyData_CurrentPlayer.clienthealth += 2
+            } Else {
+                $global:AVNPlayerData_CurrentPlayer.globalnotice = "defeated the final Project Stage and finished the season."
+                $global:AVNPlayerData_CurrentPlayer.kudos += 2
+            }
+            Wait-AVNKeyPress
+        }
+    } Else {
+        Write-Host "The Project, in its immensity, has overwhelmed you." -foregroundtext $global:AVNDefaultTextForegroundColor
+        $global:AVNPlayerData_CurrentPlayer.globalnotice = "was overcome by a Project Stage."
+        #Set turn and loss changes at the beginning of the function.
+        #No turn loss?
+        #Lose gifs
+        #Always lose team health like service tickets, but lose more when you fail?
+
+        #Set turn and loss changes back based on success or failure.
+    }
+    ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile
+}

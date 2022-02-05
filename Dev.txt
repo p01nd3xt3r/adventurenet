@@ -1,0 +1,40 @@
+New data file variable or hash addition checklist:
+    Get-AVNConfig:
+        getting data from data file for current player 
+        from other players
+        also make sure there's no calculated amount in the common variables that needs to be updated or added
+    Add-AVNPlayer:
+        creating data for new player and then writing to the new data file
+    ConvertTo-AVNWriteData
+        Add to writable format variable and then to Return line in the right spot to be sent to data file.
+
+New function:
+    AdventureNet.psd1:
+        add to NestedModules and FunctionsToExport
+
+New files:
+    AdventureNet.psd1:
+        If something that's being used by the functions, add to the included files section.
+
+
+
+Style guide:
+$global:AVNDefaultTextForegroundColor
+$global:AVNDefaultBannerBackgroundColor
+$global:AVNDefaultBannerForegroundColor
+Default ASCII text uses ANSI REGULAR here http://www.patorjk.com/software/taag/#p=display&f=ANSI%20Regular&t=Type%20Something%20
+Image to ASCII conversion? https://cloudapps.herokuapp.com/imagetoascii/
+
+
+
+
+To Do:
+Create specials content, including ones that can only be purchased with GIFs
+Create project stages waves content
+Aesthetics
+Create service ticket encounter content and put in a data file
+Function for closing the season and prepping for the next one. Includes being able to show past season stats per player, so will need some new variable fields.
+Test and debug current functions--esecially close-avnprojectstage, close-avntechnicalquestion, invoke-avnspecial, enter-avnteams
+Create Get-AVNHelp script
+Test gameplay, difficulty, rewards and scores, etc.
+make sure project stages take into account appropriate deadlines.
