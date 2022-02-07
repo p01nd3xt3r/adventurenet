@@ -5,7 +5,7 @@
 ## Project Goals
  - To further develop proficiency in Powershell scripting
  - To further develop proficiency in Experience Economy design and development
- - To create an on-topic, fun, and collaborative experience for IT Service men and women
+ - To create an on-topic, fun, and collaborative experience for IT Service persons
   
 ## Game Goals
  - To maintain a healthy, cooperative Company Status level
