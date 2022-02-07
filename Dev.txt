@@ -31,10 +31,9 @@ Image to ASCII conversion? https://cloudapps.herokuapp.com/imagetoascii/
 To Do:
 Create specials content, including ones that can only be purchased with GIFs
 Create project stages waves content
-Aesthetics
+Just about all aesthetics
 Create service ticket encounter content and put in a data file
 Function for closing the season and prepping for the next one. Includes being able to show past season stats per player, so will need some new variable fields.
-Test and debug current functions--esecially close-avnprojectstage, close-avntechnicalquestion, invoke-avnspecial, enter-avnteams
-Create Get-AVNHelp script
+Test and debug current functions
 Test gameplay, difficulty, rewards and scores, etc.
 make sure project stages take into account appropriate deadlines.
