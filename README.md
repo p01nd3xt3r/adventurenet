@@ -5,7 +5,7 @@
 ## Project Goals
  - To further develop proficiency in Powershell scripting
  - To further develop proficiency in Experience Economy design and development
- - To create an on-topic, fun, and collaborative experience for IT Service men and women
+ - To create an on-topic, fun, and collaborative experience for IT Service persons
   
 ## Game Goals
  - To maintain a healthy, cooperative Company Status level
@@ -57,7 +57,7 @@ Starts at 25
  - 5: Reduction in chance of finding specials in service tickets
  - 0: Permanent dice now randomly assigned in training
 
-### Kudos (a players "Victory Points")
+### Kudos (i.e., victory points)
 #### An individual’s contributions to the overall Company Status.
 #### Attained by:
  - Closing Service Tickets
@@ -155,11 +155,20 @@ Specials of a particular type are only able to be used when at rest, so to speak
 #### Teams
 In Teams, you'll be able to use your GIFs to purchase powerful specials.
 
+# Getting Started
+First you'll need to run Import-Module -path "(parent path)\AdventureNet.psd1". It should work in both Windows Powershell 5.x and Powershell 7.x, and you shouldn't need run it as an admin. But it has been designed only with Windows in mind. 
+
+After importing, you can get started with the Get-AVNHelp function, which includes a blurb about each function a player will use.
+
+The script file CreateAVNProfileShortcuts.ps1 has some lines that'll add a couple small functions to your Powershell profile. Make sure to edit the path in the script to match where you're storing the profile. It'll create a function Import-AVN with the stored location, so you don't have to enter the whole thing at the beginning of every Powershell session.
+
+Note that content is only enough for alpha testing at this time, and there's going to be some changes to how it's stored once more has been added.
+
 # Appendix: Data
 
 ## Organization and Distribution
 ### SharePoint/OneDrive app
-This game was designed with cloud storage in mind as the centralized repository. Theoretically, it should work from a network location as well. But a player's identity in the functions comes from his or her Windows username, so it would be difficult for multiple players to use the same machine to play on a non-network storage location.
+This game was designed with cloud storage in mind as the centralized repository. Theoretically, it should work from a network location as well. But a player's identity in the functions comes from his or her Windows username, so you'd need to have separate user accounts to play on a single machine with a local storage location.
 
 All player-changed data is stored in data files specific to each player. This helps to avoid problems with locking files and overwriting data accidentally without requiring some kind of database software. Functions gather these data files and calculate common data from them on the fly.
 
