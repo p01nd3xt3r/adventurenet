@@ -1,9 +1,4 @@
 #Internal strings need to use "" instead of '' to match up with the write functions, so external should always be ''.
-#double the power of all dice in a roll. 
-#reassigning dice or rerolling them. 
-#Add opportunities
-#allow some specials to be reusable/permanent. Can just have them add another of themselves as part of their effects.
-#remove a defense of whatever you're attacking
 $global:AVNSpecials = @()
 #Generals
 $global:AVNSpecials += @{Name = 'General placeholder'; Type = 'General'; Description = 'General placeholder description'; Effect = 'General placeholder effect'; GlobalNotice = 'General placeholder globalnotice'; TeamsCost = 0}

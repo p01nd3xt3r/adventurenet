@@ -24,24 +24,3 @@ $global:AVNDefaultBannerBackgroundColor
 $global:AVNDefaultBannerForegroundColor
 Default ASCII text uses ANSI REGULAR here http://www.patorjk.com/software/taag/#p=display&f=ANSI%20Regular&t=Type%20Something%20
 Image to ASCII conversion? https://cloudapps.herokuapp.com/imagetoascii/
-
-
-
-
-To Do:
-Create specials content, including ones that can only be purchased with GIFs
-Create project stages waves content
-Just about all aesthetics
-Create service ticket encounter content and put in a data file
-Function for closing the season and prepping for the next one. Includes being able to show past season stats per player, so will need some new variable fields.
-Test and debug current functions
-Test gameplay, difficulty, rewards and scores, etc.
-make sure project stages take into account appropriate deadlines.
-Balance health increases and decreases:
-    Maybe rolls, with certain combinations of work types, can have this effect
-    Training increase team health? Perhaps purchasing GIFs in Teams.
-    Maybe increases should only be from specials, whether purchased or found. That takes away some strategy, but it adds to the feeling of gambling.
-    team health - Technical questions being answered? Seems like this would be a net 0, since answering the question reduces the answerer's health.
---->Need to test Close-AVNProjectStage waves. I added a check to make sure players can't do another wave of the same stage if they've already done one.
-    To handle seasons, I created the close-avnseason function and need to design it. That way I'm not checking for things like what season it is every get-avnconfig. I'll just have it so that players can't do anything if all waves have been completed (and the season is over). I need to do a start-season function as well that wraps up all data files and resets get-date and the seasonfirstrun flag in the players' data files. Of course maybe the seasonclose function will do all this, and there doesn't need to be a seasonstart function at all.
-    Could I allow players to share dice with others? Perhaps it's a special?

@@ -22,33 +22,6 @@ Function ConvertTo-AVNDevWriteData {
     <#
     Specifically for sending data into the different encounter data files, since they are so leathery. Should be kept out of the production directory.
     Eventually this will be used for that, if I still need it. For the time being, I'll just build all the hashtables here, since it'll be a much easier format to read. I can call the function to add all the variables.
-    
-    Encounter ideas:
-    Outlook offline or not sending
-    Server crashed
-    Excel macro blocked
-    Unblock webpage from Umbrella
-    Network intrusion attempt
-    Wifi AP offline
-    Site down
-    Phone handset hanging
-    Can't log into X; Forgot password
-    VPN won't connect
-    Need to connect to work resources while remote
-    Onedrive not syncing
-    Can't access Sharepoint sites
-    New computer
-    New user
-    Terminated user
-    File restore of missing file
-    Angry User Error
-    Absentee Contact//ignoring email
-    Backup report
-    Security report
-    Can't email attachment
-    Unblock Mimecast-blocked email
-    Windows Feature Pack updates
-    Offline agents
 
     Template = @{
             Name = ""
