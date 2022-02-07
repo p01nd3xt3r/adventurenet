@@ -42,4 +42,6 @@ Balance health increases and decreases:
     Training increase team health? Perhaps purchasing GIFs in Teams.
     Maybe increases should only be from specials, whether purchased or found. That takes away some strategy, but it adds to the feeling of gambling.
     team health - Technical questions being answered? Seems like this would be a net 0, since answering the question reduces the answerer's health.
-    Need to fix Close-AVNProject waves. I planned it better than I scripted it. See the readme. 
+--->Need to test Close-AVNProjectStage waves. I added a check to make sure players can't do another wave of the same stage if they've already done one.
+    To handle seasons, I created the close-avnseason function and need to design it. That way I'm not checking for things like what season it is every get-avnconfig. I'll just have it so that players can't do anything if all waves have been completed (and the season is over). I need to do a start-season function as well that wraps up all data files and resets get-date and the seasonfirstrun flag in the players' data files. Of course maybe the seasonclose function will do all this, and there doesn't need to be a seasonstart function at all.
+    Could I allow players to share dice with others? Perhaps it's a special?

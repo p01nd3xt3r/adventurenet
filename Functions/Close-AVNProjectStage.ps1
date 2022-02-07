@@ -13,10 +13,9 @@
 #>
 Function Close-AVNProjectStage {
     #Same as service tickets but harder. Assumes the player has trained numerous times and horded some specials. Each player faces the same, designed waves. The project stage counter attacks after a player successfully defeats a wave. Players may attempt stages repeatedly, according to the configured alottment of allowed attempts per day.
-
-    Get-AVNConfig
-
+    
     #Prep
+    Get-AVNConfig
     $global:AVNPlayerData_CurrentPlayer.ProjectStageAttempts += 1
     #Writing data so that if the player tries to use ctrl+c to get out of it, he's already lost whatever it is.
     $global:AVNCompanyData_CurrentPlayer.teamhealth -= 2
@@ -147,17 +146,29 @@ Function Close-AVNProjectStage {
         Return
     } Else {
         If ($global:AVNCompanyDataCommon.ProjectStage1WavesRemaining -gt 0) {
-            [int]$AVNProjectCurrentStage = 1
-            $AVNProjectCurrentStageArray = $AVNProjectStage1Waves
-            Write-Host "                                                       `n   ███████ ████████  █████   ██████  ███████      ██   `n   ██         ██    ██   ██ ██       ██          ███   `n   ███████    ██    ███████ ██   ███ █████        ██   `n        ██    ██    ██   ██ ██    ██ ██           ██   `n   ███████    ██    ██   ██  ██████  ███████      ██   `n                                                       `n                                                       `n`n" -foregroundcolor $global:AVNDefaultBannerForegroundColor -backgroundcolor $global:AVNDefaultBannerBackgroundColor
+            If ($global:AVNCompanyData_CurrentPlayer.ProjectStage1WaveDefeated -gt 0) {
+                Write-Host "You have already closed your portion of Project Stage 1." -foregroundcolor $global:AVNDefaultTextForegroundColor
+            } Else {
+                [int]$AVNProjectCurrentStage = 1
+                $AVNProjectCurrentStageArray = $AVNProjectStage1Waves
+                Write-Host "                                                       `n   ███████ ████████  █████   ██████  ███████      ██   `n   ██         ██    ██   ██ ██       ██          ███   `n   ███████    ██    ███████ ██   ███ █████        ██   `n        ██    ██    ██   ██ ██    ██ ██           ██   `n   ███████    ██    ██   ██  ██████  ███████      ██   `n                                                       `n                                                       `n`n" -foregroundcolor $global:AVNDefaultBannerForegroundColor -backgroundcolor $global:AVNDefaultBannerBackgroundColor
+            } 
         } ElseIf ($global:AVNCompanyDataCommon.ProjectStage2WavesRemaining -gt 0) {
-            [int]$AVNProjectCurrentStage = 2
-            $AVNProjectCurrentStageArray = $AVNProjectStage2Waves
-            Write-Host "                                                       `n ███████ ████████  █████   ██████  ███████     ██████  `n ██         ██    ██   ██ ██       ██               ██ `n ███████    ██    ███████ ██   ███ █████        █████  `n      ██    ██    ██   ██ ██    ██ ██          ██      `n ███████    ██    ██   ██  ██████  ███████     ███████ `n                                                       `n                                                       `n`n" -foregroundcolor $global:AVNDefaultBannerForegroundColor -backgroundcolor $global:AVNDefaultBannerBackgroundColor
+            If ($global:AVNCompanyData_CurrentPlayer.ProjectStage2WaveDefeated -gt 0) {
+                Write-Host "You have already closed your portion of Project Stage 2." -foregroundcolor $global:AVNDefaultTextForegroundColor
+            } Else {
+                [int]$AVNProjectCurrentStage = 2
+                $AVNProjectCurrentStageArray = $AVNProjectStage2Waves
+                Write-Host "                                                       `n ███████ ████████  █████   ██████  ███████     ██████  `n ██         ██    ██   ██ ██       ██               ██ `n ███████    ██    ███████ ██   ███ █████        █████  `n      ██    ██    ██   ██ ██    ██ ██          ██      `n ███████    ██    ██   ██  ██████  ███████     ███████ `n                                                       `n                                                       `n`n" -foregroundcolor $global:AVNDefaultBannerForegroundColor -backgroundcolor $global:AVNDefaultBannerBackgroundColor
+            }
         } ElseIf ($global:AVNCompanyDataCommon.ProjectStage3WavesRemaining -gt 0) {
-            [int]$AVNProjectCurrentStage = 3
-            $AVNProjectCurrentStageArray = $AVNProjectStage2Waves
-            Write-Host "                                                       `n ███████ ████████  █████   ██████  ███████     ██████  `n ██         ██    ██   ██ ██       ██               ██ `n ███████    ██    ███████ ██   ███ █████        █████  `n      ██    ██    ██   ██ ██    ██ ██               ██ `n ███████    ██    ██   ██  ██████  ███████     ██████  `n                                                       `n                                                       `n`n" -foregroundcolor $global:AVNDefaultBannerForegroundColor -backgroundcolor $global:AVNDefaultBannerBackgroundColor
+            If ($global:AVNCompanyData_CurrentPlayer.ProjectStage3WaveDefeated -gt 0) {
+                Write-Host "You have already closed your portion of Project Stage 3." -foregroundcolor $global:AVNDefaultTextForegroundColor
+            } Else {
+                [int]$AVNProjectCurrentStage = 3
+                $AVNProjectCurrentStageArray = $AVNProjectStage3Waves
+                Write-Host "                                                       `n ███████ ████████  █████   ██████  ███████     ██████  `n ██         ██    ██   ██ ██       ██               ██ `n ███████    ██    ███████ ██   ███ █████        █████  `n      ██    ██    ██   ██ ██    ██ ██               ██ `n ███████    ██    ██   ██  ██████  ███████     ██████  `n                                                       `n                                                       `n`n" -foregroundcolor $global:AVNDefaultBannerForegroundColor -backgroundcolor $global:AVNDefaultBannerBackgroundColor
+            }
         } Else {
             Write-Host "                                                                                                         `n              █████  ██      ██          ███████ ████████  █████   ██████  ███████ ███████               `n             ██   ██ ██      ██          ██         ██    ██   ██ ██       ██      ██                    `n             ███████ ██      ██          ███████    ██    ███████ ██   ███ █████   ███████               `n             ██   ██ ██      ██               ██    ██    ██   ██ ██    ██ ██           ██               `n             ██   ██ ███████ ███████     ███████    ██    ██   ██  ██████  ███████ ███████               `n                                                                                                         `n                                                                                                         `n                  ██████  ██████  ███    ███ ██████  ██      ███████ ████████ ███████                    `n                 ██      ██    ██ ████  ████ ██   ██ ██      ██         ██    ██                         `n                 ██      ██    ██ ██ ████ ██ ██████  ██      █████      ██    █████                      `n                 ██      ██    ██ ██  ██  ██ ██      ██      ██         ██    ██                         `n                  ██████  ██████  ██      ██ ██      ███████ ███████    ██    ███████                    `n                                                                                                         `n                                                                                                         `n`n" -foregroundcolor $global:AVNDefaultBannerForegroundColor -backgroundcolor $global:AVNDefaultBannerBackgroundColor
             

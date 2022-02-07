@@ -140,8 +140,7 @@ Each stage has multiple waves. Each player can only attack one wave per stage. O
 
 There’s a random number of waves that’s <= the total number of players, so that some players might miss out. For that kudo bonus, they’ll just have to get one the next round or make it up other ways.
 
-Concerning the danger of players doing duplicate waves—the # of waves < # of players, and the game will accept additional ones, the exception that causes it being that players can run them at the same time—kind of just a way that a player can sneak a wave in if there’s not enough to go around. 
-Gameplay
+Concerning the danger of players doing duplicate waves—the # of waves < # of players, and the game will accept additional ones, the exception that causes it being that players can run them at the same time—kind of just a way that a player can sneak a wave in if there’s not enough to go around.
 #### Training
 A configurable number of times per day, Training allows a player to a die of his or her choice to his permanent collection.
 #### Close Technical Questions

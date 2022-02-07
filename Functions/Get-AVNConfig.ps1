@@ -171,18 +171,3 @@ Function Get-AVNConfig {
         $global:AVNCompanyDataCommon.CurrentStage = 2
     }
 }
-
-    #For each change to getting data from data files, note that there's one section for the current player that has a file, one for all the rest of the players, and one for the current player that doesn't have a file.
-    
-    <#
-    Adding project waves based on the $global:AVNProjectWaveGenerationRate from the config file. See if this is the first run of the season. Need a new variable in the player hash. Needs to be for each current player--both new and old. Adding a new variable to check for it being an old season or not. I am thinking of whether or not to do a FirstRun = $True in the player hash. But where do I check and then run this? Should I have a function for starting a season and then call it from sign on? Does it go in config? What other things need to happen at the start of a season? I do this in add-avnprojectwaves now. I have the seasonfirstrun hash changing to false there when it runs, and there's a 100% chance of creating all three waves for the first player that creates waves for the season. The getconfg function changes the projectwavesgenerated hash in the common hash that's used to determine if this has been done yet.
-
-    To handle seasons, I created the close-avnseason function and need to design it. That way I'm not checking for things like what season it is every get-avnconfig. I'll just have it so that players can't do anything if all waves have been completed (and the season is over). I need to do a start-season function as well that wraps up all data files and resets get-date and the seasonfirstrun flag in the players' data files. Of course maybe the seasonclose function will do all this, and there doesn't need to be a seasonstart function at all.
-
-    How to arrange project data:
-    Likewise, in the common hash I will have to track remaining waves and remaining stages based on the generated and defeated fields in the players' company data hash. These will be used to determine whether or not a player can attack a wave and what level of service ticket to face and if it's the end of the season or not.
-
-    What about project stage deadlines? Are those set in the config file? They'd have to be.
-
-    Could I allow players to share dice with others? Perhaps it's a special?
-#>
