@@ -16,7 +16,7 @@
 	# Minor    - new solutions, e.g. new cmdlets
 	# Build    - new features, e.g. new params
 	# Revision - fixed bugs, typos, etc...
-ModuleVersion = '0.0.1.0'
+ModuleVersion = '0.19.0.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
