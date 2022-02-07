@@ -159,7 +159,7 @@ In Teams, you'll be able to use your GIFs to purchase powerful specials.
 
 ## Organization and Distribution
 ### SharePoint/OneDrive app
-This game was designed with cloud storage in mind as the centralized repository. Theoretically, it should work from a network location as well. But a player's identity in the functions comes from his or her Windows username, so it would be difficult for multiple players to use the same machine to play on a non-network storage location.
+This game was designed with cloud storage in mind as the centralized repository. Theoretically, it should work from a network location as well. But a player's identity in the functions comes from his or her Windows username, so you'd need to have separate user accounts to play on a single machine with a local storage location.
 
 All player-changed data is stored in data files specific to each player. This helps to avoid problems with locking files and overwriting data accidentally without requiring some kind of database software. Functions gather these data files and calculate common data from them on the fly.
 
