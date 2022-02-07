@@ -78,6 +78,9 @@ Function Get-AVNConfig {
     #Because I'm checking for the filename for the current user every time, I'm initiating the variable as Global and $Null here.
     $global:AVNCurrentPlayerDataFile = $Null
     #Getting all data files and looping through their contents, adding all company data to a pool and creating separate variables for appropriate hash tables. I'm only keeping the data file name of the current user because I shouldn't be writing to the other players' files anyways.
+    If (!(Test-Path -pathtype "container" -path ($global:AVNRootPath + '\data'))) {
+        New-Item -path ($global:AVNRootPath + '\data') -itemtype "directory"
+    }
     $AVNDataFiles = Get-ChildItem -path ($global:AVNRootPath + '\data')
     $AVNDataFiles | ForEach-Object {
         #Getting content from the current data file and invoking each line of it. Each line is its own variable declaration.
