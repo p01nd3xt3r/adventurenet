@@ -57,7 +57,7 @@ Starts at 25
  - 5: Reduction in chance of finding specials in service tickets
  - 0: Permanent dice now randomly assigned in training
 
-### Kudos (a players "Victory Points")
+### Kudos (i.e., victory points)
 #### An individual’s contributions to the overall Company Status.
 #### Attained by:
  - Closing Service Tickets
