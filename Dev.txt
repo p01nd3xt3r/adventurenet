@@ -37,3 +37,9 @@ Function for closing the season and prepping for the next one. Includes being ab
 Test and debug current functions
 Test gameplay, difficulty, rewards and scores, etc.
 make sure project stages take into account appropriate deadlines.
+Balance health increases and decreases:
+    Maybe rolls, with certain combinations of work types, can have this effect
+    Training increase team health? Perhaps purchasing GIFs in Teams.
+    Maybe increases should only be from specials, whether purchased or found. That takes away some strategy, but it adds to the feeling of gambling.
+    team health - Technical questions being answered? Seems like this would be a net 0, since answering the question reduces the answerer's health.
+    Need to fix Close-AVNProject waves. I planned it better than I scripted it. See the readme. 
