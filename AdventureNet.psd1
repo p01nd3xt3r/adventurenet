@@ -78,7 +78,6 @@ NestedModules = @(
     '.\Functions\Close-AVNServiceTicket.ps1',
     '.\Functions\Close-AVNTechnicalQuestion.ps1',
     '.\Functions\ConvertFrom-AVNObfuscated.ps1',
-    '.\Functions\ConvertTo-AVNDevWriteData.ps1',
     '.\Functions\ConvertTo-AVNObfuscated.ps1',
     '.\Functions\ConvertTo-AVNWriteData.ps1',
     '.\Functions\Enter-AVNTeams.ps1',
@@ -100,7 +99,6 @@ FunctionsToExport = @(
     'Close-AVNServiceTicket',
     'Close-AVNTechnicalQuestion',
     'ConvertFrom-AVNObfuscated',
-    'ConvertTo-AVNDevWriteData',
     'ConvertTo-AVNObfuscated',
     'ConvertTo-AVNWriteData',
     'Enter-AVNTeams',
@@ -134,9 +132,10 @@ FileList = @(
     '.\AdventureNet.config',
     '.\bGBIuKWniXYw',
     '.\CnJBNhPAkdty',
+    '.\CreateAVNProfileShortcuts.ps1',
     '.\README.md',
-    '.\XQxoHZJajcgW',
-    '.\CreateAVNProfileShortcuts.ps1'
+    '.\uhGNpSAZCzIt',
+    '.\XQxoHZJajcgW'
 )
 
 # Private data to pass to the module specified in RootModule/ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.

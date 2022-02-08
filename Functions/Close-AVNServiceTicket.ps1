@@ -30,8 +30,11 @@ Function Close-AVNServiceTicket {
         #Decreasing turns. 
         $global:AVNPlayerData_CurrentPlayer.turns -= 1
 
-        #All the encounter hashes are here until I add a whole bunch more. They're a lot easier to write in this format.
-        ConvertTo-AVNDevWriteData -system
+        #Getting encounters
+        #Yields the $global:AVNServiceTicketEncounters array with a hash table for each possible encounter.
+        (Get-Content -path ($global:AVNRootPath + "\uhGNpSAZCzIt")) | ForEach-Object {
+            Invoke-Expression $_
+        }
 
         #Getting specials
         #Yields the $global:AVNSpecials array of hashtables, which is the cipher for specials.
@@ -131,46 +134,45 @@ Function Close-AVNServiceTicket {
                     }
                 }
 
+                ###I did an array for these instead of working with the hash table above. I fixed it. Need to test.
                 #Penalties from client health being low. Removing dice from available dice.
                 $ANVSTUnavailableDice = @()
                 If ($AVNSTAvailableDice.count -gt 0) {
                     If ($global:AVNCompanyDataCommon.clienthealth -lt 20) {
-                        $AVNSTAvailableDiceTemporaryArray = @()
-                        $AVNDicePenaltyRandomizer = Get-Random -minimum 0 -maximum ($AVNSTAvailableDice.count - 1)
+                        $AVNSTAvailableDiceTemporaryHashTable = [ordered]@{}
+                        $AVNDicePenaltyRandomizer = Get-Random -minimum 1 -maximum ($AVNSTAvailableDice.count)
                         For ($I = 0; $I -lt $AVNSTAvailableDice.count; $I++) {
                             If ($I -ne $AVNDicePenaltyRandomizer) {
-                                $AVNSTAvailableDiceTemporaryArray += $AVNSTAvailableDice[$I]
+                                $AVNSTAvailableDiceTemporaryHashTable.add($I, $AVNSTAvailableDice.$I)
                             } Else {
-                                $ANVSTUnavailableDice += $AVNSTAvailableDice[$I]
+                                $ANVSTUnavailableDice.add($I, $AVNSTAvailableDice.$I)
                             }
                         }
-                        $AVNSTAvailableDice = $AVNSTAvailableDiceTemporaryArray
                     }
                     If ($global:AVNCompanyDataCommon.clienthealth -lt 10) {
-                        $AVNSTAvailableDiceTemporaryArray = @()
-                        $AVNDicePenaltyRandomizer = Get-Random -minimum 0 -maximum ($AVNSTAvailableDice.count - 1)
+                        $AVNSTAvailableDiceTemporaryHashTable = [ordered]@{}
+                        $AVNDicePenaltyRandomizer = Get-Random -minimum 1 -maximum ($AVNSTAvailableDice.count)
                         For ($I = 0; $I -lt $AVNSTAvailableDice.count; $I++) {
                             If ($I -ne $AVNDicePenaltyRandomizer) {
-                                $AVNSTAvailableDiceTemporaryArray += $AVNSTAvailableDice[$I]
+                                $AVNSTAvailableDiceTemporaryHashTable.add($I, $AVNSTAvailableDice.$I)
                             } Else {
-                                $ANVSTUnavailableDice += $AVNSTAvailableDice[$I]
+                                $ANVSTUnavailableDice.add($I, $AVNSTAvailableDice.$I)
                             }
                         }
-                        $AVNSTAvailableDice = $AVNSTAvailableDiceTemporaryArray
                     }
                     If ($global:AVNCompanyDataCommon.clienthealth -lt 0) {
-                        $AVNSTAvailableDiceTemporaryArray = @()
-                        $AVNDicePenaltyRandomizer = Get-Random -minimum 0 -maximum ($AVNSTAvailableDice.count - 1)
+                        $AVNSTAvailableDiceTemporaryHashTable = [ordered]@{}
+                        $AVNDicePenaltyRandomizer = Get-Random -minimum 1 -maximum ($AVNSTAvailableDice.count)
                         For ($I = 0; $I -lt $AVNSTAvailableDice.count; $I++) {
                             If ($I -ne $AVNDicePenaltyRandomizer) {
-                                $AVNSTAvailableDiceTemporaryArray += $AVNSTAvailableDice[$I]
+                                $AVNSTAvailableDiceTemporaryHashTable.add($I, $AVNSTAvailableDice.$I)
                             } Else {
-                                $ANVSTUnavailableDice += $AVNSTAvailableDice[$I]
+                                $ANVSTUnavailableDice.add($I, $AVNSTAvailableDice.$I)
                             }
                         }
-                        $AVNSTAvailableDice = $AVNSTAvailableDiceTemporaryArray
                     }
                     #Add them all up and say them all at the same time.
+                    $AVNSTAvailableDice = $AVNSTAvailableDiceTemporaryHashTable
                     Write-Host "Low client health has rendered the following dice unusable for this encounter:" -foregroundcolor $global:AVNDefaultTextForegroundColor
                     $ANVSTUnavailableDice
                 }

@@ -85,7 +85,7 @@ Function Get-AVNTraining {
 
             Write-Host "`nCongratulations! You've attained the following permanent die." -foregroundcolor $global:AVNDefaultTextForegroundColor
             $AVNTrainingDiceTypes.$AVNTrainingChoice
-            If ($global:AVNCompanyDataCommon -lt 15) {
+            If ($global:AVNCompanyDataCommon.teamhealth -lt 15) {
                 $global:AVNPlayerData_CurrentPlayer.gifs -= 10
             }
             $global:AVNPlayerData_CurrentPlayer.training -= 1

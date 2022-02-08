@@ -14,12 +14,6 @@
 Function Close-AVNProjectStage {
     #Same as service tickets but harder. Assumes the player has trained numerous times and horded some specials. Each player faces the same, designed waves. The project stage counter attacks after a player successfully defeats a wave. Players may attempt stages repeatedly, according to the configured alottment of allowed attempts per day.
     
-    #Prep
-    Get-AVNConfig
-    $global:AVNPlayerData_CurrentPlayer.ProjectStageAttempts += 1
-    #Writing data so that if the player tries to use ctrl+c to get out of it, he's already lost whatever it is.
-    $global:AVNCompanyData_CurrentPlayer.teamhealth -= 2
-    ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile
     Get-AVNConfig
 
     $AVNProjectStage1Waves = @(
@@ -145,6 +139,12 @@ Function Close-AVNProjectStage {
         Wait-AVNKeyPress
         Return
     } Else {
+        #Writing data so that if the player tries to use ctrl+c to get out of it, he's already lost whatever it is.
+        $global:AVNPlayerData_CurrentPlayer.ProjectStageAttempts += 1
+        $global:AVNCompanyData_CurrentPlayer.teamhealth -= 2
+        ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile
+        Get-AVNConfig
+
         If ($global:AVNCompanyDataCommon.ProjectStage1WavesRemaining -gt 0) {
             If ($global:AVNCompanyData_CurrentPlayer.ProjectStage1WaveDefeated -gt 0) {
                 Write-Host "You have already closed your portion of Project Stage 1." -foregroundcolor $global:AVNDefaultTextForegroundColor
@@ -258,8 +258,6 @@ Function Close-AVNProjectStage {
                         $AVNProjectCurrentStageCurrentWaveHashTable = $_
                     }
                 }
-                'AVNProjectCurrentStageCurrentWaveHashTable'
-                $AVNProjectCurrentStageCurrentWaveHashTable
 
                 #Informing/prepping the player
                 Write-Host "The project looms before you--three stages with three waves apiece. You are on Stage " $AVNProjectCurrentStage ", Wave " $AVNProjectCurrentWave "`n`nYou see the following defenses for this wave:" -foregroundcolor $global:AVNDefaultTextForegroundColor
