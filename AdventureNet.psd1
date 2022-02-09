@@ -16,7 +16,7 @@
 	# Minor    - new solutions, e.g. new cmdlets
 	# Build    - new features, e.g. new params
 	# Revision - fixed bugs, typos, etc...
-ModuleVersion = '0.19.0.0'
+ModuleVersion = '0.21.0.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -87,7 +87,6 @@ NestedModules = @(
     '.\Functions\Get-AVNTraining.ps1',
     '.\Functions\Invoke-AVNSignOn.ps1',
     '.\Functions\Invoke-AVNSpecial.ps1',
-    '.\Functions\Update-AVNProduction.ps1',
     '.\Functions\Wait-AVNKeyPress.ps1'
 )
 
@@ -109,7 +108,6 @@ FunctionsToExport = @(
     'Get-AVNTraining',
     'Invoke-AVNSignOn',
     'Invoke-AVNSpecial',
-    'Update-AVNProduction',
     'Wait-AVNKeyPress'
 )
 
