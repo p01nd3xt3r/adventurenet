@@ -136,46 +136,35 @@ Function Close-AVNServiceTicket {
 
                 ###I did an array for these instead of working with the hash table above. I fixed it. Need to test.
                 #Penalties from client health being low. Removing dice from available dice.
-                $ANVSTUnavailableDice = @()
-                If ($AVNSTAvailableDice.count -gt 0) {
-                    If ($global:AVNCompanyDataCommon.clienthealth -lt 20) {
-                        $AVNSTAvailableDiceTemporaryHashTable = [ordered]@{}
-                        $AVNDicePenaltyRandomizer = Get-Random -minimum 1 -maximum ($AVNSTAvailableDice.count)
-                        For ($I = 0; $I -lt $AVNSTAvailableDice.count; $I++) {
-                            If ($I -ne $AVNDicePenaltyRandomizer) {
-                                $AVNSTAvailableDiceTemporaryHashTable.add($I, $AVNSTAvailableDice.$I)
-                            } Else {
-                                $ANVSTUnavailableDice.add($I, $AVNSTAvailableDice.$I)
-                            }
-                        }
-                    }
-                    If ($global:AVNCompanyDataCommon.clienthealth -lt 10) {
-                        $AVNSTAvailableDiceTemporaryHashTable = [ordered]@{}
-                        $AVNDicePenaltyRandomizer = Get-Random -minimum 1 -maximum ($AVNSTAvailableDice.count)
-                        For ($I = 0; $I -lt $AVNSTAvailableDice.count; $I++) {
-                            If ($I -ne $AVNDicePenaltyRandomizer) {
-                                $AVNSTAvailableDiceTemporaryHashTable.add($I, $AVNSTAvailableDice.$I)
-                            } Else {
-                                $ANVSTUnavailableDice.add($I, $AVNSTAvailableDice.$I)
-                            }
-                        }
-                    }
-                    If ($global:AVNCompanyDataCommon.clienthealth -lt 0) {
-                        $AVNSTAvailableDiceTemporaryHashTable = [ordered]@{}
-                        $AVNDicePenaltyRandomizer = Get-Random -minimum 1 -maximum ($AVNSTAvailableDice.count)
-                        For ($I = 0; $I -lt $AVNSTAvailableDice.count; $I++) {
-                            If ($I -ne $AVNDicePenaltyRandomizer) {
-                                $AVNSTAvailableDiceTemporaryHashTable.add($I, $AVNSTAvailableDice.$I)
-                            } Else {
-                                $ANVSTUnavailableDice.add($I, $AVNSTAvailableDice.$I)
-                            }
-                        }
-                    }
-                    #Add them all up and say them all at the same time.
-                    $AVNSTAvailableDice = $AVNSTAvailableDiceTemporaryHashTable
-                    Write-Host "Low client health has rendered the following dice unusable for this encounter:" -foregroundcolor $global:AVNDefaultTextForegroundColor
-                    $ANVSTUnavailableDice
+                $ANVSTUnavailableDice = [ordered]@{}
+                If ($global:AVNCompanyDataCommon.clienthealth -lt 0) {
+                    $AVNSTDicePenaltyIterations = 3
+                } ElseIf ($global:AVNCompanyDataCommon.clienthealth -lt 10) {
+                    $AVNSTDicePenaltyIterations = 2
+                } ElseIf ($global:AVNCompanyDataCommon.clienthealth -lt 20) {
+                    $AVNSTDicePenaltyIterations = 1
                 }
+                While (($AVNSTDicePenaltyIterations -gt 0) -and ($AVNSTAvailableDice.count -gt 1)) {$AVNSTAvailableDiceTemporaryHashTable = [ordered]@{}
+                    $AVNDicePenaltyRandomizer = $AVNSTAvailableDice.keys | Get-Random
+                    $AVNSTAvailableDice.keys | ForEach-Object {
+                        If ($_ -ne $AVNDicePenaltyRandomizer) {
+                            $AVNSTAvailableDiceTemporaryHashTable.add($_, $AVNSTAvailableDice.$_)
+                        } Else {
+                            $ANVSTUnavailableDice.add($_, $AVNSTAvailableDice.$_)
+                        }
+                    }
+                    $AVNSTAvailableDice = $AVNSTAvailableDiceTemporaryHashTable
+                    $AVNSTDicePenaltyIterations--
+                }
+                If (($AVNSTDicePenaltyIterations -gt 0) -and ($AVNSTAvailableDice.count -eq 1)) {
+                    $AVNSTAvailableDice = [ordered]@{}
+                    Write-Host "`nLow client health has removed all of your available dice! Have you trained today?"
+                } Else {
+                    Write-Host "`nLow client health has rendered the following dice unusable for this encounter:" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                    $ANVSTUnavailableDice.keys | ForEach-Object {
+                        Write-Host $ANVSTUnavailableDice.$_
+                    }
+                }                
                 Return $AVNSTAvailableDice
             }
             $AVNSTAvailableDice = GatherAvailableDice
@@ -201,9 +190,7 @@ Function Close-AVNServiceTicket {
                 $AVNSTTotalWaves = 1
             }
 
-            Write-Host "                                                                                                         `n   ███████ ███████ ██████  ██    ██ ██  ██████ ███████     ████████ ██  ██████ ██   ██ ███████ ████████  `n
-            ██      ██      ██   ██ ██    ██ ██ ██      ██             ██    ██ ██      ██  ██  ██         ██     `n   ███████ █████   ██████  ██    ██ ██ ██      █████          ██    ██ ██      █████   █████      ██     `n
-                 ██ ██      ██   ██  ██  ██  ██ ██      ██             ██    ██ ██      ██  ██  ██         ██     `n   ███████ ███████ ██   ██   ████   ██  ██████ ███████        ██    ██  ██████ ██   ██ ███████    ██     `n                                                                                                         `n                                                                                                         `n`n" -foregroundcolor $global:AVNDefaultBannerForegroundColor -backgroundcolor $global:AVNDefaultBannerBackgroundColor
+            Write-Host "                                                                                                         `n   ███████ ███████ ██████  ██    ██ ██  ██████ ███████     ████████ ██  ██████ ██   ██ ███████ ████████  `n   ██      ██      ██   ██ ██    ██ ██ ██      ██             ██    ██ ██      ██  ██  ██         ██     `n   ███████ █████   ██████  ██    ██ ██ ██      █████          ██    ██ ██      █████   █████      ██     `n        ██ ██      ██   ██  ██  ██  ██ ██      ██             ██    ██ ██      ██  ██  ██         ██     `n   ███████ ███████ ██   ██   ████   ██  ██████ ███████        ██    ██  ██████ ██   ██ ███████    ██     `n                                                                                                         `n                                                                                                         `n`n" -foregroundcolor $global:AVNDefaultBannerForegroundColor -backgroundcolor $global:AVNDefaultBannerBackgroundColor
             
             If ($AVNSTTotalWaves -lt 2) {
                 Write-Host "Prepare yourself. The" $AVNSTCurrentEncounter.name "has only $AVNSTTotalWaves wave of defense." -foregroundcolor $global:AVNDefaultTextForegroundColor
