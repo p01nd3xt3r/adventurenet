@@ -483,7 +483,7 @@ Function Close-AVNServiceTicket {
             $AVNSTNonPurchaseSpecials = @()
             #Filtering out purchase-only specials
             $global:AVNSpecials | ForEach-Object {
-                If ($_.teamscost -gt 0) {
+                If ($_.teamscost -eq 0) {
                     $AVNSTNonPurchaseSpecials += $_
                 }
             }
