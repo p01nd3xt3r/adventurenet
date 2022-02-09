@@ -94,29 +94,29 @@ Function Invoke-AVNSignOn {
                 $AVNDiceOfferNumber++
                 $AVNDiceOffer.add($AVNDiceOfferNumber, $AVNDiceTypes[$_])
             }
-            Write-Host "Choose $global:AVNDiceChoicePerDay of the following to keep for the day:" -foregroundcolor $global:AVNDefaultTextForegroundColor
+            Write-Host "`nChoose $global:AVNDiceChoicePerDay of the following to keep for the day:" -foregroundcolor $global:AVNDefaultTextForegroundColor
 
             $AVNChoiceText = @("first","second","third","fourth","fifth","sixth","seventh","eighth","ninth","tenth")
             [int]$AVNDiceChoiceNumber = -1
             For ($I = 0; $I -lt $global:AVNDiceChoicePerDay; $I++) {
                 Do {
                     $AVNDiceOffer
-                    $AVNDiceChoiceNumber = Read-Host ("Enter the number of your " + $AVNChoiceText[$I] + " choice")
+                    $AVNDiceChoiceNumber = Read-Host ("`nEnter the number next to your " + $AVNChoiceText[$I] + " choice")
                     If ($AVNDiceChoiceNumber -notin $AVNDiceOffer.keys) {
-                        Write-Host "Please choose a number from the list." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                        Write-Host "`nPlease choose a number from the list." -foregroundcolor $global:AVNDefaultTextForegroundColor
                     }
                 } Until ($AVNDiceChoiceNumber -in $AVNDiceOffer.keys)
             $global:AVNDiceDaily_CurrentPlayer += $AVNDiceOffer.$AVNDiceChoiceNumber
             $AVNDiceOffer.remove($AVNDiceChoiceNumber)
             }
-            Write-Host "You have selected the following daily dice:" -foregroundcolor $global:AVNDefaultTextForegroundColor
+            Write-Host "`nYou have selected the following daily dice:" -foregroundcolor $global:AVNDefaultTextForegroundColor
             $global:AVNDiceDaily_CurrentPlayer
         } Else {
             $AVNAllottmentRoll = Get-Random -count $global:AVNDiceChoicePerDay -maximum ($AVNDiceTypes.count) -minimum 1
             $AVNAllottmentRoll | ForEach-Object {
                 $global:AVNDiceDaily_CurrentPlayer += $AVNDiceTypes.$_
             }
-            Write-Host "As a result of low team health, the following daily dice have been chosen for you:" -foregroundcolor $global:AVNDefaultTextForegroundColor
+            Write-Host "`nAs a result of low team health, the following daily dice have been chosen for you:" -foregroundcolor $global:AVNDefaultTextForegroundColor
             $global:AVNDiceDaily_CurrentPlayer
         }
 

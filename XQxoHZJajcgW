@@ -1,7 +1,7 @@
 #Internal strings need to use "" instead of '' to match up with the write functions, so external should always be ''.
 $global:AVNSpecials = @()
 #Generals
-$global:AVNSpecials += @{Name = 'General placeholder'; Type = 'General'; Description = 'General placeholder description'; Effect = 'General placeholder effect'; GlobalNotice = 'General placeholder globalnotice'; TeamsCost = 0}
+$global:AVNSpecials += @{Name = 'General placeholder'; Type = 'General'; Description = 'General placeholder description'; Effect = 'Get-date'; GlobalNotice = 'General placeholder globalnotice'; TeamsCost = 0}
 #Interrupts
 $global:AVNSpecials += @{Name = 'On Fire'; Type = 'Interrupt'; Description = 'Reset your dice rolls during any wave of a service ticket encounter.'; Effect = '$AVNAvailableDice = GatherAvailableDice'; GlobalNotice = 'was on fire today.'; TeamsCost = 0}
 #Instants

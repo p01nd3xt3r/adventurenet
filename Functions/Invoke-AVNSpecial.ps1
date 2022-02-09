@@ -14,39 +14,58 @@
 Function Invoke-AVNSpecial {
     Get-AVNConfig
 
+    #Getting specials. Yields the $global:AVNSpecials array of hashtables, which is the cipher for specials.
+    (Get-Content -path ($global:AVNRootPath + "\XQxoHZJajcgW")) | ForEach-Object {
+        Invoke-Expression $_
+    }
+
     $AVNGeneralSpecials = @()
     $global:AVNSpecials_CurrentPlayer | ForEach-Object {
-        If ($_.type -eq 'general') {
-            $AVNGeneralSpecials += $_
+        ForEach ($AVNSTRawSpecial in $global:AVNSpecials) {
+            If (($AVNSTRawSpecial.name -eq $_) -and ($AVNSTRawSpecial.type -eq 'general')) {
+                $AVNGeneralSpecials += $AVNSTRawSpecial
+            }
         }
     }
-    $AVNGeneralSpecialsHashTable = @{? = 'Show information about your options.'}
+    
+    $AVNGeneralSpecialsHashTable = @{
+        '?' = 'Show information about your options.'
+    }
     [int]$AVNGeneralSpecialsHashTableI = 0
     $AVNGeneralSpecials | ForEach-Object {
         $AVNGeneralSpecialsHashTableI++
-        $AVNGeneralSpecialsHashTable.add($AVNGeneralSpecialsHashTableI, $_)
+        $AVNGeneralSpecialsHashTable.add($AVNGeneralSpecialsHashTableI, $_.name)
     }
-
 
     If ($AVNGeneralSpecials.count -lt 1) {
         Write-Host "Sorry, you don't have any general specials." -foregroundcolor $global:AVNDefaultTextForegroundColor
         Return
     } Else {
         Do {
-            Write-Host "What would you like to do?" -foregroundcolor $global:AVNDefaultTextForegroundColor
-            $AVNGeneralSpecialsHashTable
-            $AVNGeneralSpecialChoice = Read-Host "Please enter the number of the special you'd like to use"
-            
-            #Validating entry
-            If (($AVNGeneralSpecialChoice -notmatch "\d+") -and ($AVNGeneralSpecialChoice -ne "?")) {
-                Write-Host "Something seems to be wrong with your entry. Please make sure to enter only the integer that's next to your choice or a single ?." -foregroundcolor $global:AVNDefaultTextForegroundColor
+            Do {
+                Write-Host "What would you like to do?" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                $AVNGeneralSpecialsHashTable
+                $AVNGeneralSpecialChoice = Read-Host "Please enter the number next to the special you'd like to use"
+                
+                #Validating entry
+                If (($AVNGeneralSpecialChoice -notmatch "\d+") -and ($AVNGeneralSpecialChoice -ne "?")) {
+                    Write-Host "Something seems to be wrong with your entry. Please make sure to enter only the integer that's next to your choice or a single ?." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                    Wait-AVNKeyPress
+                }
+                If ($AVNGeneralSpecialChoice -notin $AVNGeneralSpecialsHashTable.keys) {
+                    Write-Host "Please only enter the integer of an item in the list." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                    Wait-AVNKeyPress
+                }
+            } Until ($AVNGeneralSpecialChoice -in $AVNGeneralSpecialsHashTable.keys)
+
+            If ($AVNTeamsPurchaseChoice -eq "?") {
+                #Showing info for each general special.
+                $AVNGeneralSpecials | ForEach-Object {
+                    Write-Host $_.name "`n" $_.description -foregroundcolor $global:AVNDefaultTextForegroundColor
+                }
                 Wait-AVNKeyPress
             }
-            If ($AVNGeneralSpecialChoice -notin $AVNGeneralSpecialsHashTable.keys) {
-                Write-Host "Please only enter the integer of an item in the list." -foregroundcolor $global:AVNDefaultTextForegroundColor
-                Wait-AVNKeyPress
-            }
-        } Until ($AVNGeneralSpecialChoice -in $AVNGeneralSpecialsHashTable.keys)
+        }Until ($AVNTeamsPurchaseChoice -ne "?")
 
         $AVNGeneralSpecialChoice = [int]$AVNGeneralSpecialChoice
 
@@ -56,7 +75,7 @@ Function Invoke-AVNSpecial {
             }
         }
 
-        Write-Host "You used your " $AVNChosenGeneralSpecial.name "`n" $AVNChosenGeneralSpecial.description -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "`nYou used your" $AVNChosenGeneralSpecial.name "`n" $AVNChosenGeneralSpecial.description -foregroundcolor $global:AVNDefaultTextForegroundColor
         Invoke-Expression $AVNChosenGeneralSpecial.effect
         $global:AVNPlayerData_CurrentPlayer.globalnotice = $AVNChosenGeneralSpecial.globalnotice
 

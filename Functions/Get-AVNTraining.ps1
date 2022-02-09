@@ -58,7 +58,7 @@ Function Get-AVNTraining {
             Do {
                 Do {
                     $AVNTrainingDiceTypes
-                    $AVNTrainingChoice = Read-Host "Please enter the number of the die you'd like to keep (enter nothing to exit)"
+                    $AVNTrainingChoice = Read-Host "`nPlease enter the number of the die you'd like to keep (enter nothing to exit)"
                     
                     #If empty, end function.
                     If ($AVNTrainingChoice -eq "") {

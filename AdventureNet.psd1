@@ -86,6 +86,7 @@ NestedModules = @(
     '.\Functions\Get-AVNStatus.ps1',
     '.\Functions\Get-AVNTraining.ps1',
     '.\Functions\Invoke-AVNSignOn.ps1',
+    '.\Functions\Invoke-AVNSpecial.ps1',
     '.\Functions\Update-AVNProduction.ps1',
     '.\Functions\Wait-AVNKeyPress.ps1'
 )
@@ -107,6 +108,7 @@ FunctionsToExport = @(
     'Get-AVNStatus',
     'Get-AVNTraining',
     'Invoke-AVNSignOn',
+    'Invoke-AVNSpecial',
     'Update-AVNProduction',
     'Wait-AVNKeyPress'
 )
