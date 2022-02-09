@@ -55,12 +55,12 @@ Function Enter-AVNTeams {
             #Showing info for each applicable special.
             $global:AVNSpecials | ForEach-Object {
                 If ($_.teamscost -gt 0) {
-                    Write-Host $_.name "`n" $_.description "`n`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                    Write-Host $_.name "`n" $_.description -foregroundcolor $global:AVNDefaultTextForegroundColor
                 }
             }
             Wait-AVNKeyPress
         } Else {
-            #Making sure the player has enough gifs
+            #Making sure the player has enough gifs for the chosen special
             $AVNTeamsPurchaseChoice = [int]$AVNTeamsPurchaseChoice
             $global:AVNSpecials | ForEach-Object {
                 If ($_.name -eq $AVNTeamsSpecials.$AVNTeamsPurchaseChoice) {
@@ -68,10 +68,10 @@ Function Enter-AVNTeams {
                 }
             }
             If ($global:AVNPlayerData_CurrentPlayer.gifs -lt $AVNTeamsChosenSpecial.teamscost) {
-                Write-Host "Sorry, you do not have enough GIFs to purchase that item." #change to "trade" or "win?" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "`nSorry, you do not have enough GIFs to purchase that item." -foregroundcolor $global:AVNDefaultTextForegroundColor #change to "trade" or "win?" 
             }
         }
-    } Until ($global:AVNPlayerData_CurrentPlayer.gifs -ge $AVNTeamsChosenSpecial.teamscost)
+    } Until (($global:AVNPlayerData_CurrentPlayer.gifs -ge $AVNTeamsChosenSpecial.teamscost) -and ($AVNTeamsPurchaseChoice -ne "?"))
 
     #Subtracting from player's GIFs
     $global:AVNPlayerData_CurrentPlayer.gifs -= $AVNTeamsChosenSpecial.teamscost
