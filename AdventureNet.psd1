@@ -135,6 +135,7 @@ FileList = @(
     '.\CreateAVNProfileShortcuts.ps1',
     '.\README.md',
     '.\uhGNpSAZCzIt',
+    '.\wlBjUrtSsTIO',
     '.\XQxoHZJajcgW'
 )
 

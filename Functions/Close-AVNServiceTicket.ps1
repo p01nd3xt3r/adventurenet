@@ -37,7 +37,7 @@ Function Close-AVNServiceTicket {
         }
 
         #Getting specials
-        #Yields the $global:AVNSpecials array of hashtables, which is the cipher for specials.
+        #Yields the $AVNSpecials array of hashtables, which is the cipher for specials.
         (Get-Content -path ($global:AVNRootPath + "\XQxoHZJajcgW")) | ForEach-Object {
             Invoke-Expression $_
         }
@@ -47,7 +47,7 @@ Function Close-AVNServiceTicket {
             #If this goes in the function, I just have to remove the special from the global variable and then run the function to get the current ones again.
             $avnpremptivespecials = @()
             $global:AVNSpecials_CurrentPlayer | ForEach-Object {
-                ForEach ($AVNSTRawSpecial in $global:AVNSpecials) {
+                ForEach ($AVNSTRawSpecial in $AVNSpecials) {
                     If (($AVNSTRawSpecial.name -eq $_) -and ($AVNSTRawSpecial.type -eq 'preemptive')) {
                         $avnpremptivespecials += $AVNSTRawSpecial
                     }
@@ -63,7 +63,7 @@ Function Close-AVNServiceTicket {
             #If this goes in the function, I just have to remove the special from the global variable and then run the function to get the current ones again.
             $avninterruptspecials = @()
             $global:AVNSpecials_CurrentPlayer | ForEach-Object {
-                ForEach ($AVNSTRawSpecial in $global:AVNSpecials) {
+                ForEach ($AVNSTRawSpecial in $AVNSpecials) {
                     If (($AVNSTRawSpecial.name -eq $_) -and ($AVNSTRawSpecial.type -eq 'interrupt')) {
                         $avninterruptspecials += $AVNSTRawSpecial
                     }
@@ -482,7 +482,7 @@ Function Close-AVNServiceTicket {
             #If the player gets a roll for a special, goes through the available ones for a random one and assigns just the name to the array in the player's data variable.
             $AVNSTNonPurchaseSpecials = @()
             #Filtering out purchase-only specials
-            $global:AVNSpecials | ForEach-Object {
+            $AVNSpecials | ForEach-Object {
                 If ($_.teamscost -eq 0) {
                     $AVNSTNonPurchaseSpecials += $_
                 }

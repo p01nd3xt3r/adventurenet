@@ -16,122 +16,11 @@ Function Close-AVNProjectStage {
     
     Get-AVNConfig
 
-    $AVNProjectStage1Waves = @(
-        @{
-            Wave = 1
-            Name = 'S1W1Name'; 
-            Description = 'S1W1Description';
-            Defenses = @();
-            CounterAttack = 'Get-Date'
-            CounterAttackText = 'S1W1 counterattack text'
-            IntroductionText = 'S1W1 IntroText';
-            FailureText = 'S1W1 FailureText';
-            FailurePenalty = '';
-            DeathText = 'S1W1 DeathText';
-        },
-        @{
-            Wave = 2
-            Name = ''; 
-            Description = '';
-            Defenses = @();
-            CounterAttack = 'get-date'
-            CounterAttackText = ''
-            IntroductionText = '';
-            FailureText = '';
-            FailurePenalty = '';
-            DeathText = '';
-        },
-        @{
-            Wave = 3
-            Name = ''; 
-            Description = '';
-            Defenses = @();
-            CounterAttack = 'get-date'
-            CounterAttackText = ''
-            IntroductionText = '';
-            FailureText = '';
-            FailurePenalty = '';
-            DeathText = '';
-        }
-    )
-    
-    $AVNProjectStage2Waves = @(
-        @{
-            Wave = 1
-            Name = ''; 
-            Description = '';
-            Defenses = @();
-            CounterAttack = ''
-            CounterAttackText = ''
-            IntroductionText = '';
-            FailureText = '';
-            FailurePenalty = '';
-            DeathText = '';
-        },
-        @{
-            Wave = 2
-            Name = ''; 
-            Description = '';
-            Defenses = @();
-            CounterAttack = ''
-            CounterAttackText = ''
-            IntroductionText = '';
-            FailureText = '';
-            FailurePenalty = '';
-            DeathText = '';
-        },
-        @{
-            Wave = 3
-            Name = ''; 
-            Description = '';
-            Defenses = @();
-            CounterAttack = ''
-            CounterAttackText = ''
-            IntroductionText = '';
-            FailureText = '';
-            FailurePenalty = '';
-            DeathText = '';
-        }
-    )
-
-    $AVNProjectStage3Waves = @(
-        @{
-            Wave = 1
-            Name = ''; 
-            Description = '';
-            Defenses = @();
-            CounterAttack = ''
-            CounterAttackText = ''
-            IntroductionText = '';
-            FailureText = '';
-            FailurePenalty = '';
-            DeathText = '';
-        },
-        @{
-            Wave = 2
-            Name = ''; 
-            Description = '';
-            Defenses = @();
-            CounterAttack = ''
-            CounterAttackText = ''
-            IntroductionText = '';
-            FailureText = '';
-            FailurePenalty = '';
-            DeathText = '';
-        },
-        @{
-            Wave = 3
-            Name = ''; 
-            Description = '';
-            Defenses = @();
-            CounterAttack = ''
-            CounterAttackText = ''
-            IntroductionText = '';
-            FailureText = '';
-            FailurePenalty = '';
-            DeathText = '';
-        }
-    )
+    #Getting project stage wave data
+    #Yields the $AVNProjectStage1Waves and $AVNProjectStage2Waves and $AVNProjectStage3Waves arrays of hashtables.
+    (Get-Content -path ($global:AVNRootPath + "\wlBjUrtSsTIO")) | ForEach-Object {
+        Invoke-Expression $_
+    }
 
     #Intro text and assigning correct stage to current
     If ($global:AVNPlayerData_CurrentPlayer.ProjectStageAttempts -ge $global:AVNProjectStageDailyAllowance) {
@@ -189,7 +78,7 @@ Function Close-AVNProjectStage {
         #If this goes in the function, I just have to remove the special from the global variable and then run the function to get the current ones again.
         $AVNProjectPreEmptiveSpecials = @()
         $global:AVNSpecials_CurrentPlayer | ForEach-Object {
-            ForEach ($AVNProjectRawSpecial in $global:AVNSpecials) {
+            ForEach ($AVNProjectRawSpecial in $AVNSpecials) {
                 If (($AVNProjectRawSpecial.name -eq $_) -and ($AVNProjectRawSpecial.type -eq 'preemptive')) {
                     $AVNProjectPreEmptiveSpecials += $AVNProjectRawSpecial
                 }
@@ -203,7 +92,7 @@ Function Close-AVNProjectStage {
         #If this goes in the function, I just have to remove the special from the global variable and then run the function to get the current ones again.
         $AVNProjectInterruptSpecials = @()
         $global:AVNSpecials_CurrentPlayer | ForEach-Object {
-            ForEach ($AVNProjectRawSpecial in $global:AVNSpecials) {
+            ForEach ($AVNProjectRawSpecial in $AVNSpecials) {
                 If (($AVNProjectRawSpecial.name -eq $_) -and ($AVNProjectRawSpecial.type -eq 'interrupt')) {
                     $AVNProjectInterruptSpecials += $AVNProjectRawSpecial
                 }

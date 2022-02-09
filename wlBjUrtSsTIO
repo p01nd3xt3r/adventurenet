@@ -1,0 +1,12 @@
+$AVNProjectStage1Waves = @()
+$AVNProjectStage1Waves += @{Wave = 1; Name = 'S1W1Name'; Description = 'S1W1Description'; Defenses = @(); CounterAttack = 'Get-Date'; CounterAttackText = 'S1W1 counterattack text'; IntroductionText = 'S1W1 IntroText'; FailureText = 'S1W1 FailureText'; FailurePenalty = ''; DeathText = 'S1W1 DeathText'}
+$AVNProjectStage1Waves += @{Wave = 2; Name = ''; Description = ''; Defenses = @(); CounterAttack = 'get-date'; CounterAttackText = ''; IntroductionText = ''; FailureText = ''; FailurePenalty = ''; DeathText = ''}
+$AVNProjectStage1Waves += @{Wave = 3; Name = ''; Description = ''; Defenses = @(); CounterAttack = 'get-date'; CounterAttackText = ''; IntroductionText = ''; FailureText = ''; FailurePenalty = ''; DeathText = ''}
+$AVNProjectStage2Waves = @()
+$AVNProjectStage2Waves += @{Wave = 1; Name = ''; Description = ''; Defenses = @(); CounterAttack = ''; CounterAttackText = ''; IntroductionText = ''; FailureText = ''; FailurePenalty = ''; DeathText = ''}
+$AVNProjectStage2Waves += @{Wave = 2; Name = ''; Description = ''; Defenses = @(); CounterAttack = ''; CounterAttackText = ''; IntroductionText = ''; FailureText = ''; FailurePenalty = ''; DeathText = ''}
+$AVNProjectStage2Waves += @{Wave = 3; Name = ''; Description = ''; Defenses = @(); CounterAttack = ''; CounterAttackText = ''; IntroductionText = ''; FailureText = ''; FailurePenalty = ''; DeathText = ''}
+$AVNProjectStage3Waves = @()
+$AVNProjectStage3Waves += @{Wave = 1; Name = ''; Description = ''; Defenses = @(); CounterAttack = ''; CounterAttackText = ''; IntroductionText = ''; FailureText = ''; FailurePenalty = ''; DeathText = ''}
+$AVNProjectStage3Waves += @{Wave = 2; Name = ''; Description = ''; Defenses = @(); CounterAttack = ''; CounterAttackText = ''; IntroductionText = ''; FailureText = ''; FailurePenalty = ''; DeathText = ''}
+$AVNProjectStage3Waves += @{Wave = 3; Name = ''; Description = ''; Defenses = @(); CounterAttack = ''; CounterAttackText = ''; IntroductionText = ''; FailureText = ''; FailurePenalty = ''; DeathText = ''}

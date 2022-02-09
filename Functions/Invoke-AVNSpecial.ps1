@@ -14,14 +14,14 @@
 Function Invoke-AVNSpecial {
     Get-AVNConfig
 
-    #Getting specials. Yields the $global:AVNSpecials array of hashtables, which is the cipher for specials.
+    #Getting specials. Yields the $AVNSpecials array of hashtables, which is the cipher for specials.
     (Get-Content -path ($global:AVNRootPath + "\XQxoHZJajcgW")) | ForEach-Object {
         Invoke-Expression $_
     }
 
     $AVNGeneralSpecials = @()
     $global:AVNSpecials_CurrentPlayer | ForEach-Object {
-        ForEach ($AVNSTRawSpecial in $global:AVNSpecials) {
+        ForEach ($AVNSTRawSpecial in $AVNSpecials) {
             If (($AVNSTRawSpecial.name -eq $_) -and ($AVNSTRawSpecial.type -eq 'general')) {
                 $AVNGeneralSpecials += $AVNSTRawSpecial
             }

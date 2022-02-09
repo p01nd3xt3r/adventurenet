@@ -20,7 +20,7 @@ Function Enter-AVNTeams {
 
     $AVNTeamsSpecials = [ordered]@{'?' = 'Show information about your options.'}
     [int]$AVNTeamsSpecialsI = 0
-    $global:AVNSpecials | ForEach-Object {
+    $AVNSpecials | ForEach-Object {
         If ($_.teamscost -gt 0) {
             $AVNTeamsSpecialsI++
             $AVNTeamsSpecials.add($AVNTeamsSpecialsI, $_.name)
@@ -53,7 +53,7 @@ Function Enter-AVNTeams {
 
         If ($AVNTeamsPurchaseChoice -eq "?") {
             #Showing info for each applicable special.
-            $global:AVNSpecials | ForEach-Object {
+            $AVNSpecials | ForEach-Object {
                 If ($_.teamscost -gt 0) {
                     Write-Host $_.name "`n" $_.description -foregroundcolor $global:AVNDefaultTextForegroundColor
                 }
@@ -62,7 +62,7 @@ Function Enter-AVNTeams {
         } Else {
             #Making sure the player has enough gifs for the chosen special
             $AVNTeamsPurchaseChoice = [int]$AVNTeamsPurchaseChoice
-            $global:AVNSpecials | ForEach-Object {
+            $AVNSpecials | ForEach-Object {
                 If ($_.name -eq $AVNTeamsSpecials.$AVNTeamsPurchaseChoice) {
                     $AVNTeamsChosenSpecial = $_
                 }
