@@ -15,9 +15,16 @@ Function Invoke-AVNSpecial {
     Get-AVNConfig
 
     #Getting specials. Yields the $AVNSpecials array of hashtables, which is the cipher for specials.
+    $AVNDataFileContent = ConvertFrom-AVNObfuscated -path ($global:AVNRootPath + "\XQxoHZJajcgW")
+    $AVNDataFileContent | ForEach-Object {
+    Invoke-Expression $_
+    }
+    <#
+    Old
     (Get-Content -path ($global:AVNRootPath + "\XQxoHZJajcgW")) | ForEach-Object {
         Invoke-Expression $_
     }
+    #>
 
     $AVNGeneralSpecials = @()
     $global:AVNSpecials_CurrentPlayer | ForEach-Object {

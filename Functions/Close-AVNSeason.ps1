@@ -31,12 +31,18 @@ Function Close-AVNSeason {
 
     $AVNDataFiles = Get-ChildItem -file -path ($global:AVNRootPath + '\data')
 
-    #Need to also consider obfuscation.
     ForEach ($AVNDataFile in $AVNDataFiles) {
+        $AVNDataFileContent = ConvertFrom-AVNObfuscated -path $AVNDataFile
+        $AVNDataFileContent | ForEach-Object {
+        Invoke-Expression $_
+        }
+        <#
+        Old
         $AVNDataFileContent = Get-Content $AVNDataFile
         $AVNDataFileContent | ForEach-Object {
             Invoke-Expression $_
         }
+        #>
 
         #Create all pertinent global current variables from stored variables
         $global:AVNPlayerData_CurrentPlayer = $AVNStoredPlayerData
@@ -83,7 +89,7 @@ Function Close-AVNSeason {
         $global:AVNPlayerData_CurrentPlayer.projectstageattempts = 0
 
         $global:AVNServiceTickets_CurrentPlayer = @()
-        $global:AVNDicePerm_CurrentPlayer = @()
+        $global:AVNDicePerm_CurrentPlayer = @('CoreValues','ITGlue')
         $global:AVNDiceDaily_CurrentPlayer = @()
         $global:AVNSpecials_CurrentPlayer = @()
 

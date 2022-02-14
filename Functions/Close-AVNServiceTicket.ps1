@@ -32,15 +32,29 @@ Function Close-AVNServiceTicket {
 
         #Getting encounters
         #Yields the $global:AVNServiceTicketEncounters array with a hash table for each possible encounter.
+        $AVNDataFileContent = ConvertFrom-AVNObfuscated -path ($global:AVNRootPath + "\uhGNpSAZCzIt")
+        $AVNDataFileContent | ForEach-Object {
+        Invoke-Expression $_
+        }
+        <#
+        Old
         (Get-Content -path ($global:AVNRootPath + "\uhGNpSAZCzIt")) | ForEach-Object {
             Invoke-Expression $_
         }
+        #>
 
         #Getting specials
         #Yields the $AVNSpecials array of hashtables, which is the cipher for specials.
+        $AVNDataFileContent = ConvertFrom-AVNObfuscated -path ($global:AVNRootPath + "\XQxoHZJajcgW")
+        $AVNDataFileContent | ForEach-Object {
+        Invoke-Expression $_
+        }
+        <#
+        Old
         (Get-Content -path ($global:AVNRootPath + "\XQxoHZJajcgW")) | ForEach-Object {
             Invoke-Expression $_
         }
+        #>
 
         Function GatherAvailablePreEmptiveSpecials {
             #Cycling through the player's specials and creating a full version of it in a temporary variable to be used in this function.
@@ -100,7 +114,6 @@ Function Close-AVNServiceTicket {
             Get-AVNConfig
 
             #Encounter
-            #Get-Content of the encounter data file and invoke its rows after I finish the ConvertTo-AVNDevWriteData contents and transfer it.
             #Creates an array of only array contents that match the reqprojectstage.
             $AVNSTPossibleEncounters = $global:AVNServiceTicketEncounters | Where-Object {$_.ReqProjectStage -eq $global:AVNCompanyDataCommon.CurrentStage}
             $AVNSTCurrentEncounter = Get-Random -InputObject $AVNSTPossibleEncounters
@@ -109,9 +122,16 @@ Function Close-AVNServiceTicket {
             $AVNSTCurrentEncounter
 
             #Getting the $AVNDiceValues array.
+            $AVNDataFileContent = ConvertFrom-AVNObfuscated -path ($global:AVNRootPath + "\bGBIuKWniXYw")
+            $AVNDataFileContent | ForEach-Object {
+            Invoke-Expression $_
+            }
+            <#
+            Old way
             (Get-Content -path ($global:AVNRootPath + "\bGBIuKWniXYw")) | ForEach-Object {
                 Invoke-Expression $_
             }
+            #>
 
             #Gathering all dice available to the player.
             #Dice that are added as specials during the encounter. There are the complete hashes of the actual dice. Leave it outside of the loop because these will be added later on in the script.

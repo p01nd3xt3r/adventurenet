@@ -68,9 +68,16 @@ Function Close-AVNProjectStage {
     }
 
     #Getting dice info table.
+    $AVNDiceDataFileContent = ConvertFrom-AVNObfuscated -path ($global:AVNRootPath + "\bGBIuKWniXYw")
+    $AVNDiceDataFileContent | ForEach-Object {
+        Invoke-Expression $_
+    }
+    <#
+    Old
     (Get-Content -path ($global:AVNRootPath + "\bGBIuKWniXYw")) | ForEach-Object {
         Invoke-Expression $_
     }
+    #>
 
     #Gathering resources as functions, so I can call them more easily later on.
     Function GatherAvailablePreEmptiveSpecials {

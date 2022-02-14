@@ -38,9 +38,16 @@ Function Get-AVNTraining {
         }
         
         #Getting dice info table.
+        $AVNDataFileContent = ConvertFrom-AVNObfuscated -path ($global:AVNRootPath + "\bGBIuKWniXYw")
+        $AVNDataFileContent | ForEach-Object {
+        Invoke-Expression $_
+        }
+        <#
+        Old
         (Get-Content -path ($global:AVNRootPath + "\bGBIuKWniXYw")) | ForEach-Object {
             Invoke-Expression $_
         }
+        #>
 
         $AVNTrainingDiceTypes = [ordered]@{
             '?' = 'Show information about your options.'
