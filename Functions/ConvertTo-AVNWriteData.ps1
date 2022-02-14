@@ -40,6 +40,18 @@ Function ConvertTo-AVNWriteData {
     $AVNWriteGlobalNotice = $global:AVNPlayerData_CurrentPlayer.globalnotice
     $AVNWriteGifs = $global:AVNPlayerData_CurrentPlayer.gifs
     $AVNWriteProjectStageAttempts = $global:AVNPlayerData_CurrentPlayer.ProjectStageAttempts
+    #Historical data
+    $AVNWriteHistRecentClient = $global:AVNHistoricalData_CurrentPlayer.RecentClientHealthContributions
+    $AVNWriteHistTotalClient = $global:AVNHistoricalData_CurrentPlayer.TotalClientHealthContributions
+    $AVNWriteHistRecentTeam = $global:AVNHistoricalData_CurrentPlayer.RecentTeamHealthContributions
+    $AVNWriteHistTotalTeam = $global:AVNHistoricalData_CurrentPlayer.TotalTeamHealthContributions
+    $AVNWriteHistRecentProjectWaves = $global:AVNHistoricalData_CurrentPlayer.RecentProjectStageWavesCompleted
+    $AVNWriteHistTotalProjectWaves = $global:AVNHistoricalData_CurrentPlayer.TotalProjectStageWavesCompleted
+    $AVNWriteHistRecentKudos = $global:AVNHistoricalData_CurrentPlayer.RecentKudos
+    $AVNWriteHistTotalKudos = $global:AVNHistoricalData_CurrentPlayer.TotalKudos
+    $AVNWriteHistRecentGIFs = $global:AVNHistoricalData_CurrentPlayer.RecentGIFs
+    $AVNWriteHistTotalGIFs = $global:AVNHistoricalData_CurrentPlayer.TotalGIFs
+
 
     #Creating service tickets array of strings of the date-times then converting that array into a single string.
     $AVNWriteServiceTicketsArray = @()
@@ -72,5 +84,5 @@ Function ConvertTo-AVNWriteData {
         $AVNWriteSpecials = ""
     }
 
-    Return "`$AVNStoredCompanyData = @{ClientHealth = $AVNWriteClientHealth; TeamHealth = $AVNWriteTeamHealth; TechnicalQuestionsAdded = $AVNWriteTechnicalQuestionsAdded; TechnicalQuestionsRemoved = $AVNWriteTechnicalQuestionsRemoved; ProjectStage1WaveGenerated = $AVNWriteProjectStage1WaveGenerated; ProjectStage2WaveGenerated = $AVNWriteProjectStage2WaveGenerated; ProjectStage3WaveGenerated = $AVNWriteProjectStage3WaveGenerated; ProjectStage1WaveDefeated = $AVNWriteProjectStage1WaveDefeated; ProjectStage2WaveDefeated = $AVNWriteProjectStage2WaveDefeated; ProjectStage3WaveDefeated = $AVNWriteProjectStage3WaveDefeated}`n`$AVNStoredPlayerData = @{CurrentUser = '$global:AVNCurrentUser'; PlayerName = '$global:AVNCurrentPlayerName'; Kudos = $AVNWriteKudos; Turns = $AVNWriteTurns; Training = $AVNWriteTraining; LastSignOn = (Get-Date '$AVNWriteLastSignOn').datetime; Opportunities = $AVNWriteOpportunities; SeasonFirstRun = $AVNWriteSeasonFirstRun; GlobalNotice = '$AVNWriteGlobalNotice'; Gifs = $AVNWriteGifs; ProjectStageAttempts = $AVNWriteProjectStageAttempts}`n`$AVNStoredServiceTickets = @($AVNWriteServiceTickets)`n`$AVNStoredDicePerm = @($AVNWriteDicePerm)`n`$AVNStoredDiceDaily = @($AVNWriteDiceDaily)`n`$AVNStoredSpecials = @($AVNWriteSpecials)"
+    Return "`$AVNStoredCompanyData = @{ClientHealth = $AVNWriteClientHealth; TeamHealth = $AVNWriteTeamHealth; TechnicalQuestionsAdded = $AVNWriteTechnicalQuestionsAdded; TechnicalQuestionsRemoved = $AVNWriteTechnicalQuestionsRemoved; ProjectStage1WaveGenerated = $AVNWriteProjectStage1WaveGenerated; ProjectStage2WaveGenerated = $AVNWriteProjectStage2WaveGenerated; ProjectStage3WaveGenerated = $AVNWriteProjectStage3WaveGenerated; ProjectStage1WaveDefeated = $AVNWriteProjectStage1WaveDefeated; ProjectStage2WaveDefeated = $AVNWriteProjectStage2WaveDefeated; ProjectStage3WaveDefeated = $AVNWriteProjectStage3WaveDefeated}`n`$AVNStoredPlayerData = @{CurrentUser = '$global:AVNCurrentUser'; PlayerName = '$global:AVNCurrentPlayerName'; Kudos = $AVNWriteKudos; Turns = $AVNWriteTurns; Training = $AVNWriteTraining; LastSignOn = (Get-Date '$AVNWriteLastSignOn').datetime; Opportunities = $AVNWriteOpportunities; SeasonFirstRun = $AVNWriteSeasonFirstRun; GlobalNotice = '$AVNWriteGlobalNotice'; Gifs = $AVNWriteGifs; ProjectStageAttempts = $AVNWriteProjectStageAttempts}`n`$AVNStoredServiceTickets = @($AVNWriteServiceTickets)`n`$AVNStoredDicePerm = @($AVNWriteDicePerm)`n`$AVNStoredDiceDaily = @($AVNWriteDiceDaily)`n`$AVNStoredSpecials = @($AVNWriteSpecials)`n`$AVNStoredHistoricalData = @{RecentClientHealthContributions = $AVNWriteHistRecentClient; TotalClientHealthContributions = $AVNWriteHistTotalClient; RecentTeamHealthContributions = $AVNWriteHistRecentTeam; TotalTeamHealthContributions = $AVNWriteHistTotalTeam; RecentProjectStageWavesCompleted = $AVNWriteHistRecentProjectWaves; TotalProjectStageWavesCompleted = $AVNWriteHistTotalProjectWaves; RecentKudos = $AVNWriteHistRecentKudos; TotalKudos = $AVNWriteHistTotalKudos; RecentGIFs = $AVNWriteHistRecentGIFs; TotalGIFs = $AVNWriteHistTotalGIFs}"
 }

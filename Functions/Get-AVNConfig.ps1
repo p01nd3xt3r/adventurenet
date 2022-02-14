@@ -98,6 +98,8 @@ Function Get-AVNConfig {
             #Assigning new player's player data to variables.
             $global:AVNPlayerData_CurrentPlayer = $AVNStoredPlayerData
             $global:AVNCompanyData_CurrentPlayer = $AVNStoredCompanyData
+            #Will add some parts of this to the common variable at some point so players can see it all.
+            $global:AVNHistoricalData_CurrentPlayer = $AVNStoredHistoricalData
             $global:AVNPlayerDataCommon += @($AVNStoredPlayerData.playername, $AVNStoredPlayerData.kudos, $AVNStoredPlayerData.globalnotice)
             #Assigning all company data as well. 
             $global:AVNCompanyDataCommon.clienthealth += $AVNStoredCompanyData.clienthealth

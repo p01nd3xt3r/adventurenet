@@ -17,25 +17,21 @@ Function Get-AVNStatus {
     Get-AVNConfig
     
     #These are just placeholders. I plan to make this pretty.
-    Write-Host '$global:AVNPlayerDataCommon' -foregroundcolor $global:AVNDefaultTextForegroundColor
+    Write-Host "`$global:AVNPlayerDataCommon" -foregroundcolor $global:AVNDefaultTextForegroundColor
     $global:AVNPlayerDataCommon
-    Write-Host ""
-    Write-Host '$global:AVNCompanyDataCommon' -foregroundcolor $global:AVNDefaultTextForegroundColor
+    Write-Host "`n`$global:AVNCompanyDataCommon" -foregroundcolor $global:AVNDefaultTextForegroundColor
     $global:AVNCompanyDataCommon
-    Write-Host ""
-    Write-Host '$global:AVNCompanyData_CurrentPlayer' -foregroundcolor $global:AVNDefaultTextForegroundColor
+    Write-Host "`n`$global:AVNCompanyData_CurrentPlayer" -foregroundcolor $global:AVNDefaultTextForegroundColor
     $global:AVNCompanyData_CurrentPlayer
-    Write-Host ""
-    Write-Host '$global:AVNPlayerData_CurrentPlayer' -foregroundcolor $global:AVNDefaultTextForegroundColor
+    Write-Host "`n`$global:AVNPlayerData_CurrentPlayer" -foregroundcolor $global:AVNDefaultTextForegroundColor
     $global:AVNPlayerData_CurrentPlayer
-    Write-Host ""
-    Write-Host "Service Tickets               " $global:AVNServiceTickets_CurrentPlayer.count "`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
-    Write-Host '$global:AVNPlayerData_CurrentPlayer.lastsignon' -foregroundcolor $global:AVNDefaultTextForegroundColor
+    Write-Host "`nService Tickets               " $global:AVNServiceTickets_CurrentPlayer.count -foregroundcolor $global:AVNDefaultTextForegroundColor
+    Write-Host "`n`$global:AVNPlayerData_CurrentPlayer.lastsignon" -foregroundcolor $global:AVNDefaultTextForegroundColor
     $global:AVNPlayerData_CurrentPlayer.lastsignon
-    Write-Host ""
-    Write-Host '$global:AVNDicePerm_CurrentPlayer' -foregroundcolor $global:AVNDefaultTextForegroundColor
+    Write-Host "`n`$global:AVNDicePerm_CurrentPlayer" -foregroundcolor $global:AVNDefaultTextForegroundColor
     $global:AVNDicePerm_CurrentPlayer
-    Write-Host ""
-    Write-Host '$global:AVNDiceDaily_CurrentPlayer' -foregroundcolor $global:AVNDefaultTextForegroundColor
+    Write-Host "`n`$global:AVNDiceDaily_CurrentPlayer" -foregroundcolor $global:AVNDefaultTextForegroundColor
     $global:AVNDiceDaily_CurrentPlayer
+    Write-Host "`n`$global:AVNSpecials_CurrentPlayer" -foregroundcolor $global:AVNDefaultTextForegroundColor
+    $global:AVNSpecials_CurrentPlayer
 }
