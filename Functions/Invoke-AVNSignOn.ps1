@@ -31,7 +31,7 @@ Function Invoke-AVNSignOn {
         }
         
         #Turns assignment:
-        $global:AVNPlayerData_CurrentPlayer.turns += $global:AVNTurnsPerDay
+        $global:AVNPlayerData_CurrentPlayer.turns = $global:AVNTurnsPerDay
 
         #Identify each service ticket older than the above and then shift the array to not include it. These should all be the first in the array.
         #Rationalization for converting tickets to tech questions here: the player needs training to do the project; the player needs to answer service tickets daily to not end up with technical questions the next day (for training), the player needs to do the project to complete the season and to not get pinged, the player gets kudos for all these things.

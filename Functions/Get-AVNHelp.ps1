@@ -57,6 +57,8 @@ Invoke-AVNSpecial
 Players will find different Specials while closing service tickets, and any Specials of the General type will be available for use here.
 
 Get-AVNConfig is also import to know about, though you'll almost never need to run it by itself, since most functions run it right away. This is how PS gets information from the data files created for each player and also how it gets information from AdventureNet.config for setting game options. This is, along with the actual data files, provides the framework for the rest of the functions. Running it by itself doesn't hurt anything, though.
+
+Close-AVNSeason converts current data in all player data files into historical data and then to reset current data. This cannot be undone, but it will need to be done before any subsequent season.
 "@
         Wait-AVNKeyPress
     }

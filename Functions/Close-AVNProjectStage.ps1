@@ -387,17 +387,17 @@ Function Close-AVNProjectStage {
     If ($True -eq $AVNProjectAllWavesComplete) {
         If ($AVNProjectCurrentStage -eq 1) {
             $global:AVNCompanyData_CurrentPlayer.ProjectStage1WaveDefeated = 1
-            If ((Get-Date) -lt $global:AVNProjectStage1Deadline) {
+            If ((Get-Date) -lt (Get-Date $global:AVNProjectStage1Deadline)) {
                 $AVNProjectPrecedeDeadlineSwitch = $True
             }
         } ElseIf ($AVNProjectCurrentStage -eq 2) {
             $global:AVNCompanyData_CurrentPlayer.ProjectStage2WaveDefeated = 1
-            If ((Get-Date) -lt $global:AVNProjectStage2Deadline) {
+            If ((Get-Date) -lt (Get-Date $global:AVNProjectStage2Deadline)) {
                 $AVNProjectPrecedeDeadlineSwitch = $True
             }
         } ElseIf ($AVNProjectCurrentStage -eq 3) {
             $global:AVNCompanyData_CurrentPlayer.ProjectStage3WaveDefeated = 1
-            If ((Get-Date) -lt $global:AVNProjectStage3Deadline) {
+            If ((Get-Date) -lt (Get-Date $global:AVNProjectStage3Deadline)) {
                 $AVNProjectPrecedeDeadlineSwitch = $True
             }
         }

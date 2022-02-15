@@ -21,6 +21,8 @@ Function Close-AVNServiceTicket {
 
     Get-AVNConfig
 
+    Write-Host "`n    ███████ ███████ ██████  ██    ██ ██  ██████ ███████     ████████ ██  ██████ ██   ██ ███████ ████████    `n    ██      ██      ██   ██ ██    ██ ██ ██      ██             ██    ██ ██      ██  ██  ██         ██       `n    ███████ █████   ██████  ██    ██ ██ ██      █████          ██    ██ ██      █████   █████      ██       `n         ██ ██      ██   ██  ██  ██  ██ ██      ██             ██    ██ ██      ██  ██  ██         ██       `n    ███████ ███████ ██   ██   ████   ██  ██████ ███████        ██    ██  ██████ ██   ██ ███████    ██       `n`n" -foregroundcolor $global:AVNDefaultBannerForegroundColor
+
     If ($global:AVNServiceTickets_CurrentPlayer.count -lt 1) { 
         Throw "You don't have any service tickets!"
     } ElseIf ($global:AVNPlayerData_CurrentPlayer.turns -lt 1) {
@@ -210,8 +212,6 @@ Function Close-AVNServiceTicket {
                 $AVNSTTotalWaves = 1
             }
 
-            Write-Host "`n    ███████ ███████ ██████  ██    ██ ██  ██████ ███████     ████████ ██  ██████ ██   ██ ███████ ████████    `n    ██      ██      ██   ██ ██    ██ ██ ██      ██             ██    ██ ██      ██  ██  ██         ██       `n    ███████ █████   ██████  ██    ██ ██ ██      █████          ██    ██ ██      █████   █████      ██       `n         ██ ██      ██   ██  ██  ██  ██ ██      ██             ██    ██ ██      ██  ██  ██         ██       `n    ███████ ███████ ██   ██   ████   ██  ██████ ███████        ██    ██  ██████ ██   ██ ███████    ██       `n`n" -foregroundcolor $global:AVNDefaultBannerForegroundColor
-            
             If ($AVNSTTotalWaves -lt 2) {
                 Write-Host "Prepare yourself. The" $AVNSTCurrentEncounter.name "has only $AVNSTTotalWaves wave of defense." -foregroundcolor $global:AVNDefaultTextForegroundColor
             } Else {
@@ -467,7 +467,7 @@ Function Close-AVNServiceTicket {
                         Wait-AVNKeyPress
                     }
                 } Else {
-                    Write-Host "You have failed to defeat the current wave." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                    Write-Host "You failed to defeat the current wave." -foregroundcolor $global:AVNDefaultTextForegroundColor
                     $AVNSTCurrentWave = ($AVNSTTotalWaves + 1)
                     Wait-AVNKeyPress
                 }
@@ -503,7 +503,7 @@ Function Close-AVNServiceTicket {
                 Wait-AVNKeyPress
             } Else {
                 #Failure results. 
-                Write-Host "You failed to close the Service Ticket."
+                Write-Host "You failed to close the Service Ticket." -foregroundcolor $global:AVNDefaultTextForegroundColor
                 $AVNSTCurrentEncounter.failuretext
                 Wait-AVNKeyPress
                 #The ticket has already been sent to technical questions and decreased team health by 2 by default, so this is mostly going to be for extra detriments and will depend on what encounter you're facing.
