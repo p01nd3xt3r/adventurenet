@@ -210,7 +210,7 @@ Function Close-AVNServiceTicket {
                 $AVNSTTotalWaves = 1
             }
 
-            Write-Host "                                                                                                         `n   ███████ ███████ ██████  ██    ██ ██  ██████ ███████     ████████ ██  ██████ ██   ██ ███████ ████████  `n   ██      ██      ██   ██ ██    ██ ██ ██      ██             ██    ██ ██      ██  ██  ██         ██     `n   ███████ █████   ██████  ██    ██ ██ ██      █████          ██    ██ ██      █████   █████      ██     `n        ██ ██      ██   ██  ██  ██  ██ ██      ██             ██    ██ ██      ██  ██  ██         ██     `n   ███████ ███████ ██   ██   ████   ██  ██████ ███████        ██    ██  ██████ ██   ██ ███████    ██     `n                                                                                                         `n                                                                                                         `n`n" -foregroundcolor $global:AVNDefaultBannerForegroundColor -backgroundcolor $global:AVNDefaultBannerBackgroundColor
+            Write-Host "`n    ███████ ███████ ██████  ██    ██ ██  ██████ ███████     ████████ ██  ██████ ██   ██ ███████ ████████    `n    ██      ██      ██   ██ ██    ██ ██ ██      ██             ██    ██ ██      ██  ██  ██         ██       `n    ███████ █████   ██████  ██    ██ ██ ██      █████          ██    ██ ██      █████   █████      ██       `n         ██ ██      ██   ██  ██  ██  ██ ██      ██             ██    ██ ██      ██  ██  ██         ██       `n    ███████ ███████ ██   ██   ████   ██  ██████ ███████        ██    ██  ██████ ██   ██ ███████    ██       `n`n" -foregroundcolor $global:AVNDefaultBannerForegroundColor
             
             If ($AVNSTTotalWaves -lt 2) {
                 Write-Host "Prepare yourself. The" $AVNSTCurrentEncounter.name "has only $AVNSTTotalWaves wave of defense." -foregroundcolor $global:AVNDefaultTextForegroundColor
@@ -248,10 +248,16 @@ Function Close-AVNServiceTicket {
                         }
 
                         #Default choices.
-                        [int]$AVNOptionI = 1
+                        [int]$AVNOptionI = 0
                         $AVNSTCurrentWaveOptions = [ordered]@{
                             '?' = 'Show information about your options.'
-                            $AVNOptionI = 'Attack!'
+                            'R' = 'Run away!'
+                        }
+                        If ($AVNSTAvailableDice.count -gt 0) {
+                            $AVNOptionI++
+                            $AVNSTCurrentWaveOptions.add($AVNOptionI, 'Attack!')
+                        } Else {
+                            Write-Host "You have no dice with which to attack!" -foregroundcolor $global:AVNDefaultTextForegroundColor
                         }
                         If (($True -eq $AVNSTCurrentEncounter.opportunity) -and ($global:AVNPlayerData_CurrentPlayer.opportunities -gt 0)) {
                             $AVNOptionI++
@@ -289,7 +295,7 @@ Function Close-AVNServiceTicket {
                         
                         $AVNSTActionEntry = Read-Host "`nEnter your choice"
                         #Making sure the entry is valid.
-                        If (($AVNSTActionEntry -notmatch "\d+") -and ($AVNSTActionEntry -ne "?")) {
+                        If (($AVNSTActionEntry -notmatch "\d+") -and ($AVNSTActionEntry -ne "?") -and ($AVNSTActionEntry -ne "r")) {
                             Write-Host "Something seems to be wrong with your entry. Please make sure to enter only the integer that's next to your choice or a single ?." -foregroundcolor $global:AVNDefaultTextForegroundColor
                             Wait-AVNKeyPress
                         }
@@ -299,10 +305,14 @@ Function Close-AVNServiceTicket {
                         }
                     } Until ($AVNSTActionEntry -in $AVNSTCurrentWaveOptions.keys)
                     #Converting the string that read-host creates into an int to match the $AVNSTCurrentWaveOptions keys.
-                    If ($AVNSTActionEntry -ne "?") {
+                    If (($AVNSTActionEntry -ne "?") -and ($AVNSTActionEntry -ne "r")) {
                         $AVNSTActionEntry = [int]$AVNSTActionEntry
                     }
                     #Branches based on what's entered.
+                    If ($AVNSTActionEntry -eq "r") {
+                        Write-Host "You ran away, converting your adversary into a Technical Question." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                        Return
+                    }
                     If ($AVNSTActionEntry -eq "?") {
                         Get-AVNHelp -dice
                     }

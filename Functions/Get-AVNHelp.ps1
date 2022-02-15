@@ -21,6 +21,7 @@ Function Get-AVNHelp {
     If (($False -eq $Functions) -and ($False -eq $Dice)) {
         $Dice = $True
         $Functions = $True
+        Write-Host "`n    ██   ██ ███████ ██      ██████     `n    ██   ██ ██      ██      ██   ██    `n    ███████ █████   ██      ██████     `n    ██   ██ ██      ██      ██         `n    ██   ██ ███████ ███████ ██         `n`n" -foregroundcolor $global:AVNDefaultBannerForegroundColor
     }
 
     If ($True -eq $Functions) {
@@ -61,6 +62,9 @@ Get-AVNConfig is also import to know about, though you'll almost never need to r
     }
 
     If ($True -eq $Dice) {
+
+        Write-Host "" -foregroundcolor $global:AVNDefaultBannerForegroundColor
+
         #Getting dice info table.
         $AVNDataFileContent = ConvertFrom-AVNObfuscated -path ($global:AVNRootPath + "\bGBIuKWniXYw")
         $AVNDataFileContent | ForEach-Object {

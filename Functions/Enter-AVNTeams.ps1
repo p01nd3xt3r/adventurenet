@@ -14,8 +14,8 @@
 Function Enter-AVNTeams {
     Get-AVNConfig
 
-    Write-Host "                                                                                                         `n                               ████████ ███████  █████  ███    ███ ███████                               `n                                  ██    ██      ██   ██ ████  ████ ██                                    `n                                  ██    █████   ███████ ██ ████ ██ ███████                               `n                                  ██    ██      ██   ██ ██  ██  ██      ██                               `n                                  ██    ███████ ██   ██ ██      ██ ███████                               `n                                                                                                         `n                                                                                                         `n`n" -foregroundcolor $global:AVNDefaultBannerForegroundColor -backgroundcolor $global:AVNDefaultBannerBackgroundColor
-    Write-Host "Welcome to Teams, where you can convert your GIFs into powerful specials." -foregroundcolor $global:AVNDefaultTextForegroundColor
+    Write-Host "`n    ████████ ███████  █████  ███    ███ ███████                               `n       ██    ██      ██   ██ ████  ████ ██                                    `n       ██    █████   ███████ ██ ████ ██ ███████                               `n       ██    ██      ██   ██ ██  ██  ██      ██                               `n       ██    ███████ ██   ██ ██      ██ ███████                               `n`n" -foregroundcolor $global:AVNDefaultBannerForegroundColor
+    Write-Host "`nWelcome to Teams, where you can convert your GIFs into powerful specials." -foregroundcolor $global:AVNDefaultTextForegroundColor
     Wait-AVNKeyPress
 
     $AVNTeamsSpecials = [ordered]@{'?' = 'Show information about your options.'}

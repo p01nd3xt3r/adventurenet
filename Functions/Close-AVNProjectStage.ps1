@@ -40,7 +40,7 @@ Function Close-AVNProjectStage {
             } Else {
                 [int]$AVNProjectCurrentStage = 1
                 $AVNProjectCurrentStageArray = $AVNProjectStage1Waves
-                Write-Host "                                                       `n   ███████ ████████  █████   ██████  ███████      ██   `n   ██         ██    ██   ██ ██       ██          ███   `n   ███████    ██    ███████ ██   ███ █████        ██   `n        ██    ██    ██   ██ ██    ██ ██           ██   `n   ███████    ██    ██   ██  ██████  ███████      ██   `n                                                       `n                                                       `n`n" -foregroundcolor $global:AVNDefaultBannerForegroundColor -backgroundcolor $global:AVNDefaultBannerBackgroundColor
+                Write-Host "`n    ███████ ████████  █████   ██████  ███████      ██    `n    ██         ██    ██   ██ ██       ██          ███    `n    ███████    ██    ███████ ██   ███ █████        ██    `n         ██    ██    ██   ██ ██    ██ ██           ██    `n    ███████    ██    ██   ██  ██████  ███████      ██    `n`n" -foregroundcolor $global:AVNDefaultBannerForegroundColor
             } 
         } ElseIf ($global:AVNCompanyDataCommon.ProjectStage2WavesRemaining -gt 0) {
             If ($global:AVNCompanyData_CurrentPlayer.ProjectStage2WaveDefeated -gt 0) {
@@ -48,7 +48,7 @@ Function Close-AVNProjectStage {
             } Else {
                 [int]$AVNProjectCurrentStage = 2
                 $AVNProjectCurrentStageArray = $AVNProjectStage2Waves
-                Write-Host "                                                       `n ███████ ████████  █████   ██████  ███████     ██████  `n ██         ██    ██   ██ ██       ██               ██ `n ███████    ██    ███████ ██   ███ █████        █████  `n      ██    ██    ██   ██ ██    ██ ██          ██      `n ███████    ██    ██   ██  ██████  ███████     ███████ `n                                                       `n                                                       `n`n" -foregroundcolor $global:AVNDefaultBannerForegroundColor -backgroundcolor $global:AVNDefaultBannerBackgroundColor
+                Write-Host "`n    ███████ ████████  █████   ██████  ███████     ██████     `n    ██         ██    ██   ██ ██       ██               ██    `n    ███████    ██    ███████ ██   ███ █████        █████     `n         ██    ██    ██   ██ ██    ██ ██          ██         `n    ███████    ██    ██   ██  ██████  ███████     ███████    `n`n" -foregroundcolor $global:AVNDefaultBannerForegroundColor
             }
         } ElseIf ($global:AVNCompanyDataCommon.ProjectStage3WavesRemaining -gt 0) {
             If ($global:AVNCompanyData_CurrentPlayer.ProjectStage3WaveDefeated -gt 0) {
@@ -56,10 +56,10 @@ Function Close-AVNProjectStage {
             } Else {
                 [int]$AVNProjectCurrentStage = 3
                 $AVNProjectCurrentStageArray = $AVNProjectStage3Waves
-                Write-Host "                                                       `n ███████ ████████  █████   ██████  ███████     ██████  `n ██         ██    ██   ██ ██       ██               ██ `n ███████    ██    ███████ ██   ███ █████        █████  `n      ██    ██    ██   ██ ██    ██ ██               ██ `n ███████    ██    ██   ██  ██████  ███████     ██████  `n                                                       `n                                                       `n`n" -foregroundcolor $global:AVNDefaultBannerForegroundColor -backgroundcolor $global:AVNDefaultBannerBackgroundColor
+                Write-Host "`n    ███████ ████████  █████   ██████  ███████     ██████     `n    ██         ██    ██   ██ ██       ██               ██    `n    ███████    ██    ███████ ██   ███ █████        █████     `n         ██    ██    ██   ██ ██    ██ ██               ██    `n    ███████    ██    ██   ██  ██████  ███████     ██████     `n`n" -foregroundcolor $global:AVNDefaultBannerForegroundColor
             }
         } Else {
-            Write-Host "                                                                                                         `n              █████  ██      ██          ███████ ████████  █████   ██████  ███████ ███████               `n             ██   ██ ██      ██          ██         ██    ██   ██ ██       ██      ██                    `n             ███████ ██      ██          ███████    ██    ███████ ██   ███ █████   ███████               `n             ██   ██ ██      ██               ██    ██    ██   ██ ██    ██ ██           ██               `n             ██   ██ ███████ ███████     ███████    ██    ██   ██  ██████  ███████ ███████               `n                                                                                                         `n                                                                                                         `n                  ██████  ██████  ███    ███ ██████  ██      ███████ ████████ ███████                    `n                 ██      ██    ██ ████  ████ ██   ██ ██      ██         ██    ██                         `n                 ██      ██    ██ ██ ████ ██ ██████  ██      █████      ██    █████                      `n                 ██      ██    ██ ██  ██  ██ ██      ██      ██         ██    ██                         `n                  ██████  ██████  ██      ██ ██      ███████ ███████    ██    ███████                    `n                                                                                                         `n                                                                                                         `n`n" -foregroundcolor $global:AVNDefaultBannerForegroundColor -backgroundcolor $global:AVNDefaultBannerBackgroundColor
+            Write-Host "`n     █████  ██      ██          ███████ ████████  █████   ██████  ███████ ███████    `n    ██   ██ ██      ██          ██         ██    ██   ██ ██       ██      ██         `n    ███████ ██      ██          ███████    ██    ███████ ██   ███ █████   ███████    `n    ██   ██ ██      ██               ██    ██    ██   ██ ██    ██ ██           ██    `n    ██   ██ ███████ ███████     ███████    ██    ██   ██  ██████  ███████ ███████    `n                                                                                     `n     ██████  ██████  ███    ███ ██████  ██      ███████ ████████ ███████             `n    ██      ██    ██ ████  ████ ██   ██ ██      ██         ██    ██                  `n    ██      ██    ██ ██ ████ ██ ██████  ██      █████      ██    █████               `n    ██      ██    ██ ██  ██  ██ ██      ██      ██         ██    ██                  `n     ██████  ██████  ██      ██ ██      ███████ ███████    ██    ███████             `n`n" -foregroundcolor $global:AVNDefaultBannerForegroundColor
             
             Write-Host "After all remaining turns have been used, this season of AdventureNet will have been completed." -foregroundcolor $global:AVNDefaultTextForegroundColor
             Wait-AVNKeyPress
@@ -163,10 +163,16 @@ Function Close-AVNProjectStage {
                 Wait-AVNKeyPress
 
                 #Default choices.
-                [int]$AVNOptionI = 1
+                [int]$AVNOptionI = 0
                 $AVNProjectCurrentWaveOptions = [ordered]@{
                     '?' = 'Show information about your options.'
-                    $AVNOptionI = 'Attack!'
+                    'R' = 'Run away!'
+                }
+                If ($AVNAvailableDice.count -gt 0) {
+                    $AVNOptionI++
+                    $AVNProjectCurrentWaveOptions.add($AVNOptionI, 'Attack!')
+                } Else {
+                    Write-Host "You have no dice with which to attack!" -foregroundcolor $global:AVNDefaultTextForegroundColor
                 }
                 #Adding specials to the choices. Changes based on what wave we're on. Also adds all the ints of these specials to $AVNSpecialIntegers, so I can know a special has been chosen later. I might not need, this, though, if I only do ?, attack, and specials. I'd always know the range, and the ints of those options would be constant.
                 If ($AVNProjectCurrentWave -eq 1) {
@@ -194,7 +200,7 @@ Function Close-AVNProjectStage {
                 $AVNProjectCurrentWaveChoice = Read-Host "Enter your choice"
 
                 #Validating entry
-                If (($AVNProjectCurrentWaveChoice -notmatch "\d+") -and ($AVNProjectCurrentWaveChoice -ne "?")) {
+                If (($AVNProjectCurrentWaveChoice -notmatch "\d+") -and ($AVNProjectCurrentWaveChoice -ne "?") -and ($AVNProjectCurrentWaveChoice -ne "r")) {
                     Write-Host "Something seems to be wrong with your entry. Please make sure to enter only the integer that's next to your choice or a single ?." -foregroundcolor $global:AVNDefaultTextForegroundColor
                     Wait-AVNKeyPress
                 }
@@ -207,8 +213,13 @@ Function Close-AVNProjectStage {
             #Now go through results of the player's choice, not including dice.
             If ($AVNProjectCurrentWaveChoice -eq "?") {
                 Get-AVNHelp -dice
+                Write-Host "Other info placeholder." -foregroundcolor $global:AVNDefaultTextForegroundColor
             }
-            Write-Host "Other info placeholder." -foregroundcolor $global:AVNDefaultTextForegroundColor
+
+            If ($AVNProjectCurrentWaveChoice -eq "r") {
+                Write-Host "You ran away." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Return
+            }
 
             #Identifying special, using it, and removing it from the player's global variable.
             $AVNProjectCurrentWaveChoice = [int]$AVNProjectCurrentWaveChoice
@@ -254,7 +265,7 @@ Function Close-AVNProjectStage {
                 }
                 Wait-AVNKeypress
             }
-        } Until ($AVNProjectCurrentWaveChoice -eq "1")
+        } Until ($AVNProjectCurrentWaveOptions.$AVNProjectCurrentWaveChoice -eq "Attack!")
 
         #Presenting player with dice to roll, accepting and then validating their choices.
         Do {
@@ -391,7 +402,7 @@ Function Close-AVNProjectStage {
             }
         }
         
-        Write-Host "                                                                                                         `n                         ██    ██ ██  ██████ ████████  ██████  ██████  ██    ██                          `n                         ██    ██ ██ ██         ██    ██    ██ ██   ██  ██  ██                           `n                         ██    ██ ██ ██         ██    ██    ██ ██████    ████                            `n                          ██  ██  ██ ██         ██    ██    ██ ██   ██    ██                             `n                           ████   ██  ██████    ██     ██████  ██   ██    ██                             `n                                                                                                         `n                                                                                                         `n`n" -foregroundcolor $global:AVNDefaultBannerForegroundColor -backgroundcolor $global:AVNDefaultBannerBackgroundColor
+        Write-Host "`n    ██    ██ ██  ██████ ████████  ██████  ██████  ██    ██    `n    ██    ██ ██ ██         ██    ██    ██ ██   ██  ██  ██     `n    ██    ██ ██ ██         ██    ██    ██ ██████    ████      `n     ██  ██  ██ ██         ██    ██    ██ ██   ██    ██       `n      ████   ██  ██████    ██     ██████  ██   ██    ██       `n`n" -foregroundcolor $global:AVNDefaultBannerForegroundColor
         
         #I've taken away two already. That stays for the failure branch.
         $global:AVNCompanyData_CurrentPlayer.teamhealth += 1

@@ -14,6 +14,8 @@
 Function Close-AVNTechnicalQuestion {
     Get-AVNConfig
 
+    Write-Host "`n    ████████ ███████  ██████ ██   ██ ███    ██ ██  ██████  █████  ██      `n       ██    ██      ██      ██   ██ ████   ██ ██ ██      ██   ██ ██      `n       ██    █████   ██      ███████ ██ ██  ██ ██ ██      ███████ ██      `n       ██    ██      ██      ██   ██ ██  ██ ██ ██ ██      ██   ██ ██      `n       ██    ███████  ██████ ██   ██ ██   ████ ██  ██████ ██   ██ ███████ `n                                                                          `n     ██████  ██    ██ ███████ ███████ ████████ ██  ██████  ███    ██      `n    ██    ██ ██    ██ ██      ██         ██    ██ ██    ██ ████   ██      `n    ██    ██ ██    ██ █████   ███████    ██    ██ ██    ██ ██ ██  ██      `n    ██ ▄▄ ██ ██    ██ ██           ██    ██    ██ ██    ██ ██  ██ ██      `n     ██████   ██████  ███████ ███████    ██    ██  ██████  ██   ████      `n`n" -foregroundcolor $global:AVNDefaultBannerForegroundColor
+    
     If ($global:AVNCompanyDataCommon.technicalquestionsavailable -lt 1) {
         Write-Host "There are no technical questions to close." -foregroundcolor $global:AVNDefaultTextForegroundColor
         Return

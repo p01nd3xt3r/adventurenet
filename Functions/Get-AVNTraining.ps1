@@ -13,7 +13,7 @@
 #>
 Function Get-AVNTraining {
     If ($global:AVNPlayerData_CurrentPlayer.training -gt 0) {
-        Write-Host "                                                                                                         `n                        ████████ ██████   █████  ██ ███    ██ ██ ███    ██  ██████                       `n                           ██    ██   ██ ██   ██ ██ ████   ██ ██ ████   ██ ██                            `n                           ██    ██████  ███████ ██ ██ ██  ██ ██ ██ ██  ██ ██   ███                      `n                           ██    ██   ██ ██   ██ ██ ██  ██ ██ ██ ██  ██ ██ ██    ██                      `n                           ██    ██   ██ ██   ██ ██ ██   ████ ██ ██   ████  ██████                       `n                                                                                                         `n                                                                                                         `n`n" -BackgroundColor $global:AVNDefaultBannerBackgroundColor -ForegroundColor $global:AVNDefaultBannerForegroundColor
+        Write-Host "`n    ████████ ██████   █████  ██ ███    ██ ██ ███    ██  ██████     `n       ██    ██   ██ ██   ██ ██ ████   ██ ██ ████   ██ ██          `n       ██    ██████  ███████ ██ ██ ██  ██ ██ ██ ██  ██ ██   ███    `n       ██    ██   ██ ██   ██ ██ ██  ██ ██ ██ ██  ██ ██ ██    ██    `n       ██    ██   ██ ██   ██ ██ ██   ████ ██ ██   ████  ██████     `n`n" -ForegroundColor $global:AVNDefaultBannerForegroundColor
         
         
         If ($global:AVNCompanyDataCommon.teamhealth -lt 15) {
