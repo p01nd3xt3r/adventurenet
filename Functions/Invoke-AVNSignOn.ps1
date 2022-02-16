@@ -119,6 +119,22 @@ Function Invoke-AVNSignOn {
             Write-Host "`nAs a result of low team health, the following daily dice have been chosen for you:" -foregroundcolor $global:AVNDefaultTextForegroundColor
             $global:AVNDiceDaily_CurrentPlayer
         }
+        
+        $AVNInjectionSpecials = @()
+        $AVNSpecials | ForEach-Object {
+            If ($_.type -eq "injection") {
+                $AVNInjectionSpecials += $_
+            }
+        }
+
+        $AVNInjectionSpecialsAdded = @()
+        $global:AVNInjectionSpecialsPerDay | ForEach-Object {
+            $AVNInjectionRewardRoll = Get-Random -minimum 0 -maximum ($AVNInjectionSpecials.count - 1)
+            $global:AVNSpecials_CurrentPlayer += $AVNInjectionSpecials[$AVNInjectionRewardRoll].name
+            $AVNInjectionSpecialsAdded += $AVNInjectionSpecials[$AVNInjectionRewardRoll].name
+        }
+        Write-Host "The following injection specials have been added to your collection:" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        $AVNInjectionSpecialsAdded
 
         #Writing back to data file.
         ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile

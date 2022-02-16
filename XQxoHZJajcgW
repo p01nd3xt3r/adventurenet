@@ -11,6 +11,13 @@ $AVNSpecials += @{Name = 'Pinball Tournament'; Type = 'Instant'; Description = '
 $AVNSpecials += @{Name = 'Slow Day'; Type = 'Instant'; Description = 'As a result of less tickets than normal, you have extra time for training. Immediately gain another training.'; Effect = '$global:AVNPlayerData_CurrentPlayer.training += 1'; GlobalNotice = 'had a slow day and found more time for training.'; TeamsCost = 0}
 #PreEmptives
 $AVNSpecials += @{Name = 'Surprise ITGlue Document'; Type = 'PreEmptive'; Description = 'Sometimes you find out there is a document you just did not know was there. Add an ITGlue dice for the remainder of the round.'; Effect = '$AVNSTSpecialDice += "ITGlue"; $AVNAvailableDice = GatherAvailableDice'; GlobalNotice = 'started writing a document in ITGlue that he discovered someone else had already written.'; TeamsCost = 0}
+#Injection
+$AVNSpecials += @{Name = 'Networking Injection'; Type = 'Injection'; Description = 'After rolling your dice, add an additional Networking worktype to your roll.'; Effect = '$AVNDiceRolls += "Networking"'; GlobalNotice = ''; TeamsCost = 0}
+$AVNSpecials += @{Name = 'Workstation Injection'; Type = 'Injection'; Description = 'After rolling your dice, add an additional Workstation worktype to your roll.'; Effect = '$AVNDiceRolls += "Workstation"'; GlobalNotice = ''; TeamsCost = 0}
+$AVNSpecials += @{Name = 'Cloud Injection'; Type = 'Injection'; Description = 'After rolling your dice, add an additional Cloud worktype to your roll.'; Effect = '$AVNDiceRolls += "Cloud"'; GlobalNotice = ''; TeamsCost = 0}
+$AVNSpecials += @{Name = 'OnPrem Injection'; Type = 'Injection'; Description = 'After rolling your dice, add an additional OnPrem worktype to your roll.'; Effect = '$AVNDiceRolls += "OnPrem"'; GlobalNotice = ''; TeamsCost = 0}
+$AVNSpecials += @{Name = 'Security Injection'; Type = 'Injection'; Description = 'After rolling your dice, add an additional Security worktype to your roll.'; Effect = '$AVNDiceRolls += "Security"'; GlobalNotice = ''; TeamsCost = 0}
+$AVNSpecials += @{Name = 'Character Injection'; Type = 'Injection'; Description = 'After rolling your dice, add an additional Character worktype to your roll.'; Effect = '$AVNDiceRolls += "Character"'; GlobalNotice = ''; TeamsCost = 0}
 #Teams
 ##Generals
 $AVNSpecials += @{Name = 'Purchase Placeholder'; Type = 'General'; Description = 'Placeholder'; Effect = 'Placeholder'; GlobalNotice = 'placeholder.'; TeamsCost = 100}

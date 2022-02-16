@@ -69,6 +69,8 @@ Function Close-AVNServiceTicket {
                     }
                 }
             }
+            ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile
+            Get-AVNConfig
             Return $avnpremptivespecials
         }
         #Note that it returns only the value. This is what you should run later when you need to get them again.
@@ -85,10 +87,27 @@ Function Close-AVNServiceTicket {
                     }
                 }
             }
+            ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile
+            Get-AVNConfig
             Return $avninterruptspecials
         }
         #Note that it returns only the value. This is what you should run later when you need to get them again.
         $AVNInterruptSpecials = GatherAvailableInterruptSpecials
+
+        Function GatherAvailableInjectionSpecials {
+            $AVNInjectionSpecials = @()
+            $global:AVNSpecials_CurrentPlayer | ForEach-Object {
+                ForEach ($AVNSTRawSpecial in $AVNSpecials) {
+                    If (($AVNSTRawSpecial.name -eq $_) -and ($AVNSTRawSpecial.type -eq 'injection')) {
+                        $AVNInjectionSpecials += $AVNSTRawSpecial
+                    }
+                }
+            }
+            ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile
+            Get-AVNConfig
+            Return $AVNInjectionSpecials
+        }
+        $AVNInjectionSpecials = GatherAvailableInjectionSpecials
 
         #Rolling for either a service ticket or a special and assigning random encounter hashtable from those results to $AVNPossibleEncounters. 
         $AVNSTTypeRoll = Get-Random -Minimum 0 -Maximum 100
@@ -426,9 +445,74 @@ Function Close-AVNServiceTicket {
                     #This should be an array of all rolls that are chosen. It'll be a string of the work type rolled by that dice, weighted by the numbers in the types hash table. I'm just getting a random selection from all the sides of the die and adding it to the $avndicerolls variable, which is a collection of all the player's rolls for this wave. 
                     $AVNDiceRolls += $AVNDiceRollChoiceTypeWeightArray[(Get-Random -minimum 0 -maximum 5)]
                 }
-                #All above seems to be working. I have the ability to choose a # of dice and then to end up with a weighted random roll of each die. Results are the work type names.
                 Write-Host "`nYou rolled the following work types:" -foregroundcolor $global:AVNDefaultTextForegroundColor
-                $AVNDiceRolls 
+                $AVNDiceRolls
+
+                If ($AVNInjectionSpecials.count -gt 0) {
+                    Do {
+                        If ($AVNInjectionSpecials.count -lt 1) {
+                            Write-Host "You have no more available Specials to inject!" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                            $AVNInjectionSpecialsEntry = ""
+                            Wait-AVNKeyPress
+                        } Else {
+                            Do {
+                                $AVNInjectionSpecialsHashTable = [ordered]@{}
+                                $AVNInjectionSpecialsHashTableI = 0
+                                $AVNInjectionSpecials | ForEach-Object {
+                                    $AVNInjectionSpecialsHashTableI++
+                                    $AVNInjectionSpecialsHashTable.add($AVNInjectionSpecialsHashTableI, $_.name)
+                                }
+
+                                Write-Host "`nYou have the following Specials available to inject into your roll:" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                                $AVNInjectionSpecialsHashTable
+
+                                $AVNInjectionSpecialsEntry = Read-Host "Enter the number of one you'd like to inject (enter nothing to skip)"
+
+                                #Verifying entry
+                                If (($AVNInjectionSpecialsEntry -notmatch "\d+") -and ($AVNInjectionSpecialsEntry -ne "")) {
+                                    Write-Host "Something seems to be wrong with your entry. Please make sure to enter only the integer that's next to your choice." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                                    Wait-AVNKeyPress
+                                }
+                                If (($AVNInjectionSpecialsEntry -notin $AVNInjectionSpecialsHashTable.keys) -and ($AVNInjectionSpecialsEntry -ne "")) {
+                                    Write-Host "Please only enter the integer of an item in the list." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                                    Wait-AVNKeyPress
+                                }
+                            } Until (($AVNInjectionSpecialsEntry -in $AVNInjectionSpecialsHashTable.keys) -or ($AVNInjectionSpecialsEntry -eq ""))
+
+                            If ($AVNInjectionSpecialsEntry -ne "") {
+                                $AVNInjectionSpecials | ForEach-Object {
+                                    If ($_.name -eq $AVNInjectionSpecialsHashTable.$AVNInjectionSpecialsEntry) {
+                                        $AVNInjectionSpecialSelected = $_
+                                    }
+                                }
+                                Invoke-Expression $AVNInjectionSpecialSelected.effect
+
+                                $AVNPlayerDataSpecialsTempArray = @()
+                                $AVNSpecialSingleEntryLimiter = $False
+                                $global:AVNSpecials_CurrentPlayer | ForEach-Object {
+                                    If ($_ -eq $AVNInjectionSpecialSelected.name) {
+                                        #Skips the first special matching the variable if there are multiple.
+                                        If ($AVNSpecialSingleEntryLimiter -eq $True) {
+                                            $AVNPlayerDataSpecialsTempArray += $_
+                                        } Else {
+                                            $AVNSpecialSingleEntryLimiter = $True
+                                        }
+                                    } Else {
+                                        $AVNPlayerDataSpecialsTempArray += $_
+                                    }
+                                }
+                                $global:AVNSpecials_CurrentPlayer = $AVNPlayerDataSpecialsTempArray
+                                $AVNInjectionSpecials = GatherAvailableInjectionSpecials
+
+                                Write-Host "You now have the following work types in your roll:" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                                $AVNDiceRolls
+                            }
+                        }
+                    } Until (($AVNInjectionSpecials.count -lt 1) -or ($AVNInjectionSpecialsEntry -eq ""))
+                } Else {
+                    Write-Host "You have no available Specials to inject into your roll." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                    $AVNDiceRolls
+                }
 
                 #Matching dice rolls to defenses and seeing if the player rolled enough of each work type to beat the wave.
                 $AVNDiceRollSuccess = $True
@@ -451,6 +535,7 @@ Function Close-AVNServiceTicket {
                     }
                     If ($AVNDiceRollsLooper.count -eq $AVNDiceRolls.count) {
                         #There was no match. Break the loop to stop its process and set the success flag to false. If the count isn't equal, one of the dice matched the defense and wasn't added to the looper array.
+
                         $AVNDiceRollSuccess = $False
                     }
                     #Setting the dice rolls to what's in the looper, since that represents everything that was rolled that didn't match--that way the next time through, I'm not counting dice that have already matched defenses. 
@@ -494,6 +579,20 @@ Function Close-AVNServiceTicket {
                 $AVNSTGifAwardRoll = Get-Random -minimum $AVNSTGifAwardMin -maximum $AVNSTGifAwardMax
                 $global:AVNPlayerData_CurrentPlayer.gifs += $AVNSTGifAwardRoll
                 Write-Host "You found " $AVNSTGifAwardRoll "GIFs!" -foregroundcolor $global:AVNDefaultTextForegroundColor
+
+                $AVNInjectionSpecials = @()
+                $AVNSpecials | ForEach-Object {
+                    If ($_.type -eq "injection") {
+                        $AVNInjectionSpecials += $_
+                    }
+                }
+                $AVNInjectionRewardRollMax = ($AVNInjectionSpecials.count -1) / $global:AVNServiceTicketInjectionSpecialRewardRate
+                $AVNInjectionRewardRoll = Get-Random -minimum 0 -maximum $AVNInjectionRewardRollMax
+                If ($AVNInjectionRewardRoll -le ($AVNInjectionSpecials.count -1)) {
+                    $global:AVNSpecials_CurrentPlayer += $AVNInjectionSpecials[$AVNInjectionRewardRoll].name
+                    Write-Host "You found the following interrupt special!" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                    $AVNInjectionSpecials[$AVNInjectionRewardRoll].name
+                }
 
                 $global:AVNCompanyData_CurrentPlayer.TechnicalQuestionsAdded -= 1
                 #I have already decreased this by two at the beginning, similar to the above. This changes it to just -1 because of the service ticket success. Answering technical questions increases team health the other +1?

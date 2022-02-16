@@ -105,7 +105,23 @@ Function Close-AVNProjectStage {
                 }
             }
         }
+        ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile
+        Get-AVNConfig
         Return $AVNProjectInterruptSpecials
+    }
+
+    Function GatherAvailableInjectionSpecials {
+        $AVNInjectionSpecials = @()
+        $global:AVNSpecials_CurrentPlayer | ForEach-Object {
+            ForEach ($AVNSTRawSpecial in $AVNSpecials) {
+                If (($AVNSTRawSpecial.name -eq $_) -and ($AVNSTRawSpecial.type -eq 'injection')) {
+                    $AVNInjectionSpecials += $AVNSTRawSpecial
+                }
+            }
+        }
+        ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile
+        Get-AVNConfig
+        Return $AVNInjectionSpecials
     }
 
     $AVNProjectSpecialDice = @()
@@ -126,6 +142,8 @@ Function Close-AVNProjectStage {
                 $AVNProjectAvailableDice.add($AvailableDiceI, $_)
             }
         }
+        ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile
+        Get-AVNConfig
         Return $AVNProjectAvailableDice
     }
 
@@ -133,6 +151,7 @@ Function Close-AVNProjectStage {
     $AVNAvailableDice = GatherAvailableDice
     $AVNInterruptSpecials = GatherAvailableInterruptSpecials
     $AVNPreEmptiveSpecials = GatherAvailablePreEmptiveSpecials
+    $AVNInjectionSpecials = GatherAvailableInjectionSpecials
     
 
 
@@ -279,7 +298,7 @@ Function Close-AVNProjectStage {
             [string]$AVNDiceRollChoice = Read-Host "Choose which you'd like to roll by its number in the above table; for multiple, separate numbers by a comma (ex: 1,2), or else enter ? to display work-type value alottment per dice"
 
             If ($AVNDiceRollChoice -eq '?') {
-                Write-Host "Dice info blah blah blah for each of the player's dice" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Get-AVNHelp -dice
                 Wait-AVNKeyPress
                 $AVNDiceRollChoicePass = $False
             } Else {
@@ -324,8 +343,73 @@ Function Close-AVNProjectStage {
             #This should be an array of all rolls that are chosen. It'll be a string of the work type rolled by that dice, weighted by the numbers in the types hash table. I'm just getting a random selection from all the sides of the die and adding it to the $avndicerolls variable, which is a collection of all the player's rolls for this wave. 
             $AVNDiceRolls += $AVNDiceRollChoiceTypeWeightArray[(Get-Random -minimum 0 -maximum 5)]
         }
-        #All above seems to be working. I have the ability to choose a # of dice and then to end up with a weighted random roll of each die. Results are the work type names.
         Write-Host "`nYou rolled the following work types:`n" $AVNDiceRolls -foregroundcolor $global:AVNDefaultTextForegroundColor
+
+        If ($AVNInjectionSpecials.count -gt 0) {
+            Do {
+                If ($AVNInjectionSpecials.count -lt 1) {
+                    Write-Host "You have no more available Specials to inject!" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                    $AVNInjectionSpecialsEntry = ""
+                    Wait-AVNKeyPress
+                } Else {
+                    Do {
+                        $AVNInjectionSpecialsHashTable = [ordered]@{}
+                        $AVNInjectionSpecialsHashTableI = 0
+                        $AVNInjectionSpecials | ForEach-Object {
+                            $AVNInjectionSpecialsHashTableI++
+                            $AVNInjectionSpecialsHashTable.add($AVNInjectionSpecialsHashTableI, $_.name)
+                        }
+
+                        Write-Host "`nYou have the following Specials available to inject into your roll:" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                        $AVNInjectionSpecialsHashTable
+
+                        $AVNInjectionSpecialsEntry = Read-Host "Enter the number of one you'd like to inject (enter nothing to skip)"
+
+                        #Verifying entry
+                        If (($AVNInjectionSpecialsEntry -notmatch "\d+") -and ($AVNInjectionSpecialsEntry -ne "")) {
+                            Write-Host "Something seems to be wrong with your entry. Please make sure to enter only the integer that's next to your choice." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                            Wait-AVNKeyPress
+                        }
+                        If (($AVNInjectionSpecialsEntry -notin $AVNInjectionSpecialsHashTable.keys) -and ($AVNInjectionSpecialsEntry -ne "")) {
+                            Write-Host "Please only enter the integer of an item in the list." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                            Wait-AVNKeyPress
+                        }
+                    } Until (($AVNInjectionSpecialsEntry -in $AVNInjectionSpecialsHashTable.keys) -or ($AVNInjectionSpecialsEntry -eq ""))
+
+                    If ($AVNInjectionSpecialsEntry -ne "") {
+                        $AVNInjectionSpecials | ForEach-Object {
+                            If ($_.name -eq $AVNInjectionSpecialsHashTable.$AVNInjectionSpecialsEntry) {
+                                $AVNInjectionSpecialSelected = $_
+                            }
+                        }
+                        Invoke-Expression $AVNInjectionSpecialSelected.effect
+
+                        $AVNPlayerDataSpecialsTempArray = @()
+                        $AVNSpecialSingleEntryLimiter = $False
+                        $global:AVNSpecials_CurrentPlayer | ForEach-Object {
+                            If ($_ -eq $AVNInjectionSpecialSelected.name) {
+                                #Skips the first special matching the variable if there are multiple.
+                                If ($AVNSpecialSingleEntryLimiter -eq $True) {
+                                    $AVNPlayerDataSpecialsTempArray += $_
+                                } Else {
+                                    $AVNSpecialSingleEntryLimiter = $True
+                                }
+                            } Else {
+                                $AVNPlayerDataSpecialsTempArray += $_
+                            }
+                        }
+                        $global:AVNSpecials_CurrentPlayer = $AVNPlayerDataSpecialsTempArray
+                        $AVNInjectionSpecials = GatherAvailableInjectionSpecials
+
+                        Write-Host "You now have the following work types in your roll:" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                        $AVNDiceRolls
+                    }
+                }
+            } Until (($AVNInjectionSpecials.count -lt 1) -or ($AVNInjectionSpecialsEntry -eq ""))
+        } Else {
+            Write-Host "You have no available Specials to inject into your roll." -foregroundcolor $global:AVNDefaultTextForegroundColor
+            $AVNDiceRolls
+        }
 
         #Matching dice rolls to defenses and seeing if the player rolled enough of each work type to beat the wave.
         $AVNDiceRollSuccess = $True
