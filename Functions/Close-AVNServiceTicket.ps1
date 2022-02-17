@@ -200,7 +200,7 @@ Function Close-AVNServiceTicket {
                 If (($AVNSTDicePenaltyIterations -gt 0) -and ($AVNSTAvailableDice.count -eq 1)) {
                     $AVNSTAvailableDice = [ordered]@{}
                     Write-Host "`nLow client health has removed all of your available dice! Have you trained today?"
-                } Else {
+                } ElseIf ($AVNSTDicePenaltyIterations -gt 0) {
                     Write-Host "`nLow client health has rendered the following dice unusable for this encounter:" -foregroundcolor $global:AVNDefaultTextForegroundColor
                     $ANVSTUnavailableDice.keys | ForEach-Object {
                         Write-Host $ANVSTUnavailableDice.$_
@@ -451,7 +451,7 @@ Function Close-AVNServiceTicket {
                 If ($AVNInjectionSpecials.count -gt 0) {
                     Do {
                         If ($AVNInjectionSpecials.count -lt 1) {
-                            Write-Host "You have no more available Specials to inject!" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                            Write-Host "`nYou have no more available Specials to inject!" -foregroundcolor $global:AVNDefaultTextForegroundColor
                             $AVNInjectionSpecialsEntry = ""
                             Wait-AVNKeyPress
                         } Else {
@@ -480,6 +480,7 @@ Function Close-AVNServiceTicket {
                             } Until (($AVNInjectionSpecialsEntry -in $AVNInjectionSpecialsHashTable.keys) -or ($AVNInjectionSpecialsEntry -eq ""))
 
                             If ($AVNInjectionSpecialsEntry -ne "") {
+                                $AVNInjectionSpecialsEntry = [int]$AVNInjectionSpecialsEntry
                                 $AVNInjectionSpecials | ForEach-Object {
                                     If ($_.name -eq $AVNInjectionSpecialsHashTable.$AVNInjectionSpecialsEntry) {
                                         $AVNInjectionSpecialSelected = $_
@@ -504,7 +505,7 @@ Function Close-AVNServiceTicket {
                                 $global:AVNSpecials_CurrentPlayer = $AVNPlayerDataSpecialsTempArray
                                 $AVNInjectionSpecials = GatherAvailableInjectionSpecials
 
-                                Write-Host "You now have the following work types in your roll:" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                                Write-Host "nYou now have the following work types in your roll:" -foregroundcolor $global:AVNDefaultTextForegroundColor
                                 $AVNDiceRolls
                             }
                         }

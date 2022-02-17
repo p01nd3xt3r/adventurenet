@@ -120,6 +120,13 @@ Function Invoke-AVNSignOn {
             $global:AVNDiceDaily_CurrentPlayer
         }
         
+        #Getting specials
+        #Yields the $AVNSpecials array of hashtables, which is the cipher for specials.
+        $AVNDataFileContent = ConvertFrom-AVNObfuscated -path ($global:AVNRootPath + "\XQxoHZJajcgW")
+        $AVNDataFileContent | ForEach-Object {
+        Invoke-Expression $_
+        }
+
         $AVNInjectionSpecials = @()
         $AVNSpecials | ForEach-Object {
             If ($_.type -eq "injection") {
@@ -128,12 +135,12 @@ Function Invoke-AVNSignOn {
         }
 
         $AVNInjectionSpecialsAdded = @()
-        $global:AVNInjectionSpecialsPerDay | ForEach-Object {
+        For ($I = 0; $I -lt $global:AVNInjectionSpecialsPerDay; $I++) {
             $AVNInjectionRewardRoll = Get-Random -minimum 0 -maximum ($AVNInjectionSpecials.count - 1)
             $global:AVNSpecials_CurrentPlayer += $AVNInjectionSpecials[$AVNInjectionRewardRoll].name
             $AVNInjectionSpecialsAdded += $AVNInjectionSpecials[$AVNInjectionRewardRoll].name
         }
-        Write-Host "The following injection specials have been added to your collection:" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "`nThe following injection specials have been added to your collection:" -foregroundcolor $global:AVNDefaultTextForegroundColor
         $AVNInjectionSpecialsAdded
 
         #Writing back to data file.

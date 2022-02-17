@@ -377,6 +377,7 @@ Function Close-AVNProjectStage {
                     } Until (($AVNInjectionSpecialsEntry -in $AVNInjectionSpecialsHashTable.keys) -or ($AVNInjectionSpecialsEntry -eq ""))
 
                     If ($AVNInjectionSpecialsEntry -ne "") {
+                        $AVNInjectionSpecialsEntry = [int]$AVNInjectionSpecialsEntry
                         $AVNInjectionSpecials | ForEach-Object {
                             If ($_.name -eq $AVNInjectionSpecialsHashTable.$AVNInjectionSpecialsEntry) {
                                 $AVNInjectionSpecialSelected = $_
