@@ -20,21 +20,16 @@ Function Close-AVNTechnicalQuestion {
         Write-Host "There are no technical questions to close." -foregroundcolor $global:AVNDefaultTextForegroundColor
         Return
     }
-    If ($global:AVNCompanyDataCommon.clienthealth -lt 20) {
-         Else {
-
-        }
-    }
     
     Do {
         Write-Host "Technical questions are service tickets that other players have either failed or else failed to answer within two days of them being assigned. Having no technical questions provides a bonus to client health, and answering them adds kudos to whomever answers them." -foregroundcolor $global:AVNDefaultTextForegroundColor
-        If ($global:AVNCompanyDataCommon.clienthealth -gt 19) {
+        If ($global:AVNCompanyDataCommon.clienthealth -ge $global:AVNPenaltyThresholdOne) {
             Write-Host "Doing so requires two of your turns." -foregroundcolor $global:AVNDefaultTextForegroundColor
             If ($global:AVNPlayerData_CurrentPlayer.turn -lt 2) {
                 Write-Host "You do not have enough turns." -foregroundcolor $global:AVNDefaultTextForegroundColor
                 Return
             }
-        } ElseIf ($global:AVNCompanyDataCommon.clienthealth -gt 9) {
+        } ElseIf ($global:AVNCompanyDataCommon.clienthealth -ge $global:AVNPenaltyThresholdThree) {
             Write-Host "As a result of low client health, doing so requires two turns and 10 GIFs. Your GIFs:" -foregroundcolor $global:AVNDefaultTextForegroundColor
             $global:AVNPlayerData_CurrentPlayer.gifs
             If ($global:AVNPlayerData_CurrentPlayer.gifs -lt 10) {
@@ -67,9 +62,9 @@ Function Close-AVNTechnicalQuestion {
 
     If (($AVNTechConfirmation -eq "y") -or ($AVNTechConfirmation -eq "yes")) {
         $global:AVNPlayerData_CurrentPlayer.kudos += 1
-        If ($global:AVNCompanyDataCommon.clienthealth -gt 19) {
+        If ($global:AVNCompanyDataCommon.clienthealth -ge $global:AVNPenaltyThresholdOne) {
             $global:AVNPlayerData_CurrentPlayer.turns -= 2
-        } ElseIf ($global:AVNCompanyDataCommon.clienthealth -gt 9) {
+        } ElseIf ($global:AVNCompanyDataCommon.clienthealth -ge $global:AVNPenaltyThresholdThree) {
             $global:AVNPlayerData_CurrentPlayer.turns -= 2
             $global:AVNPlayerData_CurrentPlayer.gifs -= 10
         } Else {

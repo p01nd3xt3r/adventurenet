@@ -450,7 +450,7 @@ Function Close-AVNProjectStage {
                 #Rolling for counterattack.
                 $AVNProjectCounterAttackRoll = Get-Random -minimum 0 -maximum 100
                 #Penalty for low team health.
-                If ($global:AVNCompanyDataCommon.teamhealth -lt 10) {
+                If ($global:AVNCompanyDataCommon.teamhealth -lt $global:AVNPenaltyThresholdThree) {
                     $global:AVNProjectCounterAttackRate *= 1.25
                 }
                 If ($AVNProjectCounterAttackRoll -le ($global:AVNProjectCounterAttackRate * 100)) {

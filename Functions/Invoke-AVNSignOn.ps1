@@ -85,7 +85,7 @@ Function Invoke-AVNSignOn {
         #Have some kind of animation for the roll process.
         #Show information about the dice if asked. Can use the hash.
         $global:AVNDiceDaily_CurrentPlayer = @()
-        If ($global:AVNCompanyDataCommon.teamhealth -gt 19) {
+        If ($global:AVNCompanyDataCommon.teamhealth -ge $global:AVNPenaltyThresholdOne) {
             $AVNDiceOffer = [ordered]@{}
             $AVNAllottmentRoll = Get-Random -count $global:AVNDiceOfferingPerDay -maximum ($AVNDiceTypes.count) -minimum 1
             [int]$AVNDiceOfferNumber = 0

@@ -112,7 +112,7 @@ Function Close-AVNServiceTicket {
         #Rolling for either a service ticket or a special and assigning random encounter hashtable from those results to $AVNPossibleEncounters. 
         $AVNSTTypeRoll = Get-Random -Minimum 0 -Maximum 100
         #Applying penalty to special chance.
-        If ($global:AVNCompanyDataCommon.teamhealth -gt 4) {
+        If ($global:AVNCompanyDataCommon.teamhealth -lt $global:AVNPenaltyThresholdTwo) {
             $global:AVNServiceTicketSpecialRate *= .5
         }
         #Service ticket
@@ -178,11 +178,11 @@ Function Close-AVNServiceTicket {
                 ###I did an array for these instead of working with the hash table above. I fixed it. Need to test.
                 #Penalties from client health being low. Removing dice from available dice.
                 $ANVSTUnavailableDice = [ordered]@{}
-                If ($global:AVNCompanyDataCommon.clienthealth -lt 0) {
+                If ($global:AVNCompanyDataCommon.clienthealth -lt $global:AVNPenaltyThresholdFive) {
                     $AVNSTDicePenaltyIterations = 3
-                } ElseIf ($global:AVNCompanyDataCommon.clienthealth -lt 10) {
+                } ElseIf ($global:AVNCompanyDataCommon.clienthealth -lt $global:AVNPenaltyThresholdThree) {
                     $AVNSTDicePenaltyIterations = 2
-                } ElseIf ($global:AVNCompanyDataCommon.clienthealth -lt 20) {
+                } ElseIf ($global:AVNCompanyDataCommon.clienthealth -lt $global:AVNPenaltyThresholdOne) {
                     $AVNSTDicePenaltyIterations = 1
                 }
                 While (($AVNSTDicePenaltyIterations -gt 0) -and ($AVNSTAvailableDice.count -gt 1)) {$AVNSTAvailableDiceTemporaryHashTable = [ordered]@{}

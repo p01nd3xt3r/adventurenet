@@ -51,8 +51,8 @@ Function Get-AVNConfig {
     $global:AVNPlayerDataCommon = @()
     $global:AVNCompanyDataCommon = @{
         #If I set these at 25 and let players either add or remove, I should have benefits for it being higher than 25. Possibly. But this will set them for player's lowering them into penalty criteria.
-        ClientHealth = 25
-        TeamHealth = 25
+        ClientHealth = $global:AVNHealthDefault
+        TeamHealth = $global:AVNHealthDefault
         #This technicalquestions is used for determinging how many there are minus the player's own. The player shouldn't be able to answer his own technical questions. It comes from the _added and _removed keys in the player's company data hash.
         TechnicalQuestionsAvailable = 0
         TechnicalQuestionsTotal = 0
