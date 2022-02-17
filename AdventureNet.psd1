@@ -179,10 +179,3 @@ PrivateData = @{
 # DefaultCommandPrefix = ''
 
 }
-
-<#
-https://www.cynet.com/attack-techniques-hands-on/powershell-obfuscation-demystified-series-chapter-1-intro/
-https://www.wietzebeukema.nl/blog/powershell-obfuscation-using-securestring
-https://www.cit-devops.com/post/encrypt-and-decrypt-strings-in-powershell-code
-
-#>
