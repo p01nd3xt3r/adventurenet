@@ -16,7 +16,7 @@
 	# Minor    - new solutions, e.g. new cmdlets
 	# Build    - new features, e.g. new params
 	# Revision - fixed bugs, typos, etc...
-ModuleVersion = '0.21.0.0'
+ModuleVersion = '0.23.0.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -136,7 +136,8 @@ FileList = @(
     '.\README.md',
     '.\uhGNpSAZCzIt',
     '.\wlBjUrtSsTIO',
-    '.\XQxoHZJajcgW'
+    '.\XQxoHZJajcgW',
+    '.\Media\AVNIntroAnim'
 )
 
 # Private data to pass to the module specified in RootModule/ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.

@@ -21,7 +21,7 @@ Function Get-AVNHelp {
     If (($False -eq $Functions) -and ($False -eq $Dice)) {
         $Dice = $True
         $Functions = $True
-        Write-Host "`n    ██   ██ ███████ ██      ██████     `n    ██   ██ ██      ██      ██   ██    `n    ███████ █████   ██      ██████     `n    ██   ██ ██      ██      ██         `n    ██   ██ ███████ ███████ ██         `n`n" -foregroundcolor $global:AVNDefaultBannerForegroundColor
+        Write-Host "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿`n⣿⣿⣿⣿██⣿⣿⣿██⣿███████⣿██⣿⣿⣿⣿⣿⣿██████⣿⣿⣿⣿⣿`n⣿⣿⣿⣿██⣿⣿⣿██⣿██⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿⣿⣿██⣿⣿⣿██⣿⣿⣿⣿`n⣿⣿⣿⣿███████⣿█████⣿⣿⣿██⣿⣿⣿⣿⣿⣿██████⣿⣿⣿⣿⣿`n⣿⣿⣿⣿██⣿⣿⣿██⣿██⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿⣿⣿⣿⣿⣿`n⣿⣿⣿⣿██⣿⣿⣿██⣿███████⣿███████⣿██⣿⣿⣿⣿⣿⣿⣿⣿⣿`n⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿`n`n" -foregroundcolor $global:AVNDefaultBannerForegroundColor
     }
 
     If ($True -eq $Functions) {

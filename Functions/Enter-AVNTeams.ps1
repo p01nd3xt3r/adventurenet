@@ -14,7 +14,7 @@
 Function Enter-AVNTeams {
     Get-AVNConfig
 
-    Write-Host "`n    ████████ ███████  █████  ███    ███ ███████                               `n       ██    ██      ██   ██ ████  ████ ██                                    `n       ██    █████   ███████ ██ ████ ██ ███████                               `n       ██    ██      ██   ██ ██  ██  ██      ██                               `n       ██    ███████ ██   ██ ██      ██ ███████                               `n`n" -foregroundcolor $global:AVNDefaultBannerForegroundColor
+    Write-Host "`n⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿`n⣿⣿⣿⣿████████⣿███████⣿⣿█████⣿⣿███⣿⣿⣿⣿███⣿███████⣿⣿⣿⣿`n⣿⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿██⣿⣿⣿⣿⣿⣿██⣿⣿⣿██⣿████⣿⣿████⣿██⣿⣿⣿⣿⣿⣿⣿⣿⣿`n⣿⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿█████⣿⣿⣿███████⣿██⣿████⣿██⣿███████⣿⣿⣿⣿`n⣿⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿██⣿⣿⣿⣿⣿⣿██⣿⣿⣿██⣿██⣿⣿██⣿⣿██⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿`n⣿⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿███████⣿██⣿⣿⣿██⣿██⣿⣿⣿⣿⣿⣿██⣿███████⣿⣿⣿⣿`n⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿`n`n" -foregroundcolor $global:AVNDefaultBannerForegroundColor
     Write-Host "`nWelcome to Teams, where you can convert your GIFs into powerful specials." -foregroundcolor $global:AVNDefaultTextForegroundColor
     Wait-AVNKeyPress
 
