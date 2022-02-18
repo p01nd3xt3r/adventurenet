@@ -104,21 +104,21 @@ Function Close-AVNProjectStage {
     Function GatherAvailablePreEmptiveSpecials {
         #Cycling through the player's specials and creating a full version of it in a temporary variable to be used in this function.
         #If this goes in the function, I just have to remove the special from the global variable and then run the function to get the current ones again.
-        $AVNProjectPreEmptiveSpecials = @()
+        $AVNPreEmptiveSpecials = @()
         $global:AVNSpecials_CurrentPlayer | ForEach-Object {
             ForEach ($AVNProjectRawSpecial in $AVNSpecials) {
                 If (($AVNProjectRawSpecial.name -eq $_) -and ($AVNProjectRawSpecial.type -eq 'preemptive')) {
-                    $AVNProjectPreEmptiveSpecials += $AVNProjectRawSpecial
+                    $AVNPreEmptiveSpecials += $AVNProjectRawSpecial
                 }
             }
         }
-        Return $AVNProjectPreEmptiveSpecials
+        Return $AVNPreEmptiveSpecials
     }
 
     Function GatherAvailableInterruptSpecials {
         #Cycling through the player's specials and creating a full version of it in a temporary variable to be used in this function.
         #If this goes in the function, I just have to remove the special from the global variable and then run the function to get the current ones again.
-        $AVNProjectInterruptSpecials = @()
+        $AVNInterruptSpecials = @()
         $global:AVNSpecials_CurrentPlayer | ForEach-Object {
             ForEach ($AVNProjectRawSpecial in $AVNSpecials) {
                 If (($AVNProjectRawSpecial.name -eq $_) -and ($AVNProjectRawSpecial.type -eq 'interrupt')) {
@@ -128,7 +128,7 @@ Function Close-AVNProjectStage {
         }
         ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile
         Get-AVNConfig
-        Return $AVNProjectInterruptSpecials
+        Return $AVNInterruptSpecials
     }
 
     Function GatherAvailableInjectionSpecials {
@@ -145,27 +145,27 @@ Function Close-AVNProjectStage {
         Return $AVNInjectionSpecials
     }
 
-    $AVNProjectSpecialDice = @()
+    $AVNSpecialDice = @()
     Function GatherAvailableDice {
-        $AVNProjectAvailableDice = [ordered]@{}
+        $AVNAvailableDice = [ordered]@{}
         [int]$AvailableDiceI = 0
         $global:AVNDicePerm_CurrentPlayer | ForEach-Object {
             $AvailableDiceI++
-            $AVNProjectAvailableDice.add($AvailableDiceI, $_)
+            $AVNAvailableDice.add($AvailableDiceI, $_)
         }
         $global:AVNDiceDaily_CurrentPlayer | ForEach-Object {
             $AvailableDiceI++
-            $AVNProjectAvailableDice.add($AvailableDiceI, $_)
+            $AVNAvailableDice.add($AvailableDiceI, $_)
         }
-        If ($AVNProjectSpecialDice.count -gt 0) {
-            $AVNProjectSpecialDice | ForEach-Object {
+        If ($AVNSpecialDice.count -gt 0) {
+            $AVNSpecialDice | ForEach-Object {
                 $AvailableDiceI++
-                $AVNProjectAvailableDice.add($AvailableDiceI, $_)
+                $AVNAvailableDice.add($AvailableDiceI, $_)
             }
         }
         ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile
         Get-AVNConfig
-        Return $AVNProjectAvailableDice
+        Return $AVNAvailableDice
     }
 
     #Doing this here instead of the loop because it should only be used at the beginning, unless a special runs it again. When they are used, I will remove them from these variables, and for specials, I remove them from the master variable as well.

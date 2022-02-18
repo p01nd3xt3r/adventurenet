@@ -166,59 +166,59 @@ Function Close-AVNServiceTicket {
 
             #Gathering all dice available to the player.
             #Dice that are added as specials during the encounter. There are the complete hashes of the actual dice. Leave it outside of the loop because these will be added later on in the script.
-            $AVNSTSpecialDice = @()
+            $AVNSpecialDice = @()
             Function GatherAvailableDice {
-                $AVNSTAvailableDice = [ordered]@{}
+                $AVNAvailableDice = [ordered]@{}
                 [int]$AvailableDiceI = 0
                 $global:AVNDicePerm_CurrentPlayer | ForEach-Object {
                     $AvailableDiceI++
-                    $AVNSTAvailableDice.add($AvailableDiceI, $_)
+                    $AVNAvailableDice.add($AvailableDiceI, $_)
                 }
                 $global:AVNDiceDaily_CurrentPlayer | ForEach-Object {
                     $AvailableDiceI++
-                    $AVNSTAvailableDice.add($AvailableDiceI, $_)
+                    $AVNAvailableDice.add($AvailableDiceI, $_)
                 }
-                If ($AVNSTSpecialDice.count -gt 0) {
-                    $AVNSTSpecialDice | ForEach-Object {
+                If ($AVNSpecialDice.count -gt 0) {
+                    $AVNSpecialDice | ForEach-Object {
                         $AvailableDiceI++
-                        $AVNSTAvailableDice.add($AvailableDiceI, $_)
+                        $AVNAvailableDice.add($AvailableDiceI, $_)
                     }
                 }
 
                 ###I did an array for these instead of working with the hash table above. I fixed it. Need to test.
                 #Penalties from client health being low. Removing dice from available dice.
-                $ANVSTUnavailableDice = [ordered]@{}
+                $ANVUnavailableDice = [ordered]@{}
                 If ($global:AVNCompanyDataCommon.clienthealth -lt $global:AVNPenaltyThresholdFive) {
-                    $AVNSTDicePenaltyIterations = 3
+                    $AVNDicePenaltyIterations = 3
                 } ElseIf ($global:AVNCompanyDataCommon.clienthealth -lt $global:AVNPenaltyThresholdThree) {
-                    $AVNSTDicePenaltyIterations = 2
+                    $AVNDicePenaltyIterations = 2
                 } ElseIf ($global:AVNCompanyDataCommon.clienthealth -lt $global:AVNPenaltyThresholdOne) {
-                    $AVNSTDicePenaltyIterations = 1
+                    $AVNDicePenaltyIterations = 1
                 }
-                While (($AVNSTDicePenaltyIterations -gt 0) -and ($AVNSTAvailableDice.count -gt 1)) {$AVNSTAvailableDiceTemporaryHashTable = [ordered]@{}
-                    $AVNDicePenaltyRandomizer = $AVNSTAvailableDice.keys | Get-Random
-                    $AVNSTAvailableDice.keys | ForEach-Object {
+                While (($AVNDicePenaltyIterations -gt 0) -and ($AVNAvailableDice.count -gt 1)) {$AVNAvailableDiceTemporaryHashTable = [ordered]@{}
+                    $AVNDicePenaltyRandomizer = $AVNAvailableDice.keys | Get-Random
+                    $AVNAvailableDice.keys | ForEach-Object {
                         If ($_ -ne $AVNDicePenaltyRandomizer) {
-                            $AVNSTAvailableDiceTemporaryHashTable.add($_, $AVNSTAvailableDice.$_)
+                            $AVNAvailableDiceTemporaryHashTable.add($_, $AVNAvailableDice.$_)
                         } Else {
-                            $ANVSTUnavailableDice.add($_, $AVNSTAvailableDice.$_)
+                            $ANVUnavailableDice.add($_, $AVNAvailableDice.$_)
                         }
                     }
-                    $AVNSTAvailableDice = $AVNSTAvailableDiceTemporaryHashTable
-                    $AVNSTDicePenaltyIterations--
+                    $AVNAvailableDice = $AVNAvailableDiceTemporaryHashTable
+                    $AVNDicePenaltyIterations--
                 }
-                If (($AVNSTDicePenaltyIterations -gt 0) -and ($AVNSTAvailableDice.count -eq 1)) {
-                    $AVNSTAvailableDice = [ordered]@{}
+                If (($AVNDicePenaltyIterations -gt 0) -and ($AVNAvailableDice.count -eq 1)) {
+                    $AVNAvailableDice = [ordered]@{}
                     Write-Host "`nLow client health has removed all of your available dice! Have you trained today?"
-                } ElseIf ($AVNSTDicePenaltyIterations -gt 0) {
+                } ElseIf ($AVNDicePenaltyIterations -gt 0) {
                     Write-Host "`nLow client health has rendered the following dice unusable for this encounter:" -foregroundcolor $global:AVNDefaultTextForegroundColor
-                    $ANVSTUnavailableDice.keys | ForEach-Object {
-                        Write-Host $ANVSTUnavailableDice.$_
+                    $ANVUnavailableDice.keys | ForEach-Object {
+                        Write-Host $ANVUnavailableDice.$_
                     }
                 }                
-                Return $AVNSTAvailableDice
+                Return $AVNAvailableDice
             }
-            $AVNSTAvailableDice = GatherAvailableDice
+            $AVNAvailableDice = GatherAvailableDice
 
             #Getting all possible defense types for this encounter
             $AVNSTCurrentEncounterPossibleDefenses = @()
@@ -282,11 +282,11 @@ Function Close-AVNServiceTicket {
                             '?' = 'Show information about your options.'
                             'R' = 'Run away!'
                         }
-                        If ($AVNSTAvailableDice.count -gt 0) {
+                        If ($AVNAvailableDice.count -gt 0) {
                             $AVNOptionI++
                             $AVNSTCurrentWaveOptions.add($AVNOptionI, 'Attack!')
                         } Else {
-                            Write-Host "You have no dice with which to attack!" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                            Write-Host "`nYou have no dice with which to attack!" -foregroundcolor $global:AVNDefaultTextForegroundColor
                         }
                         If (($True -eq $AVNSTCurrentEncounter.opportunity) -and ($global:AVNPlayerData_CurrentPlayer.opportunities -gt 0)) {
                             $AVNOptionI++
@@ -403,12 +403,12 @@ Function Close-AVNServiceTicket {
                 } Until ($AVNSTCurrentWaveOptions.$AVNSTActionEntry -eq 'Attack!')
                 #With this, once the player chooses attack, the player can keep doing other things beforehand.
 
-                #Getting inputted dice by their keys in $AVNSTAvailableDice, creating a simple array of the ints entered, removing hashes of those dice by their int.
+                #Getting inputted dice by their keys in $AVNAvailableDice, creating a simple array of the ints entered, removing hashes of those dice by their int.
                 Do {
                     Write-Host "Wave 1 defenses are:" -foregroundcolor $global:AVNDefaultTextForegroundColor
                     $AVNSTCurrentWaveDefenses
                     Write-Host "`nYou have the following dice available to roll:" -foregroundcolor $global:AVNDefaultTextForegroundColor
-                    $AVNSTAvailableDice
+                    $AVNAvailableDice
                     [string]$AVNDiceRollChoice = Read-Host "Choose which die or dice you'd like to roll by its number in the above table; for multiple, separate numbers by a comma (ex: 1,2); enter ? to display work-type value alottment per dice"
                     If ($AVNDiceRollChoice -eq '?') {
                         Write-Host "Dice info blah blah blah for each of the player's dice" -foregroundcolor $global:AVNDefaultTextForegroundColor
@@ -430,7 +430,7 @@ Function Close-AVNServiceTicket {
                                 Write-Host "Something is odd about your entry. Please make sure to enter using the appropriate format. No letters or special characters are permitted, and if you're trying to get information about the dice, please enter a solitary ?." -foregroundcolor $global:AVNDefaultTextForegroundColor
                                 Wait-AVNKeyPress
                             }
-                            If ([int]$_ -notin $AVNSTAvailableDice.keys){
+                            If ([int]$_ -notin $AVNAvailableDice.keys){
                                 $AVNDiceRollChoicePass = $False
                                 Write-Host "Please only enter a number that's in your list of available dice." -foregroundcolor $global:AVNDefaultTextForegroundColor
                                 Wait-AVNKeyPress
@@ -441,10 +441,10 @@ Function Close-AVNServiceTicket {
                 $AVNDiceRolls = @()
                 $AVNDiceRollChoiceArray | ForEach-Object {
                     #Converting the current int that the person entered into the worktype that it represents.
-                    $AVNSTRollChoiceType = $AVNSTAvailableDice.([int]$_)
+                    $AVNSTRollChoiceType = $AVNAvailableDice.([int]$_)
                     $AVNDiceRollChoiceTypeHashTable = $AVNDiceValues.$AVNSTRollChoiceType
                     #Removing it from the available dice by the int that the player entered.
-                    $AVNSTAvailableDice.remove([int]$_)
+                    $AVNAvailableDice.remove([int]$_)
                     $AVNDiceRollChoiceTypeWeightArray = @()
                     #Goes through each dice type's values and adds an array entry for each side of the die, so to speak, to properly weight a random roll. Dice with multiple sides that have the same value should end up with multiple of that value in the array, and then get-random chooses from all of them--even the multiples. This basically just adds an entry to the $AVNDiceRollChoiceTypeWeightArray array for each int in $AVNDiceRollChoiceTypeHashTable.
                     $AVNDiceRollChoiceTypeHashTable.keys | ForEach-Object {
@@ -573,7 +573,7 @@ Function Close-AVNServiceTicket {
             #Results of the encounter.
             If ($AVNSTAllWavesComplete -eq $True) {
                 #Success results
-                Write-Host "You have defeated all waves!" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "`nYou have defeated all waves!" -foregroundcolor $global:AVNDefaultTextForegroundColor
                 $AVNSTCurrentEncounter.deathtext
 
                 #Gif award
@@ -589,7 +589,7 @@ Function Close-AVNServiceTicket {
                 }
                 $AVNSTGifAwardRoll = Get-Random -minimum $AVNSTGifAwardMin -maximum $AVNSTGifAwardMax
                 $global:AVNPlayerData_CurrentPlayer.gifs += $AVNSTGifAwardRoll
-                Write-Host "You found" $AVNSTGifAwardRoll "GIFs!" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "`nYou found" $AVNSTGifAwardRoll "GIFs!" -foregroundcolor $global:AVNDefaultTextForegroundColor
 
                 $AVNInjectionSpecials = @()
                 $AVNSpecials | ForEach-Object {
@@ -601,7 +601,7 @@ Function Close-AVNServiceTicket {
                 $AVNInjectionRewardRoll = Get-Random -minimum 0 -maximum $AVNInjectionRewardRollMax
                 If ($AVNInjectionRewardRoll -le ($AVNInjectionSpecials.count -1)) {
                     $global:AVNSpecials_CurrentPlayer += $AVNInjectionSpecials[$AVNInjectionRewardRoll].name
-                    Write-Host "You found the following interrupt special!" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                    Write-Host "`nYou found the following interrupt special!" -foregroundcolor $global:AVNDefaultTextForegroundColor
                     $AVNInjectionSpecials[$AVNInjectionRewardRoll].name
                 }
 
@@ -634,7 +634,7 @@ Function Close-AVNServiceTicket {
             }
             $AVNSTAttainedSpecial = $AVNSTNonPurchaseSpecials[$AVNSTSpecialRoll]
 
-            Write-Host "You found the following special:" -foregroundcolor $global:AVNDefaultTextForegroundColor
+            Write-Host "Instead of a Service Ticket, you found the following Special:" -foregroundcolor $global:AVNDefaultTextForegroundColor
             $AVNSTAttainedSpecial.Name
             $AVNSTAttainedSpecial.description
 
@@ -642,7 +642,7 @@ Function Close-AVNServiceTicket {
                 Invoke-Expression $AVNSTAttainedSpecial.effect
                 $global:AVNPlayerData_CurrentPlayer.globalnotice = $AVNSTAttainedSpecial.globalnotice
             } Else {
-                Write-Host "You store the" $AVNSTAttainedSpecial.Name "away for later use." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "`nYou store the" $AVNSTAttainedSpecial.Name "away for later use." -foregroundcolor $global:AVNDefaultTextForegroundColor
                 $global:AVNSpecials_CurrentPlayer += $AVNSTAttainedSpecial.Name
             }
         }
