@@ -19,11 +19,16 @@ Function Get-AVNStatus {
     #Do a type param for each different category, and if no type is chosen, show all.
     Get-AVNConfig
     
+    #Temp until I format the non-dev version
+    $Dev = $True
+
     If ($False -eq $Dev) {
         
     } Else {
         Write-Host "`$global:AVNPlayerDataCommon" -foregroundcolor $global:AVNDefaultTextForegroundColor
-        $global:AVNPlayerDataCommon
+        $global:AVNPlayerDataCommon | ForEach-Object {
+            Write-Host "`nPlayer                        " $_.playername "`nwho" $_.globalnotice "`nKudos                         " $_.kudos
+        }
         Write-Host "`n`$global:AVNCompanyDataCommon" -foregroundcolor $global:AVNDefaultTextForegroundColor
         $global:AVNCompanyDataCommon
         Write-Host "`n`$global:AVNCompanyData_CurrentPlayer" -foregroundcolor $global:AVNDefaultTextForegroundColor

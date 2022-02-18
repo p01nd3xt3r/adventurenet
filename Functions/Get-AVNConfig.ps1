@@ -100,7 +100,7 @@ Function Get-AVNConfig {
             $global:AVNCompanyData_CurrentPlayer = $AVNStoredCompanyData
             #Will add some parts of this to the common variable at some point so players can see it all.
             $global:AVNHistoricalData_CurrentPlayer = $AVNStoredHistoricalData
-            $global:AVNPlayerDataCommon += @($AVNStoredPlayerData.playername, $AVNStoredPlayerData.kudos, $AVNStoredPlayerData.globalnotice)
+            $global:AVNPlayerDataCommon += @{PlayerName = $AVNStoredPlayerData.playername; Kudos = $AVNStoredPlayerData.kudos; GlobalNotice = $AVNStoredPlayerData.globalnotice}
             #Assigning all company data as well. 
             $global:AVNCompanyDataCommon.clienthealth += $AVNStoredCompanyData.clienthealth
             $global:AVNCompanyDataCommon.teamhealth += $AVNStoredCompanyData.teamhealth
@@ -134,7 +134,7 @@ Function Get-AVNConfig {
             $global:AVNSpecials_CurrentPlayer = $AVNStoredSpecials
         } Else {
             #Assigning all other player data to variables with their player names in them.
-            $global:AVNPlayerDataCommon += @($AVNStoredPlayerData.playername, $AVNStoredPlayerData.kudos, $AVNStoredPlayerData.globalnotice)
+            $global:AVNPlayerDataCommon += @{PlayerName = $AVNStoredPlayerData.playername; Kudos = $AVNStoredPlayerData.kudos; GlobalNotice = $AVNStoredPlayerData.globalnotice}
             $global:AVNCompanyDataCommon.clienthealth += $AVNStoredCompanyData.clienthealth
             $global:AVNCompanyDataCommon.teamhealth += $AVNStoredCompanyData.teamhealth
             $global:AVNCompanyDataCommon.technicalquestionsavailable += $AVNStoredCompanyData.technicalquestionsadded

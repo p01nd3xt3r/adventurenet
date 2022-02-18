@@ -20,8 +20,10 @@ Function Invoke-AVNSignOn {
     }
 
     #Checking if it's been 24 hours since the last Invoke-AVNSignOn before running everything.
-    $AVNLastSignOnInterval = New-Timespan –Start $global:AVNPlayerData_CurrentPlayer.lastsignon –End (Get-Date)
-    If ($AVNLastSignOnInterval -gt (New-TimeSpan -Hours 24)) {
+    #Old $AVNLastSignOnInterval = New-Timespan –Start $global:AVNPlayerData_CurrentPlayer.lastsignon –End (Get-Date)
+    #Old If ($AVNLastSignOnInterval -gt (New-TimeSpan -Hours 24)) {
+    $AVNLastSignOnDate = (Get-Date $global:AVNPlayerData_CurrentPlayer.lastsignon).date
+    If ((Get-Date).date -gt $AVNLastSignOnDate) {
         #Invisible stuff
         #If first sign on of the season, adding project waves.
         If ($True -eq $global:AVNPlayerData_CurrentPlayer.seasonfirstrun) {
@@ -151,7 +153,7 @@ Function Invoke-AVNSignOn {
         ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile
         Get-AVNStatus
     } Else {
-        Write-Host "You have already signed on once in the past 24 hours. Your last Invoke-AVNSignOn on was" $global:AVNPlayerData_CurrentPlayer.lastsignon -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "`nYou have already signed on once today. Your last Invoke-AVNSignOn on was" $global:AVNPlayerData_CurrentPlayer.lastsignon -foregroundcolor $global:AVNDefaultTextForegroundColor
         Wait-AVNKeyPress
         Get-AVNStatus
     }

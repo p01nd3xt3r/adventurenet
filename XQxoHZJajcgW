@@ -1,23 +1,47 @@
-#Internal strings need to use "" instead of '' to match up with the write functions, so external should always be ''.
+#Internal strings need to use "" instead of '' to match up with the data write functions, so external string markers should always be '' and internal always "". But note that you cannot have a third level at all because of the interpreter reading the internal ' as the closing quote for the initial ' (ex: 'First Level "Second Level 'ThirdLevel'"').
 $AVNSpecials = @()
-#Generals
-$AVNSpecials += @{Name = 'Inside Sales'; Type = 'General'; Description = 'You have a guy in the procurement department. Add three opportunities to your pool.'; Effect = '$global:AVNPlayerData_CurrentPlayer.opportunities += 1; ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile; Get-AVNConfig'; GlobalNotice = 'called his guy in the procurement department.'; TeamsCost = 0}
-#Interrupts
+##########
+#Generals#
+##########
+$AVNSpecials += @{Name = 'Inside Sales'; Type = 'General'; Description = 'You have a guy in the procurement department. Add three opportunities to your pool.'; Effect = '$global:AVNPlayerData_CurrentPlayer.opportunities += 3; ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile; Get-AVNConfig'; GlobalNotice = 'called his guy in the procurement department.'; TeamsCost = 0}
+$AVNSpecials += @{Name = '11 Hours Of Sleep'; Type = 'General'; Description = 'You got some really good sleep last night, and you are ready to go. Add 5 turns for the day.'; Effect = '$global:AVNPlayerData_CurrentPlayer.turns += 5; ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile; Get-AVNConfig'; GlobalNotice = 'slept 11 hours last night.'; TeamsCost = 0}
+$AVNSpecials += @{Name = 'Daily Dice Addition: CoreValues'; Type = 'General'; Description = 'Add a CoreValues die to your Daily Dice pool. Note that it will be removed at your next Invoke-AVNSignOn.'; Effect = '$global:AVNDiceDaily_CurrentPlayer += "CoreValues"; ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile; Get-AVNConfig'; GlobalNotice = 'added a CoreValues die to his Daily Dice pool.'; TeamsCost = 0}
+$AVNSpecials += @{Name = 'Daily Dice Addition: Microsoft365'; Type = 'General'; Description = 'Add a Microsoft365 die to your Daily Dice pool. Note that it will be removed at your next Invoke-AVNSignOn.'; Effect = '$global:AVNDiceDaily_CurrentPlayer += "Microsoft365"; ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile; Get-AVNConfig'; GlobalNotice = 'added a Microsoft365 die to his Daily Dice pool.'; TeamsCost = 0}
+$AVNSpecials += @{Name = 'Daily Dice Addition: Datto'; Type = 'General'; Description = 'Add a Datto die to your Daily Dice pool. Note that it will be removed at your next Invoke-AVNSignOn.'; Effect = '$global:AVNDiceDaily_CurrentPlayer += "Datto"; ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile; Get-AVNConfig'; GlobalNotice = 'added a Datto die to his Daily Dice pool.'; TeamsCost = 0}
+$AVNSpecials += @{Name = 'Daily Dice Addition: MimecastUmbrella'; Type = 'General'; Description = 'Add a MimecastUmbrella die to your Daily Dice pool. Note that it will be removed at your next Invoke-AVNSignOn.'; Effect = '$global:AVNDiceDaily_CurrentPlayer += "MimecastUmbrella"; ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile; Get-AVNConfig'; GlobalNotice = 'added a MimecastUmbrella die to his Daily Dice pool.'; TeamsCost = 0}
+$AVNSpecials += @{Name = 'Daily Dice Addition: Windows'; Type = 'General'; Description = 'Add a Windows die to your Daily Dice pool. Note that it will be removed at your next Invoke-AVNSignOn.'; Effect = '$global:AVNDiceDaily_CurrentPlayer += "Windows"; ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile; Get-AVNConfig'; GlobalNotice = 'added a Windows die to his Daily Dice pool.'; TeamsCost = 0}
+$AVNSpecials += @{Name = 'Daily Dice Addition: HuntressDefender'; Type = 'General'; Description = 'Add a HuntressDefender die to your Daily Dice pool. Note that it will be removed at your next Invoke-AVNSignOn.'; Effect = '$global:AVNDiceDaily_CurrentPlayer += "HuntressDefender"; ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile; Get-AVNConfig'; GlobalNotice = 'added a HuntressDefender die to his Daily Dice pool.'; TeamsCost = 0}
+$AVNSpecials += @{Name = 'Daily Dice Addition: ITGlue'; Type = 'General'; Description = 'Add a ITGlue die to your Daily Dice pool. Note that it will be removed at your next Invoke-AVNSignOn.'; Effect = '$global:AVNDiceDaily_CurrentPlayer += "ITGlue"; ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile; Get-AVNConfig'; GlobalNotice = 'added a ITGlue die to his Daily Dice pool.'; TeamsCost = 0}
+############
+#Interrupts#
+############
 $AVNSpecials += @{Name = 'On Fire'; Type = 'Interrupt'; Description = 'Reset your dice rolls during any wave of a service ticket encounter.'; Effect = '$AVNAvailableDice = GatherAvailableDice'; GlobalNotice = 'was on fire today.'; TeamsCost = 0}
-#Instants
-$AVNSpecials += @{Name = 'After Hours Approval'; Type = 'Instant'; Description = 'The client approved after-hours work, and it is going to be a long evening. Immediately gain two turns.'; Effect = '$global:AVNCompanyData_CurrentPlayer.turns += 2'; GlobalNotice = 'had to work after hours.'; TeamsCost = 0}
-$AVNSpecials += @{Name = 'Christmas Cookies'; Type = 'Instant'; Description = 'Cookies--a salve that heals many ills. Immediately add ten to client health.'; Effect = '$global:AVNCompanyData_CurrentPlayer.clienthealth += 10'; GlobalNotice = 'took Christmas cookies out to the clients, and no, you cannot have one.'; TeamsCost = 0}
-$AVNSpecials += @{Name = 'Pinball Tournament'; Type = 'Instant'; Description = 'Everyone loves Pinball, right? Immediately increase team health by ten.'; Effect = '$global:AVNCompanyData_CurrentPlayer.teamhealth += 10'; GlobalNotice = 'organized a pinball tournament for everyone! Team health gets a +10 boost.'; TeamsCost = 0}
-$AVNSpecials += @{Name = 'Slow Day'; Type = 'Instant'; Description = 'As a result of less tickets than normal, you have extra time for training. Immediately gain another training.'; Effect = '$global:AVNPlayerData_CurrentPlayer.training += 1'; GlobalNotice = 'had a slow day and found more time for training.'; TeamsCost = 0}
-#PreEmptives
+##########
+#Instants#
+##########
+$AVNSpecials += @{Name = 'After Hours Approval'; Type = 'Instant'; Description = 'The client approved after-hours work, and it is going to be a long evening. Immediately gain two turns.'; Effect = '$global:AVNCompanyData_CurrentPlayer.turns += 2; ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile; Get-AVNConfig'; GlobalNotice = 'had to work after hours.'; TeamsCost = 0}
+$AVNSpecials += @{Name = 'Christmas Cookies'; Type = 'Instant'; Description = 'Cookies--a salve that heals many ills. Immediately add ten to client health.'; Effect = '$global:AVNCompanyData_CurrentPlayer.clienthealth += 10; ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile; Get-AVNConfig'; GlobalNotice = 'took Christmas cookies out to the clients, and no, you cannot have one.'; TeamsCost = 0}
+$AVNSpecials += @{Name = 'Pinball Tournament'; Type = 'Instant'; Description = 'Everyone loves Pinball, right? Immediately increase team health by ten.'; Effect = '$global:AVNCompanyData_CurrentPlayer.teamhealth += 10; ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile; Get-AVNConfig'; GlobalNotice = 'organized a pinball tournament for everyone! Team health gets a +10 boost.'; TeamsCost = 0}
+$AVNSpecials += @{Name = 'Slow Day'; Type = 'Instant'; Description = 'As a result of less tickets than normal, you have extra time for training. Immediately gain another training.'; Effect = '$global:AVNPlayerData_CurrentPlayer.training += 1; ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile; Get-AVNConfig'; GlobalNotice = 'had a slow day and found more time for training.'; TeamsCost = 0}
+#############
+#PreEmptives#
+#############
 $AVNSpecials += @{Name = 'Surprise ITGlue Document'; Type = 'PreEmptive'; Description = 'Sometimes you find out there is a document you just did not know was there. Add an ITGlue dice for the remainder of the round.'; Effect = '$AVNSTSpecialDice += "ITGlue"; $AVNAvailableDice = GatherAvailableDice'; GlobalNotice = 'started writing a document in ITGlue that he discovered someone else had already written.'; TeamsCost = 0}
-#Injection
+#Is the above represented in projects?
+############
+#Injections#
+############
 $AVNSpecials += @{Name = 'Networking Injection'; Type = 'Injection'; Description = 'After rolling your dice, add an additional Networking worktype to your roll.'; Effect = '$AVNDiceRolls += "Networking"'; GlobalNotice = ''; TeamsCost = 0}
 $AVNSpecials += @{Name = 'Workstation Injection'; Type = 'Injection'; Description = 'After rolling your dice, add an additional Workstation worktype to your roll.'; Effect = '$AVNDiceRolls += "Workstation"'; GlobalNotice = ''; TeamsCost = 0}
 $AVNSpecials += @{Name = 'Cloud Injection'; Type = 'Injection'; Description = 'After rolling your dice, add an additional Cloud worktype to your roll.'; Effect = '$AVNDiceRolls += "Cloud"'; GlobalNotice = ''; TeamsCost = 0}
 $AVNSpecials += @{Name = 'OnPrem Injection'; Type = 'Injection'; Description = 'After rolling your dice, add an additional OnPrem worktype to your roll.'; Effect = '$AVNDiceRolls += "OnPrem"'; GlobalNotice = ''; TeamsCost = 0}
 $AVNSpecials += @{Name = 'Security Injection'; Type = 'Injection'; Description = 'After rolling your dice, add an additional Security worktype to your roll.'; Effect = '$AVNDiceRolls += "Security"'; GlobalNotice = ''; TeamsCost = 0}
 $AVNSpecials += @{Name = 'Character Injection'; Type = 'Injection'; Description = 'After rolling your dice, add an additional Character worktype to your roll.'; Effect = '$AVNDiceRolls += "Character"'; GlobalNotice = ''; TeamsCost = 0}
-#Teams
-##Generals
-$AVNSpecials += @{Name = 'Purchase Placeholder'; Type = 'General'; Description = 'Placeholder'; Effect = 'Placeholder'; GlobalNotice = 'placeholder.'; TeamsCost = 100}
+###################
+#Teams-Purchasable#
+###################
+##########
+#Generals#
+##########
+$AVNSpecials += @{Name = 'QBR'; Type = 'General'; Description = 'Prompt your guru of charisma onsite to review the past quarter with the client.'; Effect = '$global:AVNCompanyData_CurrentPlayer.clienthealth += 10; ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile; Get-AVNConfig'; GlobalNotice = 'prompted a QBR with the client, adding 10 client health.'; TeamsCost = 100}
+$AVNSpecials += @{Name = 'Joke Storm'; Type = 'General'; Description = 'Jokes. We get jokes. And at times, we tell them a bit too often. Add 10 to team health.'; Effect = '$global:AVNCompanyData_CurrentPlayer.teamhealth += 10; ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile; Get-AVNConfig'; GlobalNotice = 'started a Joke Storm and added 10 to team health.'; TeamsCost = 100}

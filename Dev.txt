@@ -17,11 +17,6 @@ New files:
         If something that's being used by the functions, add to the included files section.
 
 
-
-Style guide:
-$global:AVNDefaultTextForegroundColor
-$global:AVNDefaultBannerBackgroundColor
-$global:AVNDefaultBannerForegroundColor
 Default ASCII text uses ANSI REGULAR here http://www.patorjk.com/software/taag/#p=display&f=ANSI%20Regular&t=Type%20Something%20
 Image to ASCII conversion? https://cloudapps.herokuapp.com/imagetoascii/
 https://www.cynet.com/attack-techniques-hands-on/powershell-obfuscation-demystified-series-chapter-1-intro/

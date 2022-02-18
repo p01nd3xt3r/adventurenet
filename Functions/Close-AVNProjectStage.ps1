@@ -518,7 +518,7 @@ Function Close-AVNProjectStage {
         $global:AVNCompanyData_CurrentPlayer.teamhealth += 1
 
         If ($AVNProjectCurrentStage -lt 3) {
-            Write-Host "You completed Stage " $AVNProjectCurrentStage " of the Project. Go now, and prepare for the next one." -foregroundcolor $global:AVNDefaultTextForegroundColor
+            Write-Host "You completed Stage " $AVNProjectCurrentStage " of the Project. Go now, and prepare for the next." -foregroundcolor $global:AVNDefaultTextForegroundColor
             If ($True -eq $AVNProjectPrecedeDeadlineSwitch) {
                 Write-Host "For completing this stage prior to its deadline, you..." -foregroundcolor $global:AVNDefaultTextForegroundColor
                 #Invoke bonuses

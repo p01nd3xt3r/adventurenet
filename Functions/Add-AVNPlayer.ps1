@@ -74,7 +74,7 @@ Function Add-AVNPlayer {
         LastSignOn = $AVNDateTimePlaceHolder
         Opportunities = 0
         SeasonFirstRun = $True
-        GlobalNotice = ""
+        GlobalNotice = "just got here."
         Gifs = 0
         ProjectStageAttempts = 0
     }
@@ -94,7 +94,7 @@ Function Add-AVNPlayer {
     #Assigning new player's stored-emulated player data to the working global variables so that they can be written back to his data file. I could have just created the global variables directly. But I didn't.
     $global:AVNPlayerData_CurrentPlayer = $AVNStoredPlayerData
     $global:AVNHistoricalData_CurrentPlayer = $AVNStoredHistoricalData
-    $global:AVNPlayerDataCommon += @($AVNStoredPlayerData.playername, $AVNStoredPlayerData.kudos, $AVNStoredPlayerData.globalnotice)
+    $global:AVNPlayerDataCommon += @{PlayerName = $AVNStoredPlayerData.playername; Kudos = $AVNStoredPlayerData.kudos; GlobalNotice = $AVNStoredPlayerData.globalnotice}
     #Assigning all company data as well.
     $global:AVNCompanyData_CurrentPlayer.clienthealth = $AVNStoredCompanyData.clienthealth
     $global:AVNCompanyData_CurrentPlayer.teamhealth = $AVNStoredCompanyData.teamhealth
