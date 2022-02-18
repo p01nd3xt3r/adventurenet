@@ -195,27 +195,28 @@ Function Close-AVNServiceTicket {
                 } ElseIf ($global:AVNCompanyDataCommon.clienthealth -lt $global:AVNPenaltyThresholdOne) {
                     $AVNDicePenaltyIterations = 1
                 }
-                While (($AVNDicePenaltyIterations -gt 0) -and ($AVNAvailableDice.count -gt 1)) {$AVNAvailableDiceTemporaryHashTable = [ordered]@{}
-                    $AVNDicePenaltyRandomizer = $AVNAvailableDice.keys | Get-Random
-                    $AVNAvailableDice.keys | ForEach-Object {
-                        If ($_ -ne $AVNDicePenaltyRandomizer) {
-                            $AVNAvailableDiceTemporaryHashTable.add($_, $AVNAvailableDice.$_)
-                        } Else {
-                            $ANVUnavailableDice.add($_, $AVNAvailableDice.$_)
-                        }
-                    }
-                    $AVNAvailableDice = $AVNAvailableDiceTemporaryHashTable
-                    $AVNDicePenaltyIterations--
-                }
-                If (($AVNDicePenaltyIterations -gt 0) -and ($AVNAvailableDice.count -eq 1)) {
+                If (($AVNDicePenaltyIterations -gt 0) -and ($AVNAvailableDice.count -lt 2)) {
                     $AVNAvailableDice = [ordered]@{}
-                    Write-Host "`nLow client health has removed all of your available dice! Have you trained today?"
+                    Write-Host "`nLow client health has removed all of your available dice! Have you trained today?" -foregroundcolor $global:AVNDefaultTextForegroundColor
                 } ElseIf ($AVNDicePenaltyIterations -gt 0) {
+                    While (($AVNDicePenaltyIterations -gt 0) -and ($AVNAvailableDice.count -gt 1)) {
+                        $AVNAvailableDiceTemporaryHashTable = [ordered]@{}
+                        $AVNDicePenaltyRandomizer = $AVNAvailableDice.keys | Get-Random
+                        $AVNAvailableDice.keys | ForEach-Object {
+                            If ($_ -ne $AVNDicePenaltyRandomizer) {
+                                $AVNAvailableDiceTemporaryHashTable.add($_, $AVNAvailableDice.$_)
+                            } Else {
+                                $ANVUnavailableDice.add($_, $AVNAvailableDice.$_)
+                            }
+                        }
+                        $AVNAvailableDice = $AVNAvailableDiceTemporaryHashTable
+                        $AVNDicePenaltyIterations--
+                    }
                     Write-Host "`nLow client health has rendered the following dice unusable for this encounter:" -foregroundcolor $global:AVNDefaultTextForegroundColor
                     $ANVUnavailableDice.keys | ForEach-Object {
                         Write-Host $ANVUnavailableDice.$_
                     }
-                }                
+                }              
                 Return $AVNAvailableDice
             }
             $AVNAvailableDice = GatherAvailableDice

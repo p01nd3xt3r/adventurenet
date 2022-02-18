@@ -483,7 +483,7 @@ Function Close-AVNProjectStage {
                 Wait-AVNKeyPress
             }
         } Else {
-            Write-Host "You have failed to defeat the current wave." -foregroundcolor $global:AVNDefaultTextForegroundColor
+            Write-Host "`nYou have failed to defeat the current wave." -foregroundcolor $global:AVNDefaultTextForegroundColor
             $AVNProjectCurrentWave = 4
             Wait-AVNKeyPress
         }
