@@ -25,24 +25,25 @@ Function Get-AVNStatus {
     If ($False -eq $Dev) {
         
     } Else {
-        Write-Host "`$global:AVNPlayerDataCommon" -foregroundcolor $global:AVNDefaultTextForegroundColor
-        $global:AVNPlayerDataCommon | ForEach-Object {
-            Write-Host "`nPlayer                        " $_.playername "`nwho" $_.globalnotice "`nKudos                         " $_.kudos
-        }
-        Write-Host "`n`$global:AVNCompanyDataCommon" -foregroundcolor $global:AVNDefaultTextForegroundColor
         $global:AVNCompanyDataCommon
-        Write-Host "`n`$global:AVNCompanyData_CurrentPlayer" -foregroundcolor $global:AVNDefaultTextForegroundColor
         $global:AVNCompanyData_CurrentPlayer
-        Write-Host "`n`$global:AVNPlayerData_CurrentPlayer" -foregroundcolor $global:AVNDefaultTextForegroundColor
         $global:AVNPlayerData_CurrentPlayer
         Write-Host "`nService Tickets               " $global:AVNServiceTickets_CurrentPlayer.count -foregroundcolor $global:AVNDefaultTextForegroundColor
-        Write-Host "`n`$global:AVNPlayerData_CurrentPlayer.lastsignon" -foregroundcolor $global:AVNDefaultTextForegroundColor
         $global:AVNPlayerData_CurrentPlayer.lastsignon
-        Write-Host "`n`$global:AVNDicePerm_CurrentPlayer" -foregroundcolor $global:AVNDefaultTextForegroundColor
         $global:AVNDicePerm_CurrentPlayer
-        Write-Host "`n`$global:AVNDiceDaily_CurrentPlayer" -foregroundcolor $global:AVNDefaultTextForegroundColor
         $global:AVNDiceDaily_CurrentPlayer
-        Write-Host "`n`$global:AVNSpecials_CurrentPlayer" -foregroundcolor $global:AVNDefaultTextForegroundColor
         $global:AVNSpecials_CurrentPlayer
+
+        $AVNPlayerTable = @(
+            ForEach ($AVNPlayer in $global:AVNPlayerDataCommon) {
+                $AVNPlayerProperties = @{
+                    Player = $AVNPlayer.playername
+                    Global = $AVNPlayer.globalnotice
+                    Kudos = $AVNPlayer.kudos
+                }
+                New-Object psobject -property $AVNPlayerProperties
+            }
+        )
+        $AVNPlayerTable | Format-Table player,global,kudos | Sort-Object -property "kudos" -descending
     }
 }
