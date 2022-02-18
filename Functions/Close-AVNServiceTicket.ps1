@@ -12,6 +12,9 @@
 .Functionality
 #>
 Function Close-AVNServiceTicket {
+    param (
+        [Parameter()][switch]$Dev
+    )
     <#
     Parameters for any special conditions, like if you have a special that changes what you're looking for or something.
     Give the option to run away? That'd only help cases where there's also a negative consequence in addition to the technical question that'll be generated.
@@ -145,7 +148,9 @@ Function Close-AVNServiceTicket {
             $AVNSTCurrentEncounter = Get-Random -InputObject $AVNSTPossibleEncounters
 
             Write-Host $AVNSTCurrentEncounter.IntroductionText -foregroundcolor $global:AVNDefaultTextForegroundColor
-            $AVNSTCurrentEncounter
+            If ($True -eq $Dev) {
+                $AVNSTCurrentEncounter
+            }
 
             #Getting the $AVNDiceValues array.
             $AVNDataFileContent = ConvertFrom-AVNObfuscated -path ($global:AVNRootPath + "\bGBIuKWniXYw")
@@ -237,9 +242,9 @@ Function Close-AVNServiceTicket {
             }
 
             If ($AVNSTTotalWaves -lt 2) {
-                Write-Host "Prepare yourself. The" $AVNSTCurrentEncounter.name "has only $AVNSTTotalWaves wave of defense." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "`nPrepare yourself. The" $AVNSTCurrentEncounter.name "has only $AVNSTTotalWaves wave of defense." -foregroundcolor $global:AVNDefaultTextForegroundColor
             } Else {
-                Write-Host "Prepare yourself. The" $AVNSTCurrentEncounter.name "has $AVNSTTotalWaves waves of defenses." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "`nPrepare yourself. The" $AVNSTCurrentEncounter.name "has $AVNSTTotalWaves waves of defenses." -foregroundcolor $global:AVNDefaultTextForegroundColor
             }
 
             $AVNSTCurrentWave = 1
@@ -311,10 +316,10 @@ Function Close-AVNServiceTicket {
 
 
                         #Account for singles and multiples in your verbage.
-                        Write-Host "Defenses for this wave are:" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                        Write-Host "`nDefenses for this wave are:" -foregroundcolor $global:AVNDefaultTextForegroundColor
                         $AVNSTCurrentWaveDefenses
 
-                        Write-Host "What would you like to do?" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                        Write-Host "`nWhat would you like to do?" -foregroundcolor $global:AVNDefaultTextForegroundColor
                         $AVNSTCurrentWaveOptions
                         
                         $AVNSTActionEntry = Read-Host "`nEnter your choice"
@@ -334,7 +339,7 @@ Function Close-AVNServiceTicket {
                     }
                     #Branches based on what's entered.
                     If ($AVNSTActionEntry -eq "r") {
-                        Write-Host "You ran away, converting your adversary into a Technical Question." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                        Write-Host "`nYou ran away, converting your adversary into a Technical Question." -foregroundcolor $global:AVNDefaultTextForegroundColor
                         Return
                     }
                     If ($AVNSTActionEntry -eq "?") {
@@ -584,7 +589,7 @@ Function Close-AVNServiceTicket {
                 }
                 $AVNSTGifAwardRoll = Get-Random -minimum $AVNSTGifAwardMin -maximum $AVNSTGifAwardMax
                 $global:AVNPlayerData_CurrentPlayer.gifs += $AVNSTGifAwardRoll
-                Write-Host "You found " $AVNSTGifAwardRoll "GIFs!" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "You found" $AVNSTGifAwardRoll "GIFs!" -foregroundcolor $global:AVNDefaultTextForegroundColor
 
                 $AVNInjectionSpecials = @()
                 $AVNSpecials | ForEach-Object {
@@ -629,7 +634,10 @@ Function Close-AVNServiceTicket {
             }
             $AVNSTAttainedSpecial = $AVNSTNonPurchaseSpecials[$AVNSTSpecialRoll]
 
-            Write-Host "You found a" $AVNSTAttainedSpecial.Name "`n" $AVNSTAttainedSpecial.description -foregroundcolor $global:AVNDefaultTextForegroundColor
+            Write-Host "You found the following special:" -foregroundcolor $global:AVNDefaultTextForegroundColor
+            $AVNSTAttainedSpecial.Name
+            $AVNSTAttainedSpecial.description
+
             If ($AVNSTAttainedSpecial.type -eq "Instant") {
                 Invoke-Expression $AVNSTAttainedSpecial.effect
                 $global:AVNPlayerData_CurrentPlayer.globalnotice = $AVNSTAttainedSpecial.globalnotice

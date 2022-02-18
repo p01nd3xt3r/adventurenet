@@ -22,6 +22,13 @@ Function Close-AVNProjectStage {
         Invoke-Expression $_
     }
 
+    #Getting specials
+    #Yields the $AVNSpecials array of hashtables, which is the cipher for specials.
+    $AVNDataFileContent = ConvertFrom-AVNObfuscated -path ($global:AVNRootPath + "\XQxoHZJajcgW")
+    $AVNDataFileContent | ForEach-Object {
+    Invoke-Expression $_
+    }
+
     #Intro text and assigning correct stage to current
     If ($global:AVNPlayerData_CurrentPlayer.ProjectStageAttempts -ge $global:AVNProjectStageDailyAllowance) {
         Write-Host "You have already attempted Project Stages the maximum number of times for your current Invoke-AVNSignOn." -foregroundcolor $global:AVNDefaultTextForegroundColor
@@ -92,12 +99,6 @@ Function Close-AVNProjectStage {
     $AVNDiceDataFileContent | ForEach-Object {
         Invoke-Expression $_
     }
-    <#
-    Old
-    (Get-Content -path ($global:AVNRootPath + "\bGBIuKWniXYw")) | ForEach-Object {
-        Invoke-Expression $_
-    }
-    #>
 
     #Gathering resources as functions, so I can call them more easily later on.
     Function GatherAvailablePreEmptiveSpecials {
@@ -195,9 +196,9 @@ Function Close-AVNProjectStage {
                 }
 
                 #Informing/prepping the player
-                Write-Host "The project looms before you--three stages with three waves apiece. You are on Stage " $AVNProjectCurrentStage ", Wave " $AVNProjectCurrentWave "`n`nYou see the following defenses for this wave:" -foregroundcolor $global:AVNDefaultTextForegroundColor
-                
-                Write-Host $AVNProjectCurrentStageCurrentWaveHashTable.defenses -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "The project looms before you--three stages with three waves apiece. You are on Stage" $AVNProjectCurrentStage ", Wave" $AVNProjectCurrentWave -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "`nYou see the following defenses for this wave:" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                $AVNProjectCurrentStageCurrentWaveHashTable.defenses
 
                 Wait-AVNKeyPress
 
@@ -256,7 +257,7 @@ Function Close-AVNProjectStage {
             }
 
             If ($AVNProjectCurrentWaveChoice -eq "r") {
-                Write-Host "You ran away." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "`nYou ran away." -foregroundcolor $global:AVNDefaultTextForegroundColor
                 Return
             }
 
@@ -310,12 +311,13 @@ Function Close-AVNProjectStage {
         Do {
             $AVNDiceRollChoicePass = $True
 
-            Write-Host "Defenses for this wave are:`n" $AVNProjectCurrentStageCurrentWaveHashTable.defenses "`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
-            Write-Host "And you have the following dice available to roll:" -ForegroundColor $global:AVNDefaultTextForegroundColor
+            Write-Host "Defenses for this wave are:`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
+            $AVNProjectCurrentStageCurrentWaveHashTable.defenses
+            Write-Host "`nAnd you have the following dice available to roll:" -ForegroundColor $global:AVNDefaultTextForegroundColor
             $AVNAvailableDice
             #Create entry hash that includes ?
 
-            [string]$AVNDiceRollChoice = Read-Host "Choose which you'd like to roll by its number in the above table; for multiple, separate numbers by a comma (ex: 1,2), or else enter ? to display work-type value alottment per dice"
+            [string]$AVNDiceRollChoice = Read-Host "`nChoose which you'd like to roll by its number in the above table; for multiple, separate numbers by a comma (ex: 1,2), or else enter ? to display work-type value alottment per dice"
 
             If ($AVNDiceRollChoice -eq '?') {
                 Get-AVNHelp -dice
@@ -363,12 +365,13 @@ Function Close-AVNProjectStage {
             #This should be an array of all rolls that are chosen. It'll be a string of the work type rolled by that dice, weighted by the numbers in the types hash table. I'm just getting a random selection from all the sides of the die and adding it to the $avndicerolls variable, which is a collection of all the player's rolls for this wave. 
             $AVNDiceRolls += $AVNDiceRollChoiceTypeWeightArray[(Get-Random -minimum 0 -maximum 5)]
         }
-        Write-Host "`nYou rolled the following work types:`n" $AVNDiceRolls -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "`nYou rolled the following work types:" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        $AVNDiceRolls
 
         If ($AVNInjectionSpecials.count -gt 0) {
             Do {
                 If ($AVNInjectionSpecials.count -lt 1) {
-                    Write-Host "You have no more available Specials to inject!" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                    Write-Host "`nYou have no more available Specials to inject!" -foregroundcolor $global:AVNDefaultTextForegroundColor
                     $AVNInjectionSpecialsEntry = ""
                     Wait-AVNKeyPress
                 } Else {
@@ -428,8 +431,7 @@ Function Close-AVNProjectStage {
                 }
             } Until (($AVNInjectionSpecials.count -lt 1) -or ($AVNInjectionSpecialsEntry -eq ""))
         } Else {
-            Write-Host "You have no available Specials to inject into your roll." -foregroundcolor $global:AVNDefaultTextForegroundColor
-            $AVNDiceRolls
+            Write-Host "`nYou have no available Specials to inject into your roll." -foregroundcolor $global:AVNDefaultTextForegroundColor
         }
 
         #Matching dice rolls to defenses and seeing if the player rolled enough of each work type to beat the wave.
@@ -464,7 +466,7 @@ Function Close-AVNProjectStage {
                 $AVNProjectAllWavesComplete = $True
                 $AVNProjectCurrentWave++
             } Else {
-                Write-Host "Success! You defeated the current wave." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "`nSuccess! You defeated the current wave." -foregroundcolor $global:AVNDefaultTextForegroundColor
                 $AVNProjectCurrentWave++
 
                 #Rolling for counterattack.
@@ -545,7 +547,7 @@ Function Close-AVNProjectStage {
             Wait-AVNKeyPress
         }
     } Else {
-        Write-Host "The Project, in its immensity, has overwhelmed you." -foregroundtext $global:AVNDefaultTextForegroundColor
+        Write-Host "`nThe Project, in its immensity, has overwhelmed you." -foregroundcolor $global:AVNDefaultTextForegroundColor
         $global:AVNPlayerData_CurrentPlayer.globalnotice = "was overcome by a Project Stage."
         #Set turn and loss changes at the beginning of the function.
         #No turn loss?
