@@ -14,7 +14,13 @@
 Function Enter-AVNTeams {
     Get-AVNConfig
 
-    Write-Host "`n⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿`n⣿⣿⣿⣿████████⣿███████⣿⣿█████⣿⣿███⣿⣿⣿⣿███⣿███████⣿⣿⣿⣿`n⣿⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿██⣿⣿⣿⣿⣿⣿██⣿⣿⣿██⣿████⣿⣿████⣿██⣿⣿⣿⣿⣿⣿⣿⣿⣿`n⣿⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿█████⣿⣿⣿███████⣿██⣿████⣿██⣿███████⣿⣿⣿⣿`n⣿⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿██⣿⣿⣿⣿⣿⣿██⣿⣿⣿██⣿██⣿⣿██⣿⣿██⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿`n⣿⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿███████⣿██⣿⣿⣿██⣿██⣿⣿⣿⣿⣿⣿██⣿███████⣿⣿⣿⣿`n⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿`n`n" -foregroundcolor $global:AVNDefaultBannerForegroundColor
+    #Intro Graphic
+    $AVNTeamsAnim = Get-Content ($AVNRootPath + "\Media\AVNTeamsAnim")
+    $AVNTeamsAnim  | ForEach-Object {
+        Write-Host $_ -foregroundcolor $global:AVNDefaultBannerForegroundColor
+        Start-Sleep -Milliseconds 20
+    }
+
     Write-Host "`nWelcome to Teams, where you can convert your GIFs into powerful specials." -foregroundcolor $global:AVNDefaultTextForegroundColor
     Wait-AVNKeyPress
 

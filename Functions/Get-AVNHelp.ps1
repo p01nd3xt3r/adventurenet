@@ -21,7 +21,13 @@ Function Get-AVNHelp {
     If (($False -eq $Functions) -and ($False -eq $Dice)) {
         $Dice = $True
         $Functions = $True
-        Write-Host "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿`n⣿⣿⣿⣿██⣿⣿⣿██⣿███████⣿██⣿⣿⣿⣿⣿⣿██████⣿⣿⣿⣿⣿`n⣿⣿⣿⣿██⣿⣿⣿██⣿██⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿⣿⣿██⣿⣿⣿██⣿⣿⣿⣿`n⣿⣿⣿⣿███████⣿█████⣿⣿⣿██⣿⣿⣿⣿⣿⣿██████⣿⣿⣿⣿⣿`n⣿⣿⣿⣿██⣿⣿⣿██⣿██⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿⣿⣿⣿⣿⣿`n⣿⣿⣿⣿██⣿⣿⣿██⣿███████⣿███████⣿██⣿⣿⣿⣿⣿⣿⣿⣿⣿`n⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿`n`n" -foregroundcolor $global:AVNDefaultBannerForegroundColor
+        
+        #Intro Graphic
+        $AVNHelpAnim = Get-Content ($AVNRootPath + "\Media\AVNHelpAnim")
+        $AVNHelpAnim  | ForEach-Object {
+            Write-Host $_ -foregroundcolor $global:AVNDefaultBannerForegroundColor
+            Start-Sleep -Milliseconds 20
+        }
     }
 
     If ($True -eq $Functions) {
