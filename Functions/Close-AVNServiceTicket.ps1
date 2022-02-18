@@ -21,8 +21,12 @@ Function Close-AVNServiceTicket {
 
     Get-AVNConfig
 
-    Write-Host "`n⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿`n⣿⣿⣿⣿███████⣿███████⣿██████⣿⣿██⣿⣿⣿⣿██⣿██⣿⣿██████⣿███████⣿⣿⣿⣿⣿████████⣿██⣿⣿██████⣿██⣿⣿⣿██⣿███████⣿████████⣿⣿⣿⣿`n⣿⣿⣿⣿██⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿⣿⣿██⣿⣿⣿██⣿██⣿⣿⣿⣿██⣿██⣿██⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿██⣿██⣿⣿⣿⣿⣿⣿██⣿⣿██⣿⣿██⣿⣿⣿⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿⣿⣿⣿`n⣿⣿⣿⣿███████⣿█████⣿⣿⣿██████⣿⣿██⣿⣿⣿⣿██⣿██⣿██⣿⣿⣿⣿⣿⣿█████⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿██⣿██⣿⣿⣿⣿⣿⣿█████⣿⣿⣿█████⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿⣿⣿⣿`n⣿⣿⣿⣿⣿⣿⣿⣿⣿██⣿██⣿⣿⣿⣿⣿⣿██⣿⣿⣿██⣿⣿██⣿⣿██⣿⣿██⣿██⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿██⣿██⣿⣿⣿⣿⣿⣿██⣿⣿██⣿⣿██⣿⣿⣿⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿⣿⣿⣿`n⣿⣿⣿⣿███████⣿███████⣿██⣿⣿⣿██⣿⣿⣿████⣿⣿⣿██⣿⣿██████⣿███████⣿⣿⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿██⣿⣿██████⣿██⣿⣿⣿██⣿███████⣿⣿⣿⣿██⣿⣿⣿⣿⣿⣿⣿`n⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿`n`n
-    " -foregroundcolor $global:AVNDefaultBannerForegroundColor
+    #Intro Graphic
+    $AVNServiceTicketAnim = Get-Content ($AVNRootPath + "\Media\AVNServiceTicketAnim")
+    $AVNServiceTicketAnim  | ForEach-Object {
+        Write-Host $_ -foregroundcolor $global:AVNDefaultBannerForegroundColor
+        Start-Sleep -Milliseconds 20
+    }
 
     If ($global:AVNServiceTickets_CurrentPlayer.count -lt 1) { 
         Throw "You don't have any service tickets!"

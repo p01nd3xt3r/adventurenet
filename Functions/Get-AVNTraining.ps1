@@ -13,7 +13,12 @@
 #>
 Function Get-AVNTraining {
     If ($global:AVNPlayerData_CurrentPlayer.training -gt 0) {
-        Write-Host "`n⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿`n⣿⣿⣿⣿████████⣿██████⣿⣿⣿█████⣿⣿██⣿███⣿⣿⣿⣿██⣿██⣿███⣿⣿⣿⣿██⣿⣿██████⣿⣿⣿⣿⣿`n⣿⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿██⣿⣿⣿██⣿██⣿⣿⣿██⣿██⣿████⣿⣿⣿██⣿██⣿████⣿⣿⣿██⣿██⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿`n⣿⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿██████⣿⣿███████⣿██⣿██⣿██⣿⣿██⣿██⣿██⣿██⣿⣿██⣿██⣿⣿⣿███⣿⣿⣿⣿`n⣿⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿██⣿⣿⣿██⣿██⣿⣿⣿██⣿██⣿██⣿⣿██⣿██⣿██⣿██⣿⣿██⣿██⣿██⣿⣿⣿⣿██⣿⣿⣿⣿`n⣿⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿██⣿⣿⣿██⣿██⣿⣿⣿██⣿██⣿██⣿⣿⣿████⣿██⣿██⣿⣿⣿████⣿⣿██████⣿⣿⣿⣿⣿`n⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿`n`n" -ForegroundColor $global:AVNDefaultBannerForegroundColor
+        #Intro Graphic
+        $AVNTrainingAnim = Get-Content ($AVNRootPath + "\Media\AVNTrainingAnim")
+        $AVNTrainingAnim  | ForEach-Object {
+            Write-Host $_ -foregroundcolor $global:AVNDefaultBannerForegroundColor
+            Start-Sleep -Milliseconds 20
+        }
         
         
         If ($global:AVNCompanyDataCommon.teamhealth -lt $global:AVNPenaltyThresholdTwo) {

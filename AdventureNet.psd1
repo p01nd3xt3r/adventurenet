@@ -137,7 +137,18 @@ FileList = @(
     '.\uhGNpSAZCzIt',
     '.\wlBjUrtSsTIO',
     '.\XQxoHZJajcgW',
-    '.\Media\AVNIntroAnim'
+    '.\Media\AVNHelpAnim',
+    '.\Media\AVNIntroAnim',
+    '.\Media\AVNServiceTicketAnim',
+    '.\Media\AVNSpecialAnim',
+    '.\Media\AVNStage1Anim',
+    '.\Media\AVNStage2Anim',
+    '.\Media\AVNStage3Anim',
+    '.\Media\AVNStagesCompleteAnim',
+    '.\Media\AVNTeamsAnim',
+    '.\Media\AVNTechQAnim',
+    '.\Media\AVNTrainingAnim',
+    '.\Media\AVNVictoryAnim'
 )
 
 # Private data to pass to the module specified in RootModule/ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.

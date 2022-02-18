@@ -40,7 +40,12 @@ Function Close-AVNProjectStage {
             } Else {
                 [int]$AVNProjectCurrentStage = 1
                 $AVNProjectCurrentStageArray = $AVNProjectStage1Waves
-                Write-Host "`n⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿`n⣿⣿⣿⣿███████⣿████████⣿⣿█████⣿⣿⣿██████⣿⣿███████⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿`n⣿⣿⣿⣿██⣿⣿⣿⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿██⣿⣿⣿██⣿██⣿⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿███⣿⣿⣿⣿`n⣿⣿⣿⣿███████⣿⣿⣿⣿██⣿⣿⣿⣿███████⣿██⣿⣿⣿███⣿█████⣿⣿⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿`n⣿⣿⣿⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿██⣿⣿⣿⣿██⣿⣿⣿██⣿██⣿⣿⣿⣿██⣿██⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿`n⣿⣿⣿⣿███████⣿⣿⣿⣿██⣿⣿⣿⣿██⣿⣿⣿██⣿⣿██████⣿⣿███████⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿`n⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿`n`n" -foregroundcolor $global:AVNDefaultBannerForegroundColor
+                #Intro Graphic
+                $AVNStage1Anim = Get-Content ($AVNRootPath + "\Media\AVNStage1Anim")
+                $AVNStage1Anim  | ForEach-Object {
+                    Write-Host $_ -foregroundcolor $global:AVNDefaultBannerForegroundColor
+                    Start-Sleep -Milliseconds 20
+                }
             } 
         } ElseIf ($global:AVNCompanyDataCommon.ProjectStage2WavesRemaining -gt 0) {
             If ($global:AVNCompanyData_CurrentPlayer.ProjectStage2WaveDefeated -gt 0) {
@@ -48,7 +53,12 @@ Function Close-AVNProjectStage {
             } Else {
                 [int]$AVNProjectCurrentStage = 2
                 $AVNProjectCurrentStageArray = $AVNProjectStage2Waves
-                Write-Host "`n⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿`n⣿⣿⣿⣿███████⣿████████⣿⣿█████⣿⣿⣿██████⣿⣿███████⣿⣿⣿⣿⣿██████⣿⣿⣿⣿⣿`n⣿⣿⣿⣿██⣿⣿⣿⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿██⣿⣿⣿██⣿██⣿⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿`n⣿⣿⣿⣿███████⣿⣿⣿⣿██⣿⣿⣿⣿███████⣿██⣿⣿⣿███⣿█████⣿⣿⣿⣿⣿⣿⣿⣿█████⣿⣿⣿⣿⣿`n⣿⣿⣿⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿██⣿⣿⣿⣿██⣿⣿⣿██⣿██⣿⣿⣿⣿██⣿██⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿⣿⣿⣿⣿⣿`n⣿⣿⣿⣿███████⣿⣿⣿⣿██⣿⣿⣿⣿██⣿⣿⣿██⣿⣿██████⣿⣿███████⣿⣿⣿⣿⣿███████⣿⣿⣿⣿`n⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿`n`n" -foregroundcolor $global:AVNDefaultBannerForegroundColor
+                #Intro Graphic
+                $AVNStage2Anim = Get-Content ($AVNRootPath + "\Media\AVNStage2Anim")
+                $AVNStage2Anim  | ForEach-Object {
+                    Write-Host $_ -foregroundcolor $global:AVNDefaultBannerForegroundColor
+                    Start-Sleep -Milliseconds 20
+                }
             }
         } ElseIf ($global:AVNCompanyDataCommon.ProjectStage3WavesRemaining -gt 0) {
             If ($global:AVNCompanyData_CurrentPlayer.ProjectStage3WaveDefeated -gt 0) {
@@ -56,10 +66,20 @@ Function Close-AVNProjectStage {
             } Else {
                 [int]$AVNProjectCurrentStage = 3
                 $AVNProjectCurrentStageArray = $AVNProjectStage3Waves
-                Write-Host "`n⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿`n⣿⣿⣿⣿███████⣿████████⣿⣿█████⣿⣿⣿██████⣿⣿███████⣿⣿⣿⣿⣿██████⣿⣿⣿⣿⣿`n⣿⣿⣿⣿██⣿⣿⣿⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿██⣿⣿⣿██⣿██⣿⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿`n⣿⣿⣿⣿███████⣿⣿⣿⣿██⣿⣿⣿⣿███████⣿██⣿⣿⣿███⣿█████⣿⣿⣿⣿⣿⣿⣿⣿█████⣿⣿⣿⣿⣿`n⣿⣿⣿⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿██⣿⣿⣿⣿██⣿⣿⣿██⣿██⣿⣿⣿⣿██⣿██⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿`n⣿⣿⣿⣿███████⣿⣿⣿⣿██⣿⣿⣿⣿██⣿⣿⣿██⣿⣿██████⣿⣿███████⣿⣿⣿⣿⣿██████⣿⣿⣿⣿⣿`n⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿`n`n" -foregroundcolor $global:AVNDefaultBannerForegroundColor
+                #Intro Graphic
+                $AVNStage3Anim = Get-Content ($AVNRootPath + "\Media\AVNStage3Anim")
+                $AVNStage3Anim  | ForEach-Object {
+                    Write-Host $_ -foregroundcolor $global:AVNDefaultBannerForegroundColor
+                    Start-Sleep -Milliseconds 20
+                }
             }
         } Else {
-            Write-Host "`n⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿`n⣿⣿⣿⣿⣿█████⣿⣿██⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿███████⣿████████⣿⣿█████⣿⣿⣿██████⣿⣿███████⣿███████⣿⣿⣿⣿`n⣿⣿⣿⣿██⣿⣿⣿██⣿██⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿██⣿⣿⣿██⣿██⣿⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿⣿⣿⣿⣿⣿`n⣿⣿⣿⣿███████⣿██⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿███████⣿⣿⣿⣿██⣿⣿⣿⣿███████⣿██⣿⣿⣿███⣿█████⣿⣿⣿███████⣿⣿⣿⣿`n⣿⣿⣿⣿██⣿⣿⣿██⣿██⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿██⣿⣿⣿⣿██⣿⣿⣿██⣿██⣿⣿⣿⣿██⣿██⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿`n⣿⣿⣿⣿██⣿⣿⣿██⣿███████⣿███████⣿⣿⣿⣿⣿███████⣿⣿⣿⣿██⣿⣿⣿⣿██⣿⣿⣿██⣿⣿██████⣿⣿███████⣿███████⣿⣿⣿⣿`n⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿`n⣿⣿⣿⣿⣿██████⣿⣿██████⣿⣿███⣿⣿⣿⣿███⣿██████⣿⣿██⣿⣿⣿⣿⣿⣿███████⣿████████⣿███████⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿`n⣿⣿⣿⣿██⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿██⣿████⣿⣿████⣿██⣿⣿⣿██⣿██⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿██⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿`n⣿⣿⣿⣿██⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿██⣿██⣿████⣿██⣿██████⣿⣿██⣿⣿⣿⣿⣿⣿█████⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿█████⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿`n⣿⣿⣿⣿██⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿██⣿██⣿⣿██⣿⣿██⣿██⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿██⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿`n⣿⣿⣿⣿⣿██████⣿⣿██████⣿⣿██⣿⣿⣿⣿⣿⣿██⣿██⣿⣿⣿⣿⣿⣿███████⣿███████⣿⣿⣿⣿██⣿⣿⣿⣿███████⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿`n⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿`n`n" -foregroundcolor $global:AVNDefaultBannerForegroundColor
+            #Complete graphic
+            $AVNStagesCompleteAnim = Get-Content ($AVNRootPath + "\Media\AVNStagesCompleteAnim")
+                $AVNStagesCompleteAnim  | ForEach-Object {
+                    Write-Host $_ -foregroundcolor $global:AVNDefaultBannerForegroundColor
+                    Start-Sleep -Milliseconds 20
+                }
             
             Write-Host "After all remaining turns have been used, this season of AdventureNet will have been completed." -foregroundcolor $global:AVNDefaultTextForegroundColor
             Wait-AVNKeyPress
@@ -487,7 +507,12 @@ Function Close-AVNProjectStage {
             }
         }
         
-        Write-Host "`n⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿`n⣿⣿⣿⣿██⣿⣿⣿⣿██⣿██⣿⣿██████⣿████████⣿⣿██████⣿⣿██████⣿⣿██⣿⣿⣿⣿██⣿⣿⣿⣿`n⣿⣿⣿⣿██⣿⣿⣿⣿██⣿██⣿██⣿⣿⣿⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿██⣿⣿⣿⣿██⣿██⣿⣿⣿██⣿⣿██⣿⣿██⣿⣿⣿⣿⣿`n⣿⣿⣿⣿██⣿⣿⣿⣿██⣿██⣿██⣿⣿⣿⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿██⣿⣿⣿⣿██⣿██████⣿⣿⣿⣿████⣿⣿⣿⣿⣿⣿`n⣿⣿⣿⣿⣿██⣿⣿██⣿⣿██⣿██⣿⣿⣿⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿██⣿⣿⣿⣿██⣿██⣿⣿⣿██⣿⣿⣿⣿██⣿⣿⣿⣿⣿⣿⣿`n⣿⣿⣿⣿⣿⣿████⣿⣿⣿██⣿⣿██████⣿⣿⣿⣿██⣿⣿⣿⣿⣿██████⣿⣿██⣿⣿⣿██⣿⣿⣿⣿██⣿⣿⣿⣿⣿⣿⣿`n⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿`n`n" -foregroundcolor $global:AVNDefaultBannerForegroundColor
+        #Victory Graphic
+        $AVNVictoryAnim = Get-Content ($AVNRootPath + "\Media\AVNVictoryAnim")
+        $AVNVictoryAnim  | ForEach-Object {
+            Write-Host $_ -foregroundcolor $global:AVNDefaultBannerForegroundColor
+            Start-Sleep -Milliseconds 20
+        }
         
         #I've taken away two already. That stays for the failure branch.
         $global:AVNCompanyData_CurrentPlayer.teamhealth += 1

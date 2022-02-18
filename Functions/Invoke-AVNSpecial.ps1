@@ -14,7 +14,12 @@
 Function Invoke-AVNSpecial {
     Get-AVNConfig
 
-    Write-Host "`n⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿`n⣿⣿⣿⣿███████⣿██████⣿⣿███████⣿⣿██████⣿██⣿⣿█████⣿⣿██⣿⣿⣿⣿⣿⣿███████⣿⣿⣿⣿`n⣿⣿⣿⣿██⣿⣿⣿⣿⣿⣿██⣿⣿⣿██⣿██⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿⣿⣿██⣿██⣿⣿⣿██⣿██⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿⣿⣿⣿⣿⣿`n⣿⣿⣿⣿███████⣿██████⣿⣿█████⣿⣿⣿██⣿⣿⣿⣿⣿⣿██⣿███████⣿██⣿⣿⣿⣿⣿⣿███████⣿⣿⣿⣿`n⣿⣿⣿⣿⣿⣿⣿⣿⣿██⣿██⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿⣿⣿██⣿██⣿⣿⣿██⣿██⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿██⣿⣿⣿⣿`n⣿⣿⣿⣿███████⣿██⣿⣿⣿⣿⣿⣿███████⣿⣿██████⣿██⣿██⣿⣿⣿██⣿███████⣿███████⣿⣿⣿⣿`n⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿`n`n" -foregroundcolor $global:AVNDefaultBannerForegroundColor
+    #Intro Graphic
+    $AVNSpecialAnim = Get-Content ($AVNRootPath + "\Media\AVNSpecialAnim")
+    $AVNSpecialAnim  | ForEach-Object {
+        Write-Host $_ -foregroundcolor $global:AVNDefaultBannerForegroundColor
+        Start-Sleep -Milliseconds 20
+    }
 
     #Getting specials. Yields the $AVNSpecials array of hashtables, which is the cipher for specials.
     $AVNDataFileContent = ConvertFrom-AVNObfuscated -path ($global:AVNRootPath + "\XQxoHZJajcgW")
