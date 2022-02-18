@@ -212,7 +212,7 @@ Function Close-AVNProjectStage {
                     $AVNOptionI++
                     $AVNProjectCurrentWaveOptions.add($AVNOptionI, 'Attack!')
                 } Else {
-                    Write-Host "You have no dice with which to attack!" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                    Write-Host "`nYou have no dice with which to attack!" -foregroundcolor $global:AVNDefaultTextForegroundColor
                 }
                 #Adding specials to the choices. Changes based on what wave we're on. Also adds all the ints of these specials to $AVNSpecialIntegers, so I can know a special has been chosen later. I might not need, this, though, if I only do ?, attack, and specials. I'd always know the range, and the ints of those options would be constant.
                 If ($AVNProjectCurrentWave -eq 1) {
@@ -235,17 +235,17 @@ Function Close-AVNProjectStage {
                     }
                 }
 
-                Write-Host "You have the following options:" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "`nYou have the following options:" -foregroundcolor $global:AVNDefaultTextForegroundColor
                 $AVNProjectCurrentWaveOptions
                 $AVNProjectCurrentWaveChoice = Read-Host "Enter your choice"
 
                 #Validating entry
                 If (($AVNProjectCurrentWaveChoice -notmatch "\d+") -and ($AVNProjectCurrentWaveChoice -ne "?") -and ($AVNProjectCurrentWaveChoice -ne "r")) {
-                    Write-Host "Something seems to be wrong with your entry. Please make sure to enter only the integer that's next to your choice or a single ?." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                    Write-Host "`nSomething seems to be wrong with your entry. Please make sure to enter only the integer that's next to your choice or a single ?." -foregroundcolor $global:AVNDefaultTextForegroundColor
                     Wait-AVNKeyPress
                 }
                 If ($AVNProjectCurrentWaveChoice -notin $AVNProjectCurrentWaveOptions.keys) {
-                    Write-Host "Please only enter ? or the integer of an item in the list." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                    Write-Host "`nPlease only enter ? or the integer of an item in the list." -foregroundcolor $global:AVNDefaultTextForegroundColor
                     Wait-AVNKeyPress
                 }
             } Until ($AVNProjectCurrentWaveChoice -in $AVNProjectCurrentWaveOptions.keys)
@@ -253,11 +253,11 @@ Function Close-AVNProjectStage {
             #Now go through results of the player's choice, not including dice.
             If ($AVNProjectCurrentWaveChoice -eq "?") {
                 Get-AVNHelp -dice
-                Write-Host "Other info placeholder." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "`nOther info placeholder." -foregroundcolor $global:AVNDefaultTextForegroundColor
             }
 
             If ($AVNProjectCurrentWaveChoice -eq "r") {
-                Write-Host "`nYou ran away." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "`nYou ran away, and the Project Stage chuckled." -foregroundcolor $global:AVNDefaultTextForegroundColor
                 Return
             }
 
