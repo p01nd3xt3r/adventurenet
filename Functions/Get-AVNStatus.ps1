@@ -30,15 +30,18 @@ Function Get-AVNStatus {
                 New-Object psobject -property $AVNPlayerProperties
             }
         )
+        Write-Host "`n⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿`n⣿Scoreboard⣿`n⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
         $AVNPlayerTable | Format-Table player,global,kudos | Sort-Object -property "kudos" -descending
 
-        Write-Host "`nTeam Stats" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "`n`n⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿`n⣿Team Stats⣿`n⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
         Write-Host "Team Health:                     " $global:AVNCompanyDataCommon.teamhealth "out of" $global:AVNHealthDefault
         Write-Host "Client Health:                   " $global:AVNCompanyDataCommon.clienthealth "out of" $global:AVNHealthDefault
         Write-Host "Current Project Stage:           " $global:AVNCompanyDataCommon.currentstage
         Write-Host "Technical Questions:             " $global:AVNCompanyDataCommon.technicalquestionstotal
 
-        Write-Host "`nYour Stats" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Wait-AVNKeyPress
+
+        Write-Host "`n`n⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿`n⣿Your Stats⣿`n⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
         Write-Host "Player Name:                     " $global:AVNPlayerData_CurrentPlayer.playername
         Write-Host "GIFs:                            " $global:AVNPlayerData_CurrentPlayer.gifs
         Write-Host "Training Available:              " $global:AVNPlayerData_CurrentPlayer.training
@@ -88,7 +91,7 @@ Function Get-AVNStatus {
         $AVNSpecialsTable | Format-Table Specials,Type,Description | Sort-Object -property "Specials"
     } ElseIf ($Type -eq "historical") {
         #Really, this should show for all players.
-        Write-Host "`nHistorical Stats" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "`n⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿`n⣿Historical Stats⣿`n⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
         Write-Host "Recent Client Health Contributions:  " $global:AVNHistoricalData_CurrentPlayer.RecentClientHealthContributions
         Write-Host "Recent Team Health Contributions:    " $global:AVNHistoricalData_CurrentPlayer.RecentTeamHealthContributions
         Write-Host "Recent Project Stage Waves Completed:" $global:AVNHistoricalData_CurrentPlayer.RecentProjectStageWavesCompleted
