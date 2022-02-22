@@ -13,13 +13,13 @@
 #>
 Function Get-AVNStatus {
     param (
-        [Parameter()][switch]$Dev
+        [Parameter()][string]$Type = ""
     )
     #Writes current health levels and the last host output the player had to the screen.
     #Do a type param for each different category, and if no type is chosen, show all?
     Get-AVNConfig
 
-    If ($False -eq $Dev) {
+    If ($Type -eq "") {
         $AVNPlayerTable = @(
             ForEach ($AVNPlayer in $global:AVNPlayerDataCommon) {
                 $AVNPlayerProperties = @{
@@ -86,7 +86,20 @@ Function Get-AVNStatus {
             }
         )
         $AVNSpecialsTable | Format-Table Specials,Type,Description | Sort-Object -property "Specials"
-    } Else {
+    } ElseIf ($Type -eq "historical") {
+        #Really, this should show for all players.
+        Write-Host "`nHistorical Stats" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "Recent Client Health Contributions:  " $global:AVNHistoricalData_CurrentPlayer.RecentClientHealthContributions
+        Write-Host "Recent Team Health Contributions:    " $global:AVNHistoricalData_CurrentPlayer.RecentTeamHealthContributions
+        Write-Host "Recent Project Stage Waves Completed:" $global:AVNHistoricalData_CurrentPlayer.RecentProjectStageWavesCompleted
+        Write-Host "Recent Kudos Attained:               " $global:AVNHistoricalData_CurrentPlayer.RecentKudos
+        Write-Host "Recent GIFs Attained:                " $global:AVNHistoricalData_CurrentPlayer.RecentGIFs
+        Write-Host "Total Client Health Contributions:   " $global:AVNHistoricalData_CurrentPlayer.TotalClientHealthContributions
+        Write-Host "Total Team Health Contributions:     " $global:AVNHistoricalData_CurrentPlayer.TotalTeamHealthContributions
+        Write-Host "Total Project Stage Waves Completed: " $global:AVNHistoricalData_CurrentPlayer.TotalProjectStageWavesCompleted
+        Write-Host "Total Kudos Attained:                " $global:AVNHistoricalData_CurrentPlayer.TotalKudos
+        Write-Host "Total GIFs Attained:                 " $global:AVNHistoricalData_CurrentPlayer.TotalGIFs "`n"
+    } ElseIf ($Type -eq "dev") {
         '`n$global:AVNSpecials_CurrentPlayer'
         $global:AVNSpecials_CurrentPlayer
         '`n$global:AVNDicePerm_CurrentPlayer'
@@ -101,5 +114,9 @@ Function Get-AVNStatus {
         $global:AVNPlayerData_CurrentPlayer
         '`n$global:AVNCompanyDataCommon'
         $global:AVNCompanyDataCommon
+        '`n$global:AVNHistoricalData_CurrentPlayer'
+        $global:AVNHistoricalData_CurrentPlayer
+    } Else {
+        Write-Host "`nSorry, you've entered an invalid -type. Try again without using -type or else using either -type 'dev' or 'historical'.`n"
     }
 }
