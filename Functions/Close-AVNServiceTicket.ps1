@@ -243,9 +243,9 @@ Function Close-AVNServiceTicket {
             }
 
             If ($AVNSTTotalWaves -lt 2) {
-                Write-Host "`nPrepare yourself. The" $AVNSTCurrentEncounter.name "has only $AVNSTTotalWaves wave of defense." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "`nThe" $AVNSTCurrentEncounter.name "has only $AVNSTTotalWaves wave of defense." -foregroundcolor $global:AVNDefaultTextForegroundColor
             } Else {
-                Write-Host "`nPrepare yourself. The" $AVNSTCurrentEncounter.name "has $AVNSTTotalWaves waves of defenses." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "`nThe" $AVNSTCurrentEncounter.name "has $AVNSTTotalWaves waves of defenses." -foregroundcolor $global:AVNDefaultTextForegroundColor
             }
 
             $AVNSTCurrentWave = 1
@@ -354,6 +354,7 @@ Function Close-AVNServiceTicket {
                         $global:AVNCompanyData_CurrentPlayer.clienthealth += 2
                         #Removing the opportunity from the player's alottment.
                         $global:AVNPlayerData_CurrentPlayer.opportunities -= 1
+                        ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile
                         Return
                     }
                     If ($AVNSTActionEntry -in $AVNSpecialIntegers) {
@@ -577,7 +578,7 @@ Function Close-AVNServiceTicket {
                 Write-Host "`nYou have defeated all waves!" -foregroundcolor $global:AVNDefaultTextForegroundColor
                 $AVNSTCurrentEncounter.deathtext
 
-                #Gif award
+                #GIF award
                 If ($global:AVNCompanyDataCommon.CurrentStage = 1) {
                     $AVNSTGifAwardMin = $global:AVNSTGifAwardMultiplier * 1
                     $AVNSTGifAwardMax = $global:AVNSTGifAwardMultiplier * 3
@@ -590,7 +591,7 @@ Function Close-AVNServiceTicket {
                 }
                 $AVNSTGifAwardRoll = Get-Random -minimum $AVNSTGifAwardMin -maximum $AVNSTGifAwardMax
                 $global:AVNPlayerData_CurrentPlayer.gifs += $AVNSTGifAwardRoll
-                Write-Host "`nYou found" $AVNSTGifAwardRoll "GIFs!" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "`nYou found $AVNSTGifAwardRoll GIFs! You have a total of" $global:AVNPlayerData_CurrentPlayer.gifs "GIFs." -foregroundcolor $global:AVNDefaultTextForegroundColor
 
                 $AVNInjectionSpecials = @()
                 $AVNSpecials | ForEach-Object {

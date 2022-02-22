@@ -106,9 +106,9 @@ Function Close-AVNProjectStage {
         #If this goes in the function, I just have to remove the special from the global variable and then run the function to get the current ones again.
         $AVNPreEmptiveSpecials = @()
         $global:AVNSpecials_CurrentPlayer | ForEach-Object {
-            ForEach ($AVNProjectRawSpecial in $AVNSpecials) {
-                If (($AVNProjectRawSpecial.name -eq $_) -and ($AVNProjectRawSpecial.type -eq 'preemptive')) {
-                    $AVNPreEmptiveSpecials += $AVNProjectRawSpecial
+            ForEach ($AVNRawSpecial in $AVNSpecials) {
+                If (($AVNRawSpecial.name -eq $_) -and ($AVNRawSpecial.type -eq 'preemptive')) {
+                    $AVNPreEmptiveSpecials += $AVNRawSpecial
                 }
             }
         }
@@ -120,9 +120,9 @@ Function Close-AVNProjectStage {
         #If this goes in the function, I just have to remove the special from the global variable and then run the function to get the current ones again.
         $AVNInterruptSpecials = @()
         $global:AVNSpecials_CurrentPlayer | ForEach-Object {
-            ForEach ($AVNProjectRawSpecial in $AVNSpecials) {
-                If (($AVNProjectRawSpecial.name -eq $_) -and ($AVNProjectRawSpecial.type -eq 'interrupt')) {
-                    $AVNProjectInterruptSpecials += $AVNProjectRawSpecial
+            ForEach ($AVNRawSpecial in $AVNSpecials) {
+                If (($AVNRawSpecial.name -eq $_) -and ($AVNRawSpecial.type -eq 'interrupt')) {
+                    $AVNInterruptSpecials += $AVNRawSpecial
                 }
             }
         }
@@ -134,9 +134,9 @@ Function Close-AVNProjectStage {
     Function GatherAvailableInjectionSpecials {
         $AVNInjectionSpecials = @()
         $global:AVNSpecials_CurrentPlayer | ForEach-Object {
-            ForEach ($AVNSTRawSpecial in $AVNSpecials) {
-                If (($AVNSTRawSpecial.name -eq $_) -and ($AVNSTRawSpecial.type -eq 'injection')) {
-                    $AVNInjectionSpecials += $AVNSTRawSpecial
+            ForEach ($AVNRawSpecial in $AVNSpecials) {
+                If (($AVNRawSpecial.name -eq $_) -and ($AVNRawSpecial.type -eq 'injection')) {
+                    $AVNInjectionSpecials += $AVNRawSpecial
                 }
             }
         }
