@@ -75,7 +75,9 @@ Function Invoke-AVNSignOn {
         }
         Wait-AVNKeyPress
 
-        #Running dice allottment. I had this as a separate function, but I think it's better here.
+        Write-Host "Welcome to AdventureNet." -foregroundcolor $global:AVNDefaultTextForegroundColor
+
+        #Running dice allotment. I had this as a separate function, but I think it's better here.
         #Dice types table. Not making this a global at the moment.
         $AVNDiceTypes = @{
             1 = "Microsoft365"
@@ -93,13 +95,14 @@ Function Invoke-AVNSignOn {
         $global:AVNDiceDaily_CurrentPlayer = @()
         If ($global:AVNCompanyDataCommon.teamhealth -ge $global:AVNPenaltyThresholdOne) {
             $AVNDiceOffer = [ordered]@{}
-            $AVNAllottmentRoll = Get-Random -count $global:AVNDiceOfferingPerDay -maximum ($AVNDiceTypes.count) -minimum 1
+            $AVNallotmentRoll = Get-Random -count $global:AVNDiceOfferingPerDay -maximum ($AVNDiceTypes.count) -minimum 1
             [int]$AVNDiceOfferNumber = 0
             
-            $AVNAllottmentRoll | ForEach-Object {
+            $AVNallotmentRoll | ForEach-Object {
                 $AVNDiceOfferNumber++
                 $AVNDiceOffer.add($AVNDiceOfferNumber, $AVNDiceTypes[$_])
             }
+            Write-Host "`n⣿Daily Dice Allotment⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
             Write-Host "`nChoose $global:AVNDiceChoicePerDay of the following to keep for the day:" -foregroundcolor $global:AVNDefaultTextForegroundColor
 
             $AVNChoiceText = @("first","second","third","fourth","fifth","sixth","seventh","eighth","ninth","tenth")
@@ -115,11 +118,11 @@ Function Invoke-AVNSignOn {
             $global:AVNDiceDaily_CurrentPlayer += $AVNDiceOffer.$AVNDiceChoiceNumber
             $AVNDiceOffer.remove($AVNDiceChoiceNumber)
             }
-            Write-Host "`nYou have selected the following daily dice:" -foregroundcolor $global:AVNDefaultTextForegroundColor
+            Write-Host "`nYou have selected the following Daily Dice:" -foregroundcolor $global:AVNDefaultTextForegroundColor
             $global:AVNDiceDaily_CurrentPlayer
         } Else {
-            $AVNAllottmentRoll = Get-Random -count $global:AVNDiceChoicePerDay -maximum ($AVNDiceTypes.count) -minimum 1
-            $AVNAllottmentRoll | ForEach-Object {
+            $AVNallotmentRoll = Get-Random -count $global:AVNDiceChoicePerDay -maximum ($AVNDiceTypes.count) -minimum 1
+            $AVNallotmentRoll | ForEach-Object {
                 $global:AVNDiceDaily_CurrentPlayer += $AVNDiceTypes.$_
             }
             Write-Host "`nAs a result of low team health, the following daily dice have been chosen for you:" -foregroundcolor $global:AVNDefaultTextForegroundColor
