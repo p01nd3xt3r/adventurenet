@@ -32,12 +32,12 @@ $AVNSpecials += @{Name = 'Surprise ITGlue Document'; Type = 'PreEmptive'; Descri
 ############
 #Injections#
 ############
-$AVNSpecials += @{Name = 'Networking Injection'; Type = 'Injection'; Description = 'After rolling your dice, add an additional Networking worktype to your roll.'; Effect = '$AVNDiceRolls += "Networking"'; GlobalNotice = ''; TeamsCost = 0}
-$AVNSpecials += @{Name = 'Workstation Injection'; Type = 'Injection'; Description = 'After rolling your dice, add an additional Workstation worktype to your roll.'; Effect = '$AVNDiceRolls += "Workstation"'; GlobalNotice = ''; TeamsCost = 0}
-$AVNSpecials += @{Name = 'Cloud Injection'; Type = 'Injection'; Description = 'After rolling your dice, add an additional Cloud worktype to your roll.'; Effect = '$AVNDiceRolls += "Cloud"'; GlobalNotice = ''; TeamsCost = 0}
-$AVNSpecials += @{Name = 'OnPrem Injection'; Type = 'Injection'; Description = 'After rolling your dice, add an additional OnPrem worktype to your roll.'; Effect = '$AVNDiceRolls += "OnPrem"'; GlobalNotice = ''; TeamsCost = 0}
-$AVNSpecials += @{Name = 'Security Injection'; Type = 'Injection'; Description = 'After rolling your dice, add an additional Security worktype to your roll.'; Effect = '$AVNDiceRolls += "Security"'; GlobalNotice = ''; TeamsCost = 0}
-$AVNSpecials += @{Name = 'Character Injection'; Type = 'Injection'; Description = 'After rolling your dice, add an additional Character worktype to your roll.'; Effect = '$AVNDiceRolls += "Character"'; GlobalNotice = ''; TeamsCost = 0}
+$AVNSpecials += @{Name = 'Networking Injection'; Type = 'Injection'; Description = 'Add an additional Networking worktype to your roll.'; Effect = '$AVNDiceRolls += "Networking"'; GlobalNotice = ''; TeamsCost = 0}
+$AVNSpecials += @{Name = 'Workstation Injection'; Type = 'Injection'; Description = 'Add an additional Workstation worktype to your roll.'; Effect = '$AVNDiceRolls += "Workstation"'; GlobalNotice = ''; TeamsCost = 0}
+$AVNSpecials += @{Name = 'Cloud Injection'; Type = 'Injection'; Description = 'Add an additional Cloud worktype to your roll.'; Effect = '$AVNDiceRolls += "Cloud"'; GlobalNotice = ''; TeamsCost = 0}
+$AVNSpecials += @{Name = 'OnPrem Injection'; Type = 'Injection'; Description = 'Add an additional OnPrem worktype to your roll.'; Effect = '$AVNDiceRolls += "OnPrem"'; GlobalNotice = ''; TeamsCost = 0}
+$AVNSpecials += @{Name = 'Security Injection'; Type = 'Injection'; Description = 'Add an additional Security worktype to your roll.'; Effect = '$AVNDiceRolls += "Security"'; GlobalNotice = ''; TeamsCost = 0}
+$AVNSpecials += @{Name = 'Character Injection'; Type = 'Injection'; Description = 'Add an additional Character worktype to your roll.'; Effect = '$AVNDiceRolls += "Character"'; GlobalNotice = ''; TeamsCost = 0}
 ###################
 #Teams-Purchasable#
 ###################

@@ -30,10 +30,10 @@ Function Get-AVNStatus {
                 New-Object psobject -property $AVNPlayerProperties
             }
         )
-        Write-Host "`n⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿`n⣿Scoreboard⣿`n⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "`n⣿Scoreboard⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
         $AVNPlayerTable | Format-Table player,global,kudos | Sort-Object -property "kudos" -descending
 
-        Write-Host "`n`n⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿`n⣿Team Stats⣿`n⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "`n`n⣿Team Stats⣿`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
         Write-Host "Team Health:                     " $global:AVNCompanyDataCommon.teamhealth "out of" $global:AVNHealthDefault
         Write-Host "Client Health:                   " $global:AVNCompanyDataCommon.clienthealth "out of" $global:AVNHealthDefault
         Write-Host "Current Project Stage:           " $global:AVNCompanyDataCommon.currentstage
@@ -41,7 +41,7 @@ Function Get-AVNStatus {
 
         Wait-AVNKeyPress
 
-        Write-Host "`n`n⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿`n⣿Your Stats⣿`n⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "`n`n⣿Your Stats⣿`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
         Write-Host "Player Name:                     " $global:AVNPlayerData_CurrentPlayer.playername
         Write-Host "GIFs:                            " $global:AVNPlayerData_CurrentPlayer.gifs
         Write-Host "Training Available:              " $global:AVNPlayerData_CurrentPlayer.training
@@ -54,21 +54,21 @@ Function Get-AVNStatus {
 
         $AVNDiceTable = @(
             ForEach ($AVNPermDice in $global:AVNDicePerm_CurrentPlayer) {
-                $AVNPermDiceProperties = @{
+                $AVNPermDiceProperties = [ordered]@{
                     Dice = $AVNPermDice
                     Type = "Permanent"
                 }
                 New-Object psobject -property $AVNPermDiceProperties
             }
             ForEach ($AVNDailyDice in $global:AVNDiceDaily_CurrentPlayer) {
-                $AVNDailyDiceProperties = @{
+                $AVNDailyDiceProperties = [ordered]@{
                     Dice = $AVNDailyDice
                     Type = "Daily"
                 }
                 New-Object psobject -property $AVNDailyDiceProperties
             }
         )
-        $AVNDiceTable | Format-Table Dice,Type | Sort-Object -property "Dice"
+        Write-Output $AVNDiceTable | Sort-Object "Dice" | Format-Table Dice,Type
         
         #Getting specials
         #Yields the $AVNSpecials array of hashtables, which is the cipher for specials.
@@ -77,10 +77,10 @@ Function Get-AVNStatus {
         Invoke-Expression $_
         }
 
-        $AVNSpecialsTable = @(
+        $global:AVNSpecialsTable = @(
             ForEach ($AVNOwnedSpecial in $global:AVNSpecials_CurrentPlayer) {
                 $AVNDecipheredSpecial = $AVNSpecials | Where-Object {$_.name -eq $AVNOwnedSpecial}
-                $AVNOwnedSpecialProperties = @{
+                $AVNOwnedSpecialProperties = [ordered]@{
                     Specials = $AVNOwnedSpecial
                     Type = $AVNDecipheredSpecial.type
                     Description = $AVNDecipheredSpecial.description
@@ -88,10 +88,12 @@ Function Get-AVNStatus {
                 New-Object psobject -property $AVNOwnedSpecialProperties
             }
         )
-        $AVNSpecialsTable | Format-Table Specials,Type,Description | Sort-Object -property "Specials"
+        Write-Output $global:AVNSpecialsTable | Sort-Object Specials | Format-Table Specials,Type,Description
+
+
     } ElseIf ($Type -eq "historical") {
         #Really, this should show for all players.
-        Write-Host "`n⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿`n⣿Historical Stats⣿`n⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "`n⣿Historical Stats⣿`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
         Write-Host "Recent Client Health Contributions:  " $global:AVNHistoricalData_CurrentPlayer.RecentClientHealthContributions
         Write-Host "Recent Team Health Contributions:    " $global:AVNHistoricalData_CurrentPlayer.RecentTeamHealthContributions
         Write-Host "Recent Project Stage Waves Completed:" $global:AVNHistoricalData_CurrentPlayer.RecentProjectStageWavesCompleted

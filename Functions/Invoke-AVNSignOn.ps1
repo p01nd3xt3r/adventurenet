@@ -151,10 +151,11 @@ Function Invoke-AVNSignOn {
 
         #Writing back to data file.
         ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile
+        
+        Wait-AVNKeyPress
         Get-AVNStatus
     } Else {
         Write-Host "`nYou have already signed on once today. Your last Invoke-AVNSignOn on was" $global:AVNPlayerData_CurrentPlayer.lastsignon -foregroundcolor $global:AVNDefaultTextForegroundColor
         Wait-AVNKeyPress
-        Get-AVNStatus
     }
 }
