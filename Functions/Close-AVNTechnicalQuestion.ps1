@@ -22,12 +22,12 @@ Function Close-AVNTechnicalQuestion {
     }
     
     If ($global:AVNCompanyDataCommon.technicalquestionsavailable -lt 1) {
-        Write-Host "There are no technical questions to close." -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "There are no Technical Questions to close." -foregroundcolor $global:AVNDefaultTextForegroundColor
         Return
     }
     
     Do {
-        Write-Host "Service Tickets that aren't closed within the configured interval or that are failed by their assignees convert into Technical Questions. Having no Technical Questions provides a bonus to Client Health, and closing them rewards you Kudos." -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "Service Tickets that aren't closed within the configured interval or that are failed by their assignees convert into Technical Questions. Closing them adds 1 to your Kudos and to Client Health." -foregroundcolor $global:AVNDefaultTextForegroundColor
         If ($global:AVNCompanyDataCommon.clienthealth -ge $global:AVNPenaltyThresholdOne) {
             Write-Host "`nDoing so will require two of your turns." -foregroundcolor $global:AVNDefaultTextForegroundColor
             If ($global:AVNPlayerData_CurrentPlayer.turns -lt 2) {
