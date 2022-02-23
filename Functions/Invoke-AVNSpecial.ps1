@@ -73,9 +73,7 @@ Function Invoke-AVNSpecial {
             } Until ($AVNGeneralSpecialChoice -in $AVNGeneralSpecialsHashTable.keys)
 
             If ($AVNTeamsPurchaseChoice -eq "?") {
-                Write-Host "`nHelp placeholder."
-                #Get-AVNHelp -specials
-                Wait-AVNKeyPress
+                Get-AVNHelp -specials
             }
         } Until ($AVNTeamsPurchaseChoice -ne "?")
 

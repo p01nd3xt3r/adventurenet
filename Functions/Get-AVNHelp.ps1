@@ -19,7 +19,7 @@ Function Get-AVNHelp {
     )
     Get-AVNConfig
 
-    If (($False -eq $Functions) -and ($False -eq $Dice) -and $False -eq $Specials) {
+    If (($False -eq $Functions) -and ($False -eq $Dice) -and ($False -eq $Specials)) {
         $Functions = $True
         $Dice = $True
         $Specials = $True
@@ -114,7 +114,7 @@ Close-AVNSeason converts current data in all player data files into historical d
         Write-Host "`nInterrupt" -foregroundcolor $global:AVNDefaultTextForegroundColor
         Write-Host "`nInjection" -foregroundcolor $global:AVNDefaultTextForegroundColor
         Write-Host "`nTeams-Purchasable" -foregroundcolor $global:AVNDefaultTextForegroundColor
-        
+
         #List of all specials by purchasable and then by type.
     }
 }

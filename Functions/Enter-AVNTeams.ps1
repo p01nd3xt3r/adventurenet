@@ -88,9 +88,7 @@ Function Enter-AVNTeams {
 
         If ($AVNTeamsPurchaseChoice -eq "?") {
             #Showing info for each applicable special.
-            Write-Host "`nHelp placeholder."
-            #Get-Help -teamsspecials
-            Wait-AVNKeyPress
+            Get-Help -specials
         } Else {
             #Making sure the player has enough gifs for the chosen special
             $AVNTeamsPurchaseChoice = [int]$AVNTeamsPurchaseChoice
