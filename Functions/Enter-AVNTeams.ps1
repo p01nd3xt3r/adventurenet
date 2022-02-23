@@ -24,6 +24,14 @@ Function Enter-AVNTeams {
     Write-Host "`nWelcome to Teams, where you can convert your GIFs into powerful specials." -foregroundcolor $global:AVNDefaultTextForegroundColor
     Wait-AVNKeyPress
 
+    #Getting specials
+    #Yields the $AVNSpecials array of hashtables, which is the cipher for specials.
+    $AVNDataFileContent = ConvertFrom-AVNObfuscated -path ($global:AVNRootPath + "\XQxoHZJajcgW")
+    $AVNDataFileContent | ForEach-Object {
+    Invoke-Expression $_
+    }
+
+    <#
     $AVNTeamsSpecials = [ordered]@{'?' = 'Show information about your options.'}
     [int]$AVNTeamsSpecialsI = 0
     $AVNSpecials | ForEach-Object {
@@ -33,13 +41,34 @@ Function Enter-AVNTeams {
         }
     }
     #need to add the teamscost field. Might need to make these objects with properties instead of a hash table.
+    #>
+    
+    [int]$AVNSpecialsI = 0
+    $AVNSpecialsPossibleChoices = @()
+    $AVNSpecialsTable = @(
+            ForEach ($AVNSpecial in $AVNSpecials) {
+                If ($AVNSpecial.teamscost -gt 0) {
+                    $AVNSpecialsI++
+                    $AVNSpecialsPossibleChoices += $AVNSpecialsI
+                    $AVNSpecialProperties = [ordered]@{
+                        Item = $AVNSpecialsI
+                        Name = $AVNSpecial.name
+                        Type = $AVNSpecial.type
+                        Cost = $AVNSpecial.teamscost
+                        Description = $AVNSpecial.description
+                    }
+                    New-Object psobject -property $AVNSpecialProperties
+                }
+            }
+        )
 
-    $AVNTeamsPurchaseChoice -eq ""
     Do {
         Do {
-            $AVNTeamsSpecials
-            Write-Host "You have " $global:AVNPlayerData_CurrentPlayer.gifs "gifs.`nEnter nothing to exit." -foregroundcolor $global:AVNDefaultTextForegroundColor
-            $AVNTeamsPurchaseChoice = Read-Host "Enter the item number of the special you would like to purchase"
+            Write-Host "`n⣿ADVENTURENET⣿Specials⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
+            Write-Output $AVNSpecialsTable | Sort-Object "item" | Format-Table item,cost,type,name,description
+
+            Write-Host "You have " $global:AVNPlayerData_CurrentPlayer.gifs "GIFs." -foregroundcolor $global:AVNDefaultTextForegroundColor
+            $AVNTeamsPurchaseChoice = Read-Host "Enter the item number of the special you would like to purchase, ? for more information, or nothing to exit"
             
             #If empty, end function.
             If ($AVNTeamsPurchaseChoice -eq "") {
@@ -48,28 +77,31 @@ Function Enter-AVNTeams {
 
             #Validating entry
             If (($AVNTeamsPurchaseChoice -notmatch "\d+") -and ($AVNTeamsPurchaseChoice -ne "?")) {
-                Write-Host "Something seems to be wrong with your entry. Please make sure to enter only the integer that's next to your choice or a single ?." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "`nSomething seems to be wrong with your entry. Please make sure to enter ? or the integer that's next to your choice." -foregroundcolor $global:AVNDefaultTextForegroundColor
                 Wait-AVNKeyPress
             }
-            If ($AVNTeamsPurchaseChoice -notin $AVNTeamsSpecials.keys) {
-                Write-Host "Please only enter the integer of an item in the list." -foregroundcolor $global:AVNDefaultTextForegroundColor
+            If (($AVNTeamsPurchaseChoice -notin $AVNSpecialsPossibleChoices) -and ($AVNTeamsPurchaseChoice -ne "?")) {
+                Write-Host "`nPlease only enter an ? or the integer of an item in the list." -foregroundcolor $global:AVNDefaultTextForegroundColor
                 Wait-AVNKeyPress
             }
-        } Until ($AVNTeamsPurchaseChoice -in $AVNTeamsSpecials.keys)
+        } Until (($AVNTeamsPurchaseChoice -in $AVNSpecialsPossibleChoices) -or ($AVNTeamsPurchaseChoice -eq "?"))
 
         If ($AVNTeamsPurchaseChoice -eq "?") {
             #Showing info for each applicable special.
-            $AVNSpecials | ForEach-Object {
-                If ($_.teamscost -gt 0) {
-                    Write-Host $_.name "`n" $_.description -foregroundcolor $global:AVNDefaultTextForegroundColor
-                }
-            }
+            Write-Host "`nHelp placeholder."
+            #Get-Help -teamsspecials
             Wait-AVNKeyPress
         } Else {
             #Making sure the player has enough gifs for the chosen special
             $AVNTeamsPurchaseChoice = [int]$AVNTeamsPurchaseChoice
+            $AVNSpecialsTable | ForEach-Object {
+                If ($AVNTeamsPurchaseChoice -eq $_.item) {
+                    $AVNSpecialChoiceDecipheredName = $_.name
+                }
+            }
+            
             $AVNSpecials | ForEach-Object {
-                If ($_.name -eq $AVNTeamsSpecials.$AVNTeamsPurchaseChoice) {
+                If ($_.name -eq $AVNSpecialChoiceDecipheredName) {
                     $AVNTeamsChosenSpecial = $_
                 }
             }
@@ -87,7 +119,6 @@ Function Enter-AVNTeams {
     
     ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile
 
-    Write-Host "You purchased a " $AVNTeamsChosenSpecial.name " for " $AVNTeamsChosenSpecial.teamscost " GIFs.`n" $AVNTeamsChosenSpecial.description -foregroundcolor $global:AVNDefaultTextForegroundColor
-
-    Wait-AVNKeyPress
+    Write-Host "`nYou purchased a" $AVNTeamsChosenSpecial.name "for" $AVNTeamsChosenSpecial.teamscost "GIFs." -foregroundcolor $global:AVNDefaultTextForegroundColor
+    $AVNTeamsChosenSpecial.description
 }

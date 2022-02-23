@@ -13,14 +13,16 @@
 #>
 Function Get-AVNHelp {
     param (
+        [Parameter()][switch]$Functions,
         [Parameter()][switch]$Dice,
-        [Parameter()][switch]$Functions
+        [Parameter()][switch]$Specials
     )
     Get-AVNConfig
 
-    If (($False -eq $Functions) -and ($False -eq $Dice)) {
-        $Dice = $True
+    If (($False -eq $Functions) -and ($False -eq $Dice) -and $False -eq $Specials) {
         $Functions = $True
+        $Dice = $True
+        $Specials = $True
         
         #Intro Graphic
         $AVNHelpAnim = Get-Content ($AVNRootPath + "\Media\AVNHelpAnim")
@@ -98,5 +100,21 @@ Close-AVNSeason converts current data in all player data files into historical d
         Write-Host "`nCoreValues" -foregroundcolor $global:AVNDefaultTextForegroundColor
         $AVNDiceValues.CoreValues
         Wait-AVNKeyPress
+    }
+    If ($True -eq $Specials) {
+        #Getting specials. Yields the $AVNSpecials array of hashtables, which is the cipher for specials.
+        $AVNDataFileContent = ConvertFrom-AVNObfuscated -path ($global:AVNRootPath + "\XQxoHZJajcgW")
+        $AVNDataFileContent | ForEach-Object {
+            Invoke-Expression $_
+        }
+        Write-Host "`n⣿Help: Specials⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "`nGeneral" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "`nInstant" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "`nPreEmptive" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "`nInterrupt" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "`nInjection" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "`nTeams-Purchasable" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        
+        #List of all specials by purchasable and then by type.
     }
 }

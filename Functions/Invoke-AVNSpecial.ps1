@@ -26,12 +26,6 @@ Function Invoke-AVNSpecial {
     $AVNDataFileContent | ForEach-Object {
     Invoke-Expression $_
     }
-    <#
-    Old
-    (Get-Content -path ($global:AVNRootPath + "\XQxoHZJajcgW")) | ForEach-Object {
-        Invoke-Expression $_
-    }
-    #>
 
     $AVNGeneralSpecials = @()
     $global:AVNSpecials_CurrentPlayer | ForEach-Object {
@@ -42,7 +36,7 @@ Function Invoke-AVNSpecial {
         }
     }
     
-    $AVNGeneralSpecialsHashTable = @{
+    $AVNGeneralSpecialsHashTable = [ordered]@{
         '?' = 'Show information about your options.'
     }
     [int]$AVNGeneralSpecialsHashTableI = 0
@@ -51,19 +45,25 @@ Function Invoke-AVNSpecial {
         $AVNGeneralSpecialsHashTable.add($AVNGeneralSpecialsHashTableI, $_.name)
     }
 
+    Write-Host "`n⣿ADVENTURENET⣿Specials⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
+
     If ($AVNGeneralSpecials.count -lt 1) {
         Write-Host "Sorry, you don't have any general specials." -foregroundcolor $global:AVNDefaultTextForegroundColor
         Return
     } Else {
         Do {
             Do {
-                Write-Host "What would you like to do?" -foregroundcolor $global:AVNDefaultTextForegroundColor
                 $AVNGeneralSpecialsHashTable
-                $AVNGeneralSpecialChoice = Read-Host "Please enter the number next to the special you'd like to use"
+                $AVNGeneralSpecialChoice = Read-Host "Enter the number of the special you'd like to use, ? for more information, or nothing to exit"
                 
+                #If empty, end function.
+                If ($AVNGeneralSpecialChoice -eq "") {
+                    Return
+                }
+
                 #Validating entry
                 If (($AVNGeneralSpecialChoice -notmatch "\d+") -and ($AVNGeneralSpecialChoice -ne "?")) {
-                    Write-Host "Something seems to be wrong with your entry. Please make sure to enter only the integer that's next to your choice or a single ?." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                    Write-Host "Something seems to be wrong with your entry. Please make sure to enter only an ? or the number that's next to your choice." -foregroundcolor $global:AVNDefaultTextForegroundColor
                     Wait-AVNKeyPress
                 }
                 If ($AVNGeneralSpecialChoice -notin $AVNGeneralSpecialsHashTable.keys) {
@@ -73,13 +73,11 @@ Function Invoke-AVNSpecial {
             } Until ($AVNGeneralSpecialChoice -in $AVNGeneralSpecialsHashTable.keys)
 
             If ($AVNTeamsPurchaseChoice -eq "?") {
-                #Showing info for each general special.
-                $AVNGeneralSpecials | ForEach-Object {
-                    Write-Host $_.name "`n" $_.description -foregroundcolor $global:AVNDefaultTextForegroundColor
-                }
+                Write-Host "`nHelp placeholder."
+                #Get-AVNHelp -specials
                 Wait-AVNKeyPress
             }
-        }Until ($AVNTeamsPurchaseChoice -ne "?")
+        } Until ($AVNTeamsPurchaseChoice -ne "?")
 
         $AVNGeneralSpecialChoice = [int]$AVNGeneralSpecialChoice
 
@@ -89,7 +87,9 @@ Function Invoke-AVNSpecial {
             }
         }
 
-        Write-Host "`nYou used your" $AVNChosenGeneralSpecial.name "`n" $AVNChosenGeneralSpecial.description -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "`nYou used your" $AVNChosenGeneralSpecial.name -foregroundcolor $global:AVNDefaultTextForegroundColor
+        $AVNChosenGeneralSpecial.description
+
         Invoke-Expression $AVNChosenGeneralSpecial.effect
         $global:AVNPlayerData_CurrentPlayer.globalnotice = $AVNChosenGeneralSpecial.globalnotice
 
