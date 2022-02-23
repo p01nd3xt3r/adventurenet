@@ -71,23 +71,19 @@ Close-AVNSeason converts current data in all player data files into historical d
 
     If ($True -eq $Dice) {
 
-        Write-Host "" -foregroundcolor $global:AVNDefaultBannerForegroundColor
+        Write-Host "`n⣿Help: Dice⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
 
         #Getting dice info table.
         $AVNDataFileContent = ConvertFrom-AVNObfuscated -path ($global:AVNRootPath + "\bGBIuKWniXYw")
         $AVNDataFileContent | ForEach-Object {
         Invoke-Expression $_
         }
-        <#
-        Old
-        (Get-Content -path ($global:AVNRootPath + "\bGBIuKWniXYw")) | ForEach-Object {
-            Invoke-Expression $_
-        }
-        #>
-        Write-Host "`nDice are used for completing work. Service Ticket and Project Stages present work of different types.`nEach die has six sides, each of which represents a particular work type.`nA die's type indicates both the work types included on that die and the number of sides that have each of those types.`n`nDice types include:`nCore Values`nMicrosoft 365`nDatto`nMimecast/Umbrella`nWindows`nHuntress/Defender`nIT Glue`n`nWork types include:`nWorkstation`nCloud`nOn Prem`nNetworking`nSecurity`nCharacter`n`nAnd here is the work type breakdown for all dice`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        
+        Write-Host "`nDice represent what work you attempt in Service Tickets and Project Stages. `nEach die has six sides, each of which represents a particular work type.`n`nA die's type indicates the breakdown of its work types." -foregroundcolor $global:AVNDefaultTextForegroundColor
 
+        Write-Host "`n`n⣿Dice Breakdown⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
         Write-Host "`nMimecastUmbrella" -foregroundcolor $global:AVNDefaultTextForegroundColor
-        $AVNDiceValues.MimecastUmbrella
+        Write-Output $AVNDiceValues.MimecastUmbrella | Format-Table -HideTableHeaders
         Write-Host "`nMicrosoft365" -foregroundcolor $global:AVNDefaultTextForegroundColor
         $AVNDiceValues.Microsoft365
         Write-Host "`nDatto" -foregroundcolor $global:AVNDefaultTextForegroundColor

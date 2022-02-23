@@ -16,7 +16,7 @@ Function Close-AVNTechnicalQuestion {
 
     #Intro Graphic
     $AVNTechQAnim = Get-Content ($AVNRootPath + "\Media\AVNTechQAnim")
-    $AVNTechQAnim  | ForEach-Object {
+    $AVNTechQAnim | ForEach-Object {
         Write-Host $_ -foregroundcolor $global:AVNDefaultBannerForegroundColor
         Start-Sleep -Milliseconds 20
     }
@@ -27,33 +27,33 @@ Function Close-AVNTechnicalQuestion {
     }
     
     Do {
-        Write-Host "Technical questions are service tickets that other players have either failed or else failed to answer within two days of them being assigned. Having no technical questions provides a bonus to client health, and answering them adds kudos to whomever answers them." -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "Service Tickets that aren't closed within the configured interval or that are failed by their assignees convert into Technical Questions. Having no Technical Questions provides a bonus to Client Health, and closing them rewards you Kudos." -foregroundcolor $global:AVNDefaultTextForegroundColor
         If ($global:AVNCompanyDataCommon.clienthealth -ge $global:AVNPenaltyThresholdOne) {
-            Write-Host "Doing so requires two of your turns." -foregroundcolor $global:AVNDefaultTextForegroundColor
-            If ($global:AVNPlayerData_CurrentPlayer.turn -lt 2) {
-                Write-Host "You do not have enough turns." -foregroundcolor $global:AVNDefaultTextForegroundColor
+            Write-Host "`nDoing so will require two of your turns." -foregroundcolor $global:AVNDefaultTextForegroundColor
+            If ($global:AVNPlayerData_CurrentPlayer.turns -lt 2) {
+                Write-Host "`nYou do not have enough turns." -foregroundcolor $global:AVNDefaultTextForegroundColor
                 Return
             }
         } ElseIf ($global:AVNCompanyDataCommon.clienthealth -ge $global:AVNPenaltyThresholdThree) {
-            Write-Host "As a result of low client health, doing so requires two turns and 10 GIFs. Your GIFs:" -foregroundcolor $global:AVNDefaultTextForegroundColor
+            Write-Host "`nAs a result of low client health, closing a Technical Question will require two turns and 10 GIFs. Your GIFs:" -foregroundcolor $global:AVNDefaultTextForegroundColor
             $global:AVNPlayerData_CurrentPlayer.gifs
             If ($global:AVNPlayerData_CurrentPlayer.gifs -lt 10) {
-                Write-Host "You do not have enough GIFs." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "`nYou do not have enough GIFs." -foregroundcolor $global:AVNDefaultTextForegroundColor
                 Return
             }
             If ($global:AVNPlayerData_CurrentPlayer.turn -lt 2) {
-                Write-Host "You do not have enough turns." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "`nYou do not have enough turns." -foregroundcolor $global:AVNDefaultTextForegroundColor
                 Return
             }
         } Else {
-            Write-Host "As a result of low client health, doing so requires three of your turns and 10 GIFs. Your GIFs:" -foregroundcolor $global:AVNDefaultTextForegroundColor
+            Write-Host "`nAs a result of low client health, closing a Technical Question will require three of your turns and 10 GIFs. Your GIFs:" -foregroundcolor $global:AVNDefaultTextForegroundColor
             $global:AVNPlayerData_CurrentPlayer.gifs
             If ($global:AVNPlayerData_CurrentPlayer.gifs -lt 10) {
-                Write-Host "You do not have enough GIFs." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "`nYou do not have enough GIFs." -foregroundcolor $global:AVNDefaultTextForegroundColor
                 Return
             }
             If ($global:AVNPlayerData_CurrentPlayer.turn -lt 3) {
-                Write-Host "You do not have enough turns." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "`nYou do not have enough turns." -foregroundcolor $global:AVNDefaultTextForegroundColor
                 Return
             }
         }
@@ -61,7 +61,7 @@ Function Close-AVNTechnicalQuestion {
         $AVNTechConfirmation = "n"
         $AVNTechConfirmation = Read-Host "Would you like to proceed? (y/n)"
         If (($AVNTechConfirmation -ne "y") -and ($AVNTechConfirmation -ne "yes") -and ($AVNTechConfirmation -ne 'n') -and ($AVNTechConfirmation -ne 'no')) {
-            Write-Host "You've entered something odd. Please only enter y or n." -foregroundcolor $global:AVNDefaultTextForegroundColor
+            Write-Host "`nYou've entered something odd. Please only enter y or n." -foregroundcolor $global:AVNDefaultTextForegroundColor
         }
     } Until (($AVNTechConfirmation -eq "y") -or ($AVNTechConfirmation -eq "yes") -or ($AVNTechConfirmation -eq 'n') -or ($AVNTechConfirmation -eq 'no'))
 
@@ -77,15 +77,13 @@ Function Close-AVNTechnicalQuestion {
             $global:AVNPlayerData_CurrentPlayer.gifs -= 10
         }
         
-        $global:AVNCompanyData_CurrentPlayer.technicalquestionsremoved -= 1
+        $global:AVNCompanyData_CurrentPlayer.technicalquestionsremoved += 1
         $global:AVNCompanyData_CurrentPlayer.clienthealth += 1
         $global:AVNPlayerData_CurrentPlayer.kudos += 1
         $global:AVNPlayerData_CurrentPlayer.globalnotice = "closed a technical question."
-        Write-Host "You closed a technical question and increased Client Health by 1." -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "`nYou closed a Technical Question and increased Client Health by 1." -foregroundcolor $global:AVNDefaultTextForegroundColor
 
         ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile
-        
-        Wait-AVNKeyPress
     } Else {
         Return
     }

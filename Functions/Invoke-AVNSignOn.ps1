@@ -102,15 +102,15 @@ Function Invoke-AVNSignOn {
                 $AVNDiceOfferNumber++
                 $AVNDiceOffer.add($AVNDiceOfferNumber, $AVNDiceTypes[$_])
             }
-            Write-Host "`n⣿Daily Dice Allotment⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
+            Write-Host "`n⣿ADVENTURENET⣿Daily Dice Allotment⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
             Write-Host "`nChoose $global:AVNDiceChoicePerDay of the following to keep for the day:" -foregroundcolor $global:AVNDefaultTextForegroundColor
 
             $AVNChoiceText = @("first","second","third","fourth","fifth","sixth","seventh","eighth","ninth","tenth")
             [int]$AVNDiceChoiceNumber = -1
             For ($I = 0; $I -lt $global:AVNDiceChoicePerDay; $I++) {
                 Do {
-                    $AVNDiceOffer
-                    $AVNDiceChoiceNumber = Read-Host ("`nEnter the number next to your " + $AVNChoiceText[$I] + " choice")
+                    $AVNDiceOffer | Format-Table
+                    $AVNDiceChoiceNumber = Read-Host ("Enter the number next to your " + $AVNChoiceText[$I] + " choice")
                     If ($AVNDiceChoiceNumber -notin $AVNDiceOffer.keys) {
                         Write-Host "`nPlease choose a number from the list." -foregroundcolor $global:AVNDefaultTextForegroundColor
                     }

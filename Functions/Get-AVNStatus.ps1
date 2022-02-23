@@ -13,13 +13,25 @@
 #>
 Function Get-AVNStatus {
     param (
-        [Parameter()][string]$Type = ""
+        [Parameter()][switch]$Scoreboard,
+        [Parameter()][switch]$Team,
+        [Parameter()][switch]$Player,
+        [Parameter()][switch]$Inventory,
+        [Parameter()][switch]$Historical,
+        [Parameter()][switch]$Dev
     )
     #Writes current health levels and the last host output the player had to the screen.
     #Do a type param for each different category, and if no type is chosen, show all?
     Get-AVNConfig
 
-    If ($Type -eq "") {
+    If (($False -eq $Scoreboard) -and ($False -eq $Team) -and ($False -eq $Player) -and ($False -eq $Inventory) -and ($False -eq $Historical) -and ($False -eq $Dev)) {
+        $Scoreboard = $True
+        $Team = $True
+        $Player = $True
+        $Inventory = $True
+    }
+
+    If ($True -eq $Scoreboard) {
         $AVNPlayerTable = @(
             ForEach ($AVNPlayer in $global:AVNPlayerDataCommon) {
                 $AVNPlayerProperties = @{
@@ -30,18 +42,18 @@ Function Get-AVNStatus {
                 New-Object psobject -property $AVNPlayerProperties
             }
         )
-        Write-Host "`n⣿Scoreboard⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "`n⣿ADVENTURENET⣿Scoreboard⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
         $AVNPlayerTable | Format-Table player,global,kudos | Sort-Object -property "kudos" -descending
-
-        Write-Host "`n`n⣿Team Stats⣿`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
+    }
+    If ($True -eq $Team) {
+        Write-Host "`n⣿ADVENTURENET⣿Team Stats⣿`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
         Write-Host "Team Health:                     " $global:AVNCompanyDataCommon.teamhealth "out of" $global:AVNHealthDefault
         Write-Host "Client Health:                   " $global:AVNCompanyDataCommon.clienthealth "out of" $global:AVNHealthDefault
         Write-Host "Current Project Stage:           " $global:AVNCompanyDataCommon.currentstage
         Write-Host "Technical Questions:             " $global:AVNCompanyDataCommon.technicalquestionstotal
-
-        Wait-AVNKeyPress
-
-        Write-Host "`n`n⣿Your Stats⣿`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
+    }
+    If ($True -eq $Player) {
+        Write-Host "`n`n⣿ADVENTURENET⣿Player Stats⣿`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
         Write-Host "Player Name:                     " $global:AVNPlayerData_CurrentPlayer.playername
         Write-Host "GIFs:                            " $global:AVNPlayerData_CurrentPlayer.gifs
         Write-Host "Training Available:              " $global:AVNPlayerData_CurrentPlayer.training
@@ -51,7 +63,8 @@ Function Get-AVNStatus {
         Write-Host "Opportunities Available:         " $global:AVNPlayerData_CurrentPlayer.opportunities
         Write-Host "Technical Questions Available:   " $global:AVNCompanyDataCommon.technicalquestionsavailable
         Write-Host "Last Sign On:                    " $global:AVNPlayerData_CurrentPlayer.lastsignon
-
+    }
+    If ($True -eq $Inventory) {
         $AVNDiceTable = @(
             ForEach ($AVNPermDice in $global:AVNDicePerm_CurrentPlayer) {
                 $AVNPermDiceProperties = [ordered]@{
@@ -68,6 +81,7 @@ Function Get-AVNStatus {
                 New-Object psobject -property $AVNDailyDiceProperties
             }
         )
+        Write-Host "`n`n⣿ADVENTURENET⣿Inventory⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
         Write-Output $AVNDiceTable | Sort-Object "Dice" | Format-Table Dice,Type
         
         #Getting specials
@@ -89,11 +103,10 @@ Function Get-AVNStatus {
             }
         )
         Write-Output $global:AVNSpecialsTable | Sort-Object Specials | Format-Table Specials,Type,Description
-
-
-    } ElseIf ($Type -eq "historical") {
+    }
+    If ($True -eq $Historical) {
         #Really, this should show for all players.
-        Write-Host "`n⣿Historical Stats⣿`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "`n⣿ADVENTURENET⣿Historical Stats⣿`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
         Write-Host "Recent Client Health Contributions:  " $global:AVNHistoricalData_CurrentPlayer.RecentClientHealthContributions
         Write-Host "Recent Team Health Contributions:    " $global:AVNHistoricalData_CurrentPlayer.RecentTeamHealthContributions
         Write-Host "Recent Project Stage Waves Completed:" $global:AVNHistoricalData_CurrentPlayer.RecentProjectStageWavesCompleted
@@ -104,7 +117,9 @@ Function Get-AVNStatus {
         Write-Host "Total Project Stage Waves Completed: " $global:AVNHistoricalData_CurrentPlayer.TotalProjectStageWavesCompleted
         Write-Host "Total Kudos Attained:                " $global:AVNHistoricalData_CurrentPlayer.TotalKudos
         Write-Host "Total GIFs Attained:                 " $global:AVNHistoricalData_CurrentPlayer.TotalGIFs "`n"
-    } ElseIf ($Type -eq "dev") {
+    }
+    If ($Type -eq "dev") {
+        Write-Host "`n⣿ADVENTURENET⣿Dev⣿`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
         '`n$global:AVNSpecials_CurrentPlayer'
         $global:AVNSpecials_CurrentPlayer
         '`n$global:AVNDicePerm_CurrentPlayer'
@@ -121,7 +136,5 @@ Function Get-AVNStatus {
         $global:AVNCompanyDataCommon
         '`n$global:AVNHistoricalData_CurrentPlayer'
         $global:AVNHistoricalData_CurrentPlayer
-    } Else {
-        Write-Host "`nSorry, you've entered an invalid -type. Try again without using -type or else using either -type 'dev' or 'historical'.`n"
     }
 }
