@@ -20,7 +20,7 @@
 ## Theme and Aesthetics
  - 90s BBS door games
  - Computer kitsch
- - Modern board games
+ - Tabletop games
 
 # Game Mechanics
 
