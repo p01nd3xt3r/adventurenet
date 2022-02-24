@@ -33,7 +33,8 @@ Function Get-AVNHelp {
     }
 
     If ($True -eq $Functions) {
-        Write-Host "Several functions are only used by the system. Here are the ones you'll actually use:`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "`n⣿ADVENTURENET⣿Help: Functions⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "`nSeveral functions are only used by the system. Here are the ones you'll actually use:`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
 @"
 Invoke-AVNSignOn
 The first function you'll use at the beginning of each day. It initiates your different daily alottments: turns, service ticket assignments, opportunities, and daily dice alottments. It also converts old service tickets into Technical Questions that other users can answer.
@@ -73,7 +74,7 @@ Close-AVNSeason converts current data in all player data files into historical d
 
     If ($True -eq $Dice) {
 
-        Write-Host "`n⣿Help: Dice⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "`n⣿ADVENTURENET⣿Help: Dice⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
 
         #Getting dice info table.
         $AVNDataFileContent = ConvertFrom-AVNObfuscated -path ($global:AVNRootPath + "\bGBIuKWniXYw")
@@ -107,14 +108,104 @@ Close-AVNSeason converts current data in all player data files into historical d
         $AVNDataFileContent | ForEach-Object {
             Invoke-Expression $_
         }
-        Write-Host "`n⣿Help: Specials⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
-        Write-Host "`nGeneral" -foregroundcolor $global:AVNDefaultTextForegroundColor
-        Write-Host "`nInstant" -foregroundcolor $global:AVNDefaultTextForegroundColor
-        Write-Host "`nPreEmptive" -foregroundcolor $global:AVNDefaultTextForegroundColor
-        Write-Host "`nInterrupt" -foregroundcolor $global:AVNDefaultTextForegroundColor
-        Write-Host "`nInjection" -foregroundcolor $global:AVNDefaultTextForegroundColor
-        Write-Host "`nTeams-Purchasable" -foregroundcolor $global:AVNDefaultTextForegroundColor
 
-        #List of all specials by purchasable and then by type.
+        Write-Host "`n⣿ADVENTURENET⣿Help: Specials⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "Basic description and how you get them and introduction of types here." -foregroundcolor $global:AVNDefaultTextForegroundColor
+        
+        $AVNGeneralSpecialsTable = @(
+            ForEach ($AVNSpecial in $AVNSpecials) {
+                If (($AVNSpecial.type -eq "General") -and ($AVNSpecial.teamscost -eq 0)) {
+                    $AVNGeneralSpecialProperties = [ordered]@{
+                        Name = $AVNSpecial.name
+                        Type = $AVNSpecial.type
+                        Description = $AVNSpecial.description
+                        Effect = $AVNSpecial.EffectDescription
+                    }
+                    New-Object psobject -property $AVNGeneralSpecialProperties
+                }
+            }
+        )
+        Write-Host "`n`n⣿Type: General⣿`nGeneral Specials are used within the Invoke-AVNSpecial function." -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Output $AVNGeneralSpecialsTable | Sort-Object "type" | Format-Table Name,Effect
+
+        $AVNInstantSpecialsTable = @(
+            ForEach ($AVNSpecial in $AVNSpecials) {
+                If (($AVNSpecial.type -eq "Instant") -and ($AVNSpecial.teamscost -eq 0)) {
+                    $AVNInstantSpecialProperties = [ordered]@{
+                        Name = $AVNSpecial.name
+                        Type = $AVNSpecial.type
+                        Description = $AVNSpecial.description
+                        Effect = $AVNSpecial.EffectDescription
+                    }
+                    New-Object psobject -property $AVNInstantSpecialProperties
+                }
+            }
+        )
+        Write-Host "`n⣿Type: Instant⣿`nInstant Specials take effect as soon as you attain them." -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Output $AVNInstantSpecialsTable | Sort-Object "type" | Format-Table Name,Effect
+
+        $AVNPreEmptiveSpecialsTable = @(
+            ForEach ($AVNSpecial in $AVNSpecials) {
+                If (($AVNSpecial.type -eq "PreEmptive") -and ($AVNSpecial.teamscost -eq 0)) {
+                    $AVNPreEmptiveSpecialProperties = [ordered]@{
+                        Name = $AVNSpecial.name
+                        Type = $AVNSpecial.type
+                        Description = $AVNSpecial.description
+                        Effect = $AVNSpecial.EffectDescription
+                    }
+                    New-Object psobject -property $AVNPreEmptiveSpecialProperties
+                }
+            }
+        )
+        Write-Host "`n⣿Type: PreEmptive⣿`nPreEmptive Specials are used before the first wave during either Close-AVNServiceTicket or Close-AVNProjectStage." -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Output $AVNPreEmptiveSpecialsTable | Sort-Object "type" | Format-Table Name,Effect
+
+        $AVNInterruptSpecialsTable = @(
+            ForEach ($AVNSpecial in $AVNSpecials) {
+                If (($AVNSpecial.type -eq "Interrupt") -and ($AVNSpecial.teamscost -eq 0)) {
+                    $AVNInterruptSpecialProperties = [ordered]@{
+                        Name = $AVNSpecial.name
+                        Type = $AVNSpecial.type
+                        Description = $AVNSpecial.description
+                        Effect = $AVNSpecial.EffectDescription
+                    }
+                    New-Object psobject -property $AVNInterruptSpecialProperties
+                }
+            }
+        )
+        Write-Host "`n⣿Type: Interrupt⣿`nInterrupt Specials are used before the second or third waves during either Close-AVNServiceTicket or Close-AVNProjectStage." -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Output $AVNInterruptSpecialsTable | Sort-Object "type" | Format-Table Name,Effect
+
+        $AVNInjectionSpecialsTable = @(
+            ForEach ($AVNSpecial in $AVNSpecials) {
+                If (($AVNSpecial.type -eq "injection") -and ($AVNSpecial.teamscost -eq 0)) {
+                    $AVNInjectionSpecialProperties = [ordered]@{
+                        Name = $AVNSpecial.name
+                        Type = $AVNSpecial.type
+                        Description = $AVNSpecial.description
+                        Effect = $AVNSpecial.EffectDescription
+                    }
+                    New-Object psobject -property $AVNInjectionSpecialProperties
+                }
+            }
+        )
+        Write-Host "`n⣿Type: Injection⣿`nInjection Specials provide a boost to any roll, adding additional worktypes to the dice results that you've already rolled." -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Output $AVNInjectionSpecialsTable | Sort-Object "type" | Format-Table Name,Effect
+
+        $AVNTeamsSpecialsTable = @(
+            ForEach ($AVNSpecial in $AVNSpecials) {
+                If ($AVNSpecial.teamscost -gt 0) {
+                    $AVNTeamsSpecialProperties = [ordered]@{
+                        Name = $AVNSpecial.name
+                        Type = $AVNSpecial.type
+                        Description = $AVNSpecial.description
+                        Effect = $AVNSpecial.EffectDescription
+                    }
+                    New-Object psobject -property $AVNTeamsSpecialProperties
+                }
+            }
+        )
+        Write-Host "`n⣿Type: Teams-Purchasable⣿`nThese varied Specials may be purchased with GIFs within Enter-AVNTeams." -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Output $AVNTeamsSpecialsTable | Sort-Object "type" | Format-Table Name,Type,Effect
     }
 }
