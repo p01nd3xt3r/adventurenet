@@ -30,6 +30,10 @@ Function Get-AVNHelp {
             Write-Host $_ -foregroundcolor $global:AVNDefaultBannerForegroundColor
             Start-Sleep -Milliseconds 20
         }
+
+        Write-Host "⣿ADVENTURENET⣿Help⣿`n`nNote that you can use various parameters to specify which help you want to see:`n- Functions`n- Dice`n- Specials`n- (soon to be others as well)" -foregroundcolor $global:AVNDefaultTextForegroundColor
+
+        Wait-AVNKeyPress
     }
 
     If ($True -eq $Functions) {
