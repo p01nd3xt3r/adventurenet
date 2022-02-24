@@ -21,8 +21,6 @@ Function Enter-AVNTeams {
         Start-Sleep -Milliseconds 20
     }
 
-    Write-Host "`nWelcome to Teams, where you can convert your GIFs into powerful Specials." -foregroundcolor $global:AVNDefaultTextForegroundColor
-
     #Getting specials
     #Yields the $AVNSpecials array of hashtables, which is the cipher for specials.
     $AVNDataFileContent = ConvertFrom-AVNObfuscated -path ($global:AVNRootPath + "\XQxoHZJajcgW")
@@ -63,10 +61,10 @@ Function Enter-AVNTeams {
 
     Do {
         Do {
-            Write-Host "`n⣿ADVENTURENET⣿Specials⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
+            Write-Host "⣿ADVENTURENET⣿Specials⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
             Write-Output $AVNSpecialsTable | Sort-Object "item" | Format-Table item,cost,type,name,effect
 
-            Write-Host "You have " $global:AVNPlayerData_CurrentPlayer.gifs "GIFs." -foregroundcolor $global:AVNDefaultTextForegroundColor
+            Write-Host "You have" $global:AVNPlayerData_CurrentPlayer.gifs "GIFs." -foregroundcolor $global:AVNDefaultTextForegroundColor
             $AVNTeamsPurchaseChoice = Read-Host "Enter the item number of the special you would like to purchase, ? for more information, or nothing to exit"
             
             #If empty, end function.
@@ -87,7 +85,7 @@ Function Enter-AVNTeams {
 
         If ($AVNTeamsPurchaseChoice -eq "?") {
             #Showing info for each applicable special.
-            Get-Help -specials
+            Get-AVNHelp -specials
         } Else {
             #Making sure the player has enough gifs for the chosen special
             $AVNTeamsPurchaseChoice = [int]$AVNTeamsPurchaseChoice

@@ -36,13 +36,6 @@ Function Close-AVNSeason {
         $AVNDataFileContent | ForEach-Object {
         Invoke-Expression $_
         }
-        <#
-        Old
-        $AVNDataFileContent = Get-Content $AVNDataFile
-        $AVNDataFileContent | ForEach-Object {
-            Invoke-Expression $_
-        }
-        #>
 
         #Create all pertinent global current variables from stored variables
         $global:AVNPlayerData_CurrentPlayer = $AVNStoredPlayerData

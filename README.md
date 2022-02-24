@@ -1,4 +1,4 @@
-*Please note that the following is all WIP and not currently up to date.*
+*Please note that the following is all WIP and not currently up to date. It might be better to use Get-AVNHelp in the module instead.*
 
 # Introduction
 
@@ -27,23 +27,22 @@
 ## Company Status
 
 ### Client Health
-Starts at 25
 #### Increased by:
  - Completing project stages prior to their deadlines(?)
+ - Close technical questions
  - Specials
 #### Decreased by:
  - Service Tickets that become technical questions
  - Specials
-#### At the following thresholds, low Client Health detriments all players:
- - 20: Players use one fewer die per service ticket encounter
- - 15: Answering technical questions requires a sacrifice of GIFs
- - 10: Players use two fewer dice per service ticket encounter
- - 5: Answering technical questions now takes three turns instead of two
- - 0: Players use three fewer dice per service ticket encounter
+#### At configured thresholds, low Client Health detriments all players:
+ - Players use one fewer die per service ticket encounter
+ - Answering technical questions requires a sacrifice of GIFs
+ - Players use two fewer dice per service ticket encounter
+ - Answering technical questions now takes three turns instead of two
+ - Players use three fewer dice per service ticket encounter
 
 ### Team Health
 #### Collective health of all players
-Starts at 25
 #### Increased by:
  - Specials
 #### Decreased by:
@@ -51,11 +50,11 @@ Starts at 25
  - Addressing project stages
  - Specials
 #### At the following thresholds, low Team Health detriments all players:
- - 20: Daily dice now randomly assigned
- - 15: Training requires a sacrifice of GIFs
- - 10: Increased risk of Project counterattacks (set default amount in config)
- - 5: Reduction in chance of finding specials in service tickets
- - 0: Permanent dice now randomly assigned in training
+ - Daily dice now randomly assigned
+ - Training requires a sacrifice of GIFs
+ - Increased risk of Project counterattacks (set default amount in config)
+ - Reduction in chance of finding specials in service tickets
+ - Permanent dice now randomly assigned in training
 
 ### Kudos (i.e., victory points)
 #### An individual’s contributions to the overall Company Status.
@@ -79,7 +78,7 @@ Players are allowed to sign on once per 24 hours. Signing on assigns the player 
 #### Turns
 Each player is given a configurable number of turns per day. Most actions requrie turns.
 #### Dice
-A player’s toolkit consists of solution dice. When the player signs on, he or she is offered a configurable number of solution dice. He or she chooses a confugyrable number of dice for use during that day. Daily dice reset each day. But Training can be used to increase the player's permanent store of dice.
+A player’s toolkit consists of dice. When the player signs on, he or she is offered a configurable number of daily dice. He or she chooses a configurable number of dice for use during that day. Daily dice reset each day. But Training can be used to increase the player's permanent store of dice.
 
 Each die has a particular type relating to AdventureNet’s toolstack, which in turn relate to the more generic categories of IT work types. See the Encounters section for more information. 
 

@@ -45,10 +45,10 @@ Function Invoke-AVNSpecial {
         $AVNGeneralSpecialsHashTable.add($AVNGeneralSpecialsHashTableI, $_.name)
     }
 
-    Write-Host "`n⣿ADVENTURENET⣿Specials⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
+    Write-Host "⣿ADVENTURENET⣿Specials⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
 
     If ($AVNGeneralSpecials.count -lt 1) {
-        Write-Host "Sorry, you don't have any general specials." -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "`nSorry, you don't have any general specials.`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
         Return
     } Else {
         Do {

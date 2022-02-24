@@ -75,7 +75,7 @@ Function Invoke-AVNSignOn {
         }
         Wait-AVNKeyPress
 
-        Write-Host "Welcome to AdventureNet." -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "`nWelcome to AdventureNet." -foregroundcolor $global:AVNDefaultTextForegroundColor
 
         #Running dice allotment. I had this as a separate function, but I think it's better here.
         #Dice types table. Not making this a global at the moment.
@@ -149,7 +149,7 @@ Function Invoke-AVNSignOn {
             $global:AVNSpecials_CurrentPlayer += $AVNInjectionSpecials[$AVNInjectionRewardRoll].name
             $AVNInjectionSpecialsAdded += $AVNInjectionSpecials[$AVNInjectionRewardRoll].name
         }
-        Write-Host "`n⣿ADVENTURENET⣿Injection Specials Allotment⣿`nThe following injection specials have been added to your collection:" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "`n⣿ADVENTURENET⣿Injection Specials Allotment⣿`n`nThe following injection specials have been added to your collection:" -foregroundcolor $global:AVNDefaultTextForegroundColor
         $AVNInjectionSpecialsAdded
 
         #Writing back to data file.
@@ -158,7 +158,6 @@ Function Invoke-AVNSignOn {
         Wait-AVNKeyPress
         Get-AVNStatus
     } Else {
-        Write-Host "`nYou have already signed on once today. Your last Invoke-AVNSignOn on was" $global:AVNPlayerData_CurrentPlayer.lastsignon -foregroundcolor $global:AVNDefaultTextForegroundColor
-        Wait-AVNKeyPress
+        Write-Host "`nYou have already signed on once today. Your last Invoke-AVNSignOn on was" $global:AVNPlayerData_CurrentPlayer.lastsignon "`b.`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
     }
 }

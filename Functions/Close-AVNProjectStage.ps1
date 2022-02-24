@@ -195,11 +195,9 @@ Function Close-AVNProjectStage {
                 }
 
                 #Informing/prepping the player
-                Write-Host "`nThe project looms before you--three stages with three waves apiece. You are on Stage" $AVNProjectCurrentStage "`b, Wave" $AVNProjectCurrentWave "." -foregroundcolor $global:AVNDefaultTextForegroundColor
-                Write-Host "`nYou see the following defenses for this wave:" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "The project looms before you--three stages with three waves apiece. You are on Stage" $AVNProjectCurrentStage "`b, Wave" $AVNProjectCurrentWave "." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "`n⣿ADVENTURENET⣿Project⣿`n`nYou see the following defenses for this wave:" -foregroundcolor $global:AVNDefaultTextForegroundColor
                 $AVNProjectCurrentStageCurrentWaveHashTable.defenses
-
-                Wait-AVNKeyPress
 
                 #Default choices.
                 [int]$AVNOptionI = 0
@@ -309,17 +307,16 @@ Function Close-AVNProjectStage {
         Do {
             $AVNDiceRollChoicePass = $True
 
-            Write-Host "Defenses for this wave are:`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
+            Write-Host "`nDefenses for this wave are:" -foregroundcolor $global:AVNDefaultTextForegroundColor
             $AVNProjectCurrentStageCurrentWaveHashTable.defenses
-            Write-Host "`nAnd you have the following dice available to roll:" -ForegroundColor $global:AVNDefaultTextForegroundColor
+            Write-Host "And you have the following dice available to roll:" -ForegroundColor $global:AVNDefaultTextForegroundColor
             $AVNAvailableDice
             #Create entry hash that includes ?
 
-            [string]$AVNDiceRollChoice = Read-Host "`nChoose which you'd like to roll by its number in the above table; for multiple, separate numbers by a comma (ex: 1,2), or else enter ? to display work-type value alottment per dice"
+            [string]$AVNDiceRollChoice = Read-Host "Choose which you'd like to roll by its number in the above table; for multiple, separate numbers by a comma (ex: 1,2), or else enter ? to display work-type value alottment per dice"
 
             If ($AVNDiceRollChoice -eq '?') {
                 Get-AVNHelp -dice
-                Wait-AVNKeyPress
                 $AVNDiceRollChoicePass = $False
             } Else {
                 $AVNDiceRollChoiceArray = $AVNDiceRollChoice -split ","
@@ -423,7 +420,7 @@ Function Close-AVNProjectStage {
                         $global:AVNSpecials_CurrentPlayer = $AVNPlayerDataSpecialsTempArray
                         $AVNInjectionSpecials = GatherAvailableInjectionSpecials
 
-                        Write-Host "You now have the following work types in your roll:" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                        Write-Host "`nYou now have the following work types in your roll:" -foregroundcolor $global:AVNDefaultTextForegroundColor
                         $AVNDiceRolls
                     }
                 }
@@ -483,7 +480,6 @@ Function Close-AVNProjectStage {
         } Else {
             Write-Host "`nYou have failed to defeat the current wave." -foregroundcolor $global:AVNDefaultTextForegroundColor
             $AVNProjectCurrentWave = 4
-            Wait-AVNKeyPress
         }
         #If successful, update wave and proceed. Keep going until wave = 4 I guess, and then set the following to that to complete.
     } Until ($AVNProjectCurrentWave -gt 3)
@@ -518,9 +514,9 @@ Function Close-AVNProjectStage {
         $global:AVNCompanyData_CurrentPlayer.teamhealth += 1
 
         If ($AVNProjectCurrentStage -lt 3) {
-            Write-Host "You completed Stage " $AVNProjectCurrentStage " of the Project. Go now, and prepare for the next." -foregroundcolor $global:AVNDefaultTextForegroundColor
+            Write-Host "`n⣿ADVENTURENET⣿Project⣿Success!⣿`n`nYou completed Stage " $AVNProjectCurrentStage " of the Project. Go now, and prepare for the next." -foregroundcolor $global:AVNDefaultTextForegroundColor
             If ($True -eq $AVNProjectPrecedeDeadlineSwitch) {
-                Write-Host "For completing this stage prior to its deadline, you..." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "`nFor completing this stage prior to its deadline, you..." -foregroundcolor $global:AVNDefaultTextForegroundColor
                 #Invoke bonuses
                 $global:AVNPlayerData_CurrentPlayer.globalnotice = "defeated a Project Stage before its deadline."
                 $global:AVNPlayerData_CurrentPlayer.kudos += 5
@@ -531,9 +527,9 @@ Function Close-AVNProjectStage {
             }
             Wait-AVNKeyPress
         } Else {
-            Write-Host "You completed the final stage of the project! The season is now complete, and all tallies, once players finish all remaining turns, are final." -foregroundcolor $global:AVNDefaultTextForegroundColor
+            Write-Host "`n⣿ADVENTURENET⣿Project⣿Victory!⣿`n`nYou completed the final stage of the project! `nThe season is now complete, and all tallies, once players finish all remaining turns, are final." -foregroundcolor $global:AVNDefaultTextForegroundColor
             If ($True -eq $AVNProjectPrecedeDeadlineSwitch) {
-                Write-Host "And for completing it prior to its deadline, you..." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "`nAnd for completing it prior to its deadline, you..." -foregroundcolor $global:AVNDefaultTextForegroundColor
                 #Invoke bonuses
                 $global:AVNPlayerData_CurrentPlayer.globalnotice = "defeated the final Project Stage and finished the season before its deadline."
                 $global:AVNPlayerData_CurrentPlayer.kudos += 5
@@ -545,7 +541,7 @@ Function Close-AVNProjectStage {
             Wait-AVNKeyPress
         }
     } Else {
-        Write-Host "`nThe Project, in its immensity, has overwhelmed you." -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "`n⣿ADVENTURENET⣿Project⣿Failure⣿`n`nThe Project, in its immensity, has overwhelmed you." -foregroundcolor $global:AVNDefaultTextForegroundColor
         $global:AVNPlayerData_CurrentPlayer.globalnotice = "was overcome by a Project Stage."
         #Set turn and loss changes at the beginning of the function.
         #No turn loss?

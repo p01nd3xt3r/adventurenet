@@ -12,28 +12,29 @@
 .Functionality
 #>
 Function Get-AVNTraining {
+    #Intro Graphic
+    $AVNTrainingAnim = Get-Content ($AVNRootPath + "\Media\AVNTrainingAnim")
+    $AVNTrainingAnim  | ForEach-Object {
+        Write-Host $_ -foregroundcolor $global:AVNDefaultBannerForegroundColor
+        Start-Sleep -Milliseconds 20
+    }
+    
+    Write-Host "⣿ADVENTURENET⣿Training⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
+
     If ($global:AVNPlayerData_CurrentPlayer.training -gt 0) {
-        #Intro Graphic
-        $AVNTrainingAnim = Get-Content ($AVNRootPath + "\Media\AVNTrainingAnim")
-        $AVNTrainingAnim  | ForEach-Object {
-            Write-Host $_ -foregroundcolor $global:AVNDefaultBannerForegroundColor
-            Start-Sleep -Milliseconds 20
-        }
-        
-        
         If ($global:AVNCompanyDataCommon.teamhealth -lt $global:AVNPenaltyThresholdTwo) {
             If ($global:AVNPlayerData_CurrentPlayer.gifs -lt 10) {
-                Write-Host "Note that as a result of low team health, training requires 10 GIFs, and you don't have enough." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "`nNote that as a result of low team health, training requires 10 GIFs, and you don't have enough." -foregroundcolor $global:AVNDefaultTextForegroundColor
                 Return
             } Else {
                 Do {
-                    Write-Host "Note that as a result of low team health, training requires 10 GIFs. Your GIFs:" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                    Write-Host "`nNote that as a result of low team health, training requires 10 GIFs. Your GIFs:" -foregroundcolor $global:AVNDefaultTextForegroundColor
                     $global:AVNPlayerData_CurrentPlayer.gifs
                     
                     $AVNTrainingConfirmation = "n"
-                    $AVNTrainingGIFConfirmation = Read-Host "Would you like to proceed? (y/n)"
+                    $AVNTrainingGIFConfirmation = Read-Host "`nWould you like to proceed? (y/n)"
                     If (($AVNTrainingGIFConfirmation -ne "y") -and ($AVNTrainingGIFConfirmation -ne "yes") -and ($AVNTrainingGIFConfirmation -ne 'n') -and ($AVNTrainingGIFConfirmation -ne 'no')) {
-                        Write-Host "You've entered something odd. Please only enter y or n." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                        Write-Host "`nYou've entered something odd. Please only enter y or n." -foregroundcolor $global:AVNDefaultTextForegroundColor
                     }
                 } Until (($AVNTrainingGIFConfirmation -eq "y") -or ($AVNTrainingGIFConfirmation -eq "yes") -or ($AVNTrainingGIFConfirmation -eq 'n') -or ($AVNTrainingGIFConfirmation -eq 'no'))
                 If (($AVNTrainingGIFConfirmation -eq 'n') -or ($AVNTrainingGIFConfirmation -eq 'no')) {
@@ -125,8 +126,7 @@ Function Get-AVNTraining {
             }
         }
     } Else {
-        Write-Host "Sorry, you don't have any training available." -foregroundcolor $global:AVNDefaultTextForegroundColor
-        Wait-AVNKeyPress
+        Write-Host "`nSorry, you don't have any training available.`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
         Return
     }
     ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile
