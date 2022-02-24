@@ -33,7 +33,7 @@ Function Get-AVNHelp {
     }
 
     If ($True -eq $Functions) {
-        Write-Host "`n⣿ADVENTURENET⣿Help: Functions⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "`n⣿ADVENTURENET⣿Help⣿Functions⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
         Write-Host "`nSeveral functions are only used by the system. Here are the ones you'll actually use:`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
 @"
 Invoke-AVNSignOn
@@ -74,7 +74,7 @@ Close-AVNSeason converts current data in all player data files into historical d
 
     If ($True -eq $Dice) {
 
-        Write-Host "`n⣿ADVENTURENET⣿Help: Dice⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "`n⣿ADVENTURENET⣿Help⣿Dice⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
 
         #Getting dice info table.
         $AVNDataFileContent = ConvertFrom-AVNObfuscated -path ($global:AVNRootPath + "\bGBIuKWniXYw")
@@ -84,22 +84,56 @@ Close-AVNSeason converts current data in all player data files into historical d
         
         Write-Host "`nDice represent what work you attempt in Service Tickets and Project Stages. `nEach die has six sides, each of which represents a particular work type.`n`nA die's type indicates the breakdown of its work types." -foregroundcolor $global:AVNDefaultTextForegroundColor
 
-        Write-Host "`n`n⣿Dice Breakdown⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
-        Write-Host "`nMimecastUmbrella" -foregroundcolor $global:AVNDefaultTextForegroundColor
-        Write-Output $AVNDiceValues.MimecastUmbrella | Format-Table -HideTableHeaders
-        Write-Host "`nMicrosoft365" -foregroundcolor $global:AVNDefaultTextForegroundColor
-        $AVNDiceValues.Microsoft365
-        Write-Host "`nDatto" -foregroundcolor $global:AVNDefaultTextForegroundColor
-        $AVNDiceValues.Datto
-        Wait-AVNKeyPress
-        Write-Host "`nITGlue" -foregroundcolor $global:AVNDefaultTextForegroundColor
-        $AVNDiceValues.ITGlue
-        Write-Host "`nHuntressDefender" -foregroundcolor $global:AVNDefaultTextForegroundColor
-        $AVNDiceValues.HuntressDefender
-        Write-Host "`nWindows" -foregroundcolor $global:AVNDefaultTextForegroundColor
-        $AVNDiceValues.Windows
-        Write-Host "`nCoreValues" -foregroundcolor $global:AVNDefaultTextForegroundColor
-        $AVNDiceValues.CoreValues
+        Write-Host "`n⣿ADVENTURENET⣿Help⣿Dice⣿MimecastUmbrella⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "Workstation:       " $AVNDiceValues.MimecastUmbrella["Workstation"]
+        Write-Host "Cloud:             " $AVNDiceValues.MimecastUmbrella["Cloud"]
+        Write-Host "OnPrem:            " $AVNDiceValues.MimecastUmbrella["OnPrem"]
+        Write-Host "Networking:        " $AVNDiceValues.MimecastUmbrella["Networking"]
+        Write-Host "Security:          " $AVNDiceValues.MimecastUmbrella["Security"]
+        Write-Host "Character:         " $AVNDiceValues.MimecastUmbrella["Character"]
+        Write-Host "`n⣿ADVENTURENET⣿Help⣿Dice⣿Microsoft365⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "Workstation:       " $AVNDiceValues.Microsoft365["Workstation"]
+        Write-Host "Cloud:             " $AVNDiceValues.Microsoft365["Cloud"]
+        Write-Host "OnPrem:            " $AVNDiceValues.Microsoft365["OnPrem"]
+        Write-Host "Networking:        " $AVNDiceValues.Microsoft365["Networking"]
+        Write-Host "Security:          " $AVNDiceValues.Microsoft365["Security"]
+        Write-Host "Character:         " $AVNDiceValues.Microsoft365["Character"]
+        Write-Host "`n⣿ADVENTURENET⣿Help⣿Dice⣿Datto⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "Workstation:       " $AVNDiceValues.Datto["Workstation"]
+        Write-Host "Cloud:             " $AVNDiceValues.Datto["Cloud"]
+        Write-Host "OnPrem:            " $AVNDiceValues.Datto["OnPrem"]
+        Write-Host "Networking:        " $AVNDiceValues.Datto["Networking"]
+        Write-Host "Security:          " $AVNDiceValues.Datto["Security"]
+        Write-Host "Character:         " $AVNDiceValues.Datto["Character"]
+        Write-Host "`n⣿ADVENTURENET⣿Help⣿Dice⣿ITGlue⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "Workstation:       " $AVNDiceValues.ITGlue["Workstation"]
+        Write-Host "Cloud:             " $AVNDiceValues.ITGlue["Cloud"]
+        Write-Host "OnPrem:            " $AVNDiceValues.ITGlue["OnPrem"]
+        Write-Host "Networking:        " $AVNDiceValues.ITGlue["Networking"]
+        Write-Host "Security:          " $AVNDiceValues.ITGlue["Security"]
+        Write-Host "Character:         " $AVNDiceValues.ITGlue["Character"]
+        Write-Host "`n⣿ADVENTURENET⣿Help⣿Dice⣿HuntressDefender⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "Workstation:       " $AVNDiceValues.HuntressDefender["Workstation"]
+        Write-Host "Cloud:             " $AVNDiceValues.HuntressDefender["Cloud"]
+        Write-Host "OnPrem:            " $AVNDiceValues.HuntressDefender["OnPrem"]
+        Write-Host "Networking:        " $AVNDiceValues.HuntressDefender["Networking"]
+        Write-Host "Security:          " $AVNDiceValues.HuntressDefender["Security"]
+        Write-Host "Character:         " $AVNDiceValues.HuntressDefender["Character"]
+        Write-Host "`n⣿ADVENTURENET⣿Help⣿Dice⣿Windows⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "Workstation:       " $AVNDiceValues.Windows["Workstation"]
+        Write-Host "Cloud:             " $AVNDiceValues.Windows["Cloud"]
+        Write-Host "OnPrem:            " $AVNDiceValues.Windows["OnPrem"]
+        Write-Host "Networking:        " $AVNDiceValues.Windows["Networking"]
+        Write-Host "Security:          " $AVNDiceValues.Windows["Security"]
+        Write-Host "Character:         " $AVNDiceValues.Windows["Character"]
+        Write-Host "`n⣿ADVENTURENET⣿Help⣿Dice⣿CoreValues⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "Workstation:       " $AVNDiceValues.CoreValues["Workstation"]
+        Write-Host "Cloud:             " $AVNDiceValues.CoreValues["Cloud"]
+        Write-Host "OnPrem:            " $AVNDiceValues.CoreValues["OnPrem"]
+        Write-Host "Networking:        " $AVNDiceValues.CoreValues["Networking"]
+        Write-Host "Security:          " $AVNDiceValues.CoreValues["Security"]
+        Write-Host "Character:         " $AVNDiceValues.CoreValues["Character"]
+    
         Wait-AVNKeyPress
     }
     If ($True -eq $Specials) {
@@ -109,8 +143,8 @@ Close-AVNSeason converts current data in all player data files into historical d
             Invoke-Expression $_
         }
 
-        Write-Host "`n⣿ADVENTURENET⣿Help: Specials⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
-        Write-Host "Basic description and how you get them and introduction of types here." -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "`n⣿ADVENTURENET⣿Help⣿Specials⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "A Special's type determines where it may be used, from where it may be attained, and what kinds of things it allows you to do." -foregroundcolor $global:AVNDefaultTextForegroundColor
         
         $AVNGeneralSpecialsTable = @(
             ForEach ($AVNSpecial in $AVNSpecials) {
@@ -125,7 +159,7 @@ Close-AVNSeason converts current data in all player data files into historical d
                 }
             }
         )
-        Write-Host "`n`n⣿Type: General⣿`nGeneral Specials are used within the Invoke-AVNSpecial function." -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "`n`n⣿ADVENTURENET⣿Help⣿Specials⣿Type: General⣿`nGeneral Specials are used within the Invoke-AVNSpecial function." -foregroundcolor $global:AVNDefaultTextForegroundColor
         Write-Output $AVNGeneralSpecialsTable | Sort-Object "type" | Format-Table Name,Effect
 
         $AVNInstantSpecialsTable = @(
@@ -141,7 +175,7 @@ Close-AVNSeason converts current data in all player data files into historical d
                 }
             }
         )
-        Write-Host "`n⣿Type: Instant⣿`nInstant Specials take effect as soon as you attain them." -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "`n⣿ADVENTURENET⣿Help⣿Specials⣿Type: Instant⣿`nInstant Specials take effect as soon as you attain them." -foregroundcolor $global:AVNDefaultTextForegroundColor
         Write-Output $AVNInstantSpecialsTable | Sort-Object "type" | Format-Table Name,Effect
 
         $AVNPreEmptiveSpecialsTable = @(
@@ -157,7 +191,7 @@ Close-AVNSeason converts current data in all player data files into historical d
                 }
             }
         )
-        Write-Host "`n⣿Type: PreEmptive⣿`nPreEmptive Specials are used before the first wave during either Close-AVNServiceTicket or Close-AVNProjectStage." -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "`n⣿ADVENTURENET⣿Help⣿Specials⣿Type: PreEmptive⣿`nPreEmptive Specials are used before the first wave during either Close-AVNServiceTicket or Close-AVNProjectStage." -foregroundcolor $global:AVNDefaultTextForegroundColor
         Write-Output $AVNPreEmptiveSpecialsTable | Sort-Object "type" | Format-Table Name,Effect
 
         $AVNInterruptSpecialsTable = @(
@@ -173,7 +207,7 @@ Close-AVNSeason converts current data in all player data files into historical d
                 }
             }
         )
-        Write-Host "`n⣿Type: Interrupt⣿`nInterrupt Specials are used before the second or third waves during either Close-AVNServiceTicket or Close-AVNProjectStage." -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "`n⣿ADVENTURENET⣿Help⣿Specials⣿Type: Interrupt⣿`nInterrupt Specials are used before the second or third waves during either Close-AVNServiceTicket or Close-AVNProjectStage." -foregroundcolor $global:AVNDefaultTextForegroundColor
         Write-Output $AVNInterruptSpecialsTable | Sort-Object "type" | Format-Table Name,Effect
 
         $AVNInjectionSpecialsTable = @(
@@ -189,7 +223,7 @@ Close-AVNSeason converts current data in all player data files into historical d
                 }
             }
         )
-        Write-Host "`n⣿Type: Injection⣿`nInjection Specials provide a boost to any roll, adding additional worktypes to the dice results that you've already rolled." -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "`n⣿ADVENTURENET⣿Help⣿Specials⣿Type: Injection⣿`nInjection Specials provide a boost to any roll, adding additional worktypes to the dice results that you've already rolled." -foregroundcolor $global:AVNDefaultTextForegroundColor
         Write-Output $AVNInjectionSpecialsTable | Sort-Object "type" | Format-Table Name,Effect
 
         $AVNTeamsSpecialsTable = @(
@@ -205,7 +239,9 @@ Close-AVNSeason converts current data in all player data files into historical d
                 }
             }
         )
-        Write-Host "`n⣿Type: Teams-Purchasable⣿`nThese varied Specials may be purchased with GIFs within Enter-AVNTeams." -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "`n⣿ADVENTURENET⣿Help⣿Specials⣿Type: Teams-Purchasable⣿`nThese varied Specials may be purchased with GIFs within Enter-AVNTeams." -foregroundcolor $global:AVNDefaultTextForegroundColor
         Write-Output $AVNTeamsSpecialsTable | Sort-Object "type" | Format-Table Name,Type,Effect
+        
+        Wait-AVNKeyPress
     }
 }
