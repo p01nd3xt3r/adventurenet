@@ -31,8 +31,7 @@ Function Close-AVNProjectStage {
 
     #Intro text and assigning correct stage to current
     If ($global:AVNPlayerData_CurrentPlayer.ProjectStageAttempts -ge $global:AVNProjectStageDailyAllowance) {
-        Write-Host "You have already attempted Project Stages the maximum number of times for your current Invoke-AVNSignOn." -foregroundcolor $global:AVNDefaultTextForegroundColor
-        Wait-AVNKeyPress
+        Write-Host "`nYou have already attempted Project Stages the maximum number of times for your current Invoke-AVNSignOn.`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
         Return
     } Else {
         #Writing data so that if the player tries to use ctrl+c to get out of it, he's already lost whatever it is.
@@ -196,7 +195,7 @@ Function Close-AVNProjectStage {
                 }
 
                 #Informing/prepping the player
-                Write-Host "The project looms before you--three stages with three waves apiece. You are on Stage" $AVNProjectCurrentStage ", Wave" $AVNProjectCurrentWave -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "`nThe project looms before you--three stages with three waves apiece. You are on Stage" $AVNProjectCurrentStage "`b, Wave" $AVNProjectCurrentWave "." -foregroundcolor $global:AVNDefaultTextForegroundColor
                 Write-Host "`nYou see the following defenses for this wave:" -foregroundcolor $global:AVNDefaultTextForegroundColor
                 $AVNProjectCurrentStageCurrentWaveHashTable.defenses
 
@@ -250,60 +249,59 @@ Function Close-AVNProjectStage {
                 }
             } Until ($AVNProjectCurrentWaveChoice -in $AVNProjectCurrentWaveOptions.keys)
 
-            #Now go through results of the player's choice, not including dice.
-            If ($AVNProjectCurrentWaveChoice -eq "?") {
-                Get-AVNHelp -dice
-                Write-Host "`nOther info placeholder." -foregroundcolor $global:AVNDefaultTextForegroundColor
-            }
-
             If ($AVNProjectCurrentWaveChoice -eq "r") {
                 Write-Host "`nYou ran away, and the Project Stage chuckled." -foregroundcolor $global:AVNDefaultTextForegroundColor
                 Return
             }
 
-            #Identifying special, using it, and removing it from the player's global variable.
-            $AVNProjectCurrentWaveChoice = [int]$AVNProjectCurrentWaveChoice
-            If ($AVNProjectCurrentWaveChoice -gt 1) {
-                If ($AVNProjectCurrentWave -eq 1) {
-                    $AVNPreEmptiveSpecials | ForEach-Object {
-                        If ($_.name -eq $AVNProjectCurrentWaveOptions.$AVNProjectCurrentWaveChoice) {
-                            $AVNProjectCurrentWaveChosenSpecial = $_
-                        }
-                    }
-                } Else {
-                    $AVNInterruptSpecials | ForEach-Object {
-                        If ($_.name -eq $AVNProjectCurrentWaveOptions.$AVNProjectCurrentWaveChoice) {
-                            $AVNProjectCurrentWaveChosenSpecial = $_
-                        }
-                    }
-                }   
-                
-                Write-Host "You used your " $AVNProjectCurrentWaveChosenSpecial.name -foregroundcolor $global:AVNDefaultTextForegroundColor
-                $AVNProjectCurrentWaveChosenSpecial.description
-                Invoke-Expression $AVNProjectCurrentWaveChosenSpecial.effect
-
-                $AVNPlayerDataSpecialsTempArray = @()
-                $AVNProjectSpecialSingleEntryLimiter = $False
-                $global:AVNSpecials_CurrentPlayer | ForEach-Object {
-                    If ($_ -eq $AVNProjectCurrentWaveChosenSpecial.name) {
-                        #Skips the first special matching the variable if there are multiple.
-                        If ($AVNProjectSpecialSingleEntryLimiter -eq $True) {
-                            $AVNPlayerDataSpecialsTempArray += $_
-                        } Else {
-                            $AVNProjectSpecialSingleEntryLimiter = $True
+            #Now go through results of the player's choice, not including dice.
+            If ($AVNProjectCurrentWaveChoice -eq "?") {
+                Get-AVNHelp -dice
+            } Else {
+                #Identifying special, using it, and removing it from the player's global variable.
+                $AVNProjectCurrentWaveChoice = [int]$AVNProjectCurrentWaveChoice
+                If ($AVNProjectCurrentWaveChoice -gt 1) {
+                    If ($AVNProjectCurrentWave -eq 1) {
+                        $AVNPreEmptiveSpecials | ForEach-Object {
+                            If ($_.name -eq $AVNProjectCurrentWaveOptions.$AVNProjectCurrentWaveChoice) {
+                                $AVNProjectCurrentWaveChosenSpecial = $_
+                            }
                         }
                     } Else {
-                        $AVNPlayerDataSpecialsTempArray += $_
+                        $AVNInterruptSpecials | ForEach-Object {
+                            If ($_.name -eq $AVNProjectCurrentWaveOptions.$AVNProjectCurrentWaveChoice) {
+                                $AVNProjectCurrentWaveChosenSpecial = $_
+                            }
+                        }
+                    }   
+                    
+                    Write-Host "You used your" $AVNProjectCurrentWaveChosenSpecial.name -foregroundcolor $global:AVNDefaultTextForegroundColor
+                    $AVNProjectCurrentWaveChosenSpecial.description
+                    Invoke-Expression $AVNProjectCurrentWaveChosenSpecial.effect
+
+                    $AVNPlayerDataSpecialsTempArray = @()
+                    $AVNProjectSpecialSingleEntryLimiter = $False
+                    $global:AVNSpecials_CurrentPlayer | ForEach-Object {
+                        If ($_ -eq $AVNProjectCurrentWaveChosenSpecial.name) {
+                            #Skips the first special matching the variable if there are multiple.
+                            If ($AVNProjectSpecialSingleEntryLimiter -eq $True) {
+                                $AVNPlayerDataSpecialsTempArray += $_
+                            } Else {
+                                $AVNProjectSpecialSingleEntryLimiter = $True
+                            }
+                        } Else {
+                            $AVNPlayerDataSpecialsTempArray += $_
+                        }
                     }
+                    $global:AVNSpecials_CurrentPlayer = $AVNPlayerDataSpecialsTempArray
+                    #End with getting all specials again, which will remove the specials item from the pre-emptive specials array.
+                    If ($AVNProjectCurrentWave -eq 1) {
+                        $AVNPreEmptiveSpecials = GatherAvailablePreEmptiveSpecials
+                    } Else {
+                        $AVNInterruptSpecials = GatherAvailableInterruptSpecials
+                    }
+                    Wait-AVNKeypress
                 }
-                $global:AVNSpecials_CurrentPlayer = $AVNPlayerDataSpecialsTempArray
-                #End with getting all specials again, which will remove the specials item from the pre-emptive specials array.
-                If ($AVNProjectCurrentWave -eq 1) {
-                    $AVNPreEmptiveSpecials = GatherAvailablePreEmptiveSpecials
-                } Else {
-                    $AVNInterruptSpecials = GatherAvailableInterruptSpecials
-                }
-                Wait-AVNKeypress
             }
         } Until ($AVNProjectCurrentWaveOptions.$AVNProjectCurrentWaveChoice -eq "Attack!")
 

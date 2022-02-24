@@ -21,8 +21,7 @@ Function Enter-AVNTeams {
         Start-Sleep -Milliseconds 20
     }
 
-    Write-Host "`nWelcome to Teams, where you can convert your GIFs into powerful specials." -foregroundcolor $global:AVNDefaultTextForegroundColor
-    Wait-AVNKeyPress
+    Write-Host "`nWelcome to Teams, where you can convert your GIFs into powerful Specials." -foregroundcolor $global:AVNDefaultTextForegroundColor
 
     #Getting specials
     #Yields the $AVNSpecials array of hashtables, which is the cipher for specials.
@@ -55,7 +54,7 @@ Function Enter-AVNTeams {
                         Name = $AVNSpecial.name
                         Type = $AVNSpecial.type
                         Cost = $AVNSpecial.teamscost
-                        Description = $AVNSpecial.description
+                        Effect = $AVNSpecial.effectdescription
                     }
                     New-Object psobject -property $AVNSpecialProperties
                 }
@@ -65,7 +64,7 @@ Function Enter-AVNTeams {
     Do {
         Do {
             Write-Host "`n⣿ADVENTURENET⣿Specials⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
-            Write-Output $AVNSpecialsTable | Sort-Object "item" | Format-Table item,cost,type,name,description
+            Write-Output $AVNSpecialsTable | Sort-Object "item" | Format-Table item,cost,type,name,effect
 
             Write-Host "You have " $global:AVNPlayerData_CurrentPlayer.gifs "GIFs." -foregroundcolor $global:AVNDefaultTextForegroundColor
             $AVNTeamsPurchaseChoice = Read-Host "Enter the item number of the special you would like to purchase, ? for more information, or nothing to exit"
@@ -117,6 +116,10 @@ Function Enter-AVNTeams {
     
     ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile
 
-    Write-Host "`nYou purchased a" $AVNTeamsChosenSpecial.name "for" $AVNTeamsChosenSpecial.teamscost "GIFs." -foregroundcolor $global:AVNDefaultTextForegroundColor
+    Write-Host "`nYou purchased the following for" $AVNTeamsChosenSpecial.teamscost "GIFs." -foregroundcolor $global:AVNDefaultTextForegroundColor
+    
+    $AVNTeamsChosenSpecial.name
     $AVNTeamsChosenSpecial.description
+    $AVNTeamsChosenSpecial.effectdescription
+    Write-Host "`n"
 }

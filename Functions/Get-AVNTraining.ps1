@@ -47,12 +47,6 @@ Function Get-AVNTraining {
         $AVNDataFileContent | ForEach-Object {
         Invoke-Expression $_
         }
-        <#
-        Old
-        (Get-Content -path ($global:AVNRootPath + "\bGBIuKWniXYw")) | ForEach-Object {
-            Invoke-Expression $_
-        }
-        #>
 
         $AVNTrainingDiceTypes = [ordered]@{
             '?' = 'Show information about your options.'
@@ -66,9 +60,9 @@ Function Get-AVNTraining {
         }
         
         If ($global:AVNCompanyDataCommon.teamhealth -ge $global:AVNPenaltyThresholdFive) {
-            Write-Host "Choose any one dice to permanently add to your collection." -foregroundcolor $global:AVNDefaultTextForegroundColor
-            Do {
+           Do {
                 Do {
+                    Write-Host "`nChoose any one dice to permanently add to your collection." -foregroundcolor $global:AVNDefaultTextForegroundColor
                     $AVNTrainingDiceTypes
                     $AVNTrainingChoice = Read-Host "`nPlease enter the number of the die you'd like to keep (enter nothing to exit)"
                     

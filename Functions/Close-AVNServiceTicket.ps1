@@ -46,12 +46,6 @@ Function Close-AVNServiceTicket {
         $AVNDataFileContent | ForEach-Object {
         Invoke-Expression $_
         }
-        <#
-        Old
-        (Get-Content -path ($global:AVNRootPath + "\uhGNpSAZCzIt")) | ForEach-Object {
-            Invoke-Expression $_
-        }
-        #>
 
         #Getting specials
         #Yields the $AVNSpecials array of hashtables, which is the cipher for specials.
@@ -59,12 +53,6 @@ Function Close-AVNServiceTicket {
         $AVNDataFileContent | ForEach-Object {
         Invoke-Expression $_
         }
-        <#
-        Old
-        (Get-Content -path ($global:AVNRootPath + "\XQxoHZJajcgW")) | ForEach-Object {
-            Invoke-Expression $_
-        }
-        #>
 
         Function GatherAvailablePreEmptiveSpecials {
             #Cycling through the player's specials and creating a full version of it in a temporary variable to be used in this function.
@@ -147,6 +135,8 @@ Function Close-AVNServiceTicket {
             $AVNSTPossibleEncounters = $global:AVNServiceTicketEncounters | Where-Object {$_.ReqProjectStage -eq $global:AVNCompanyDataCommon.CurrentStage}
             $AVNSTCurrentEncounter = Get-Random -InputObject $AVNSTPossibleEncounters
 
+            #Intro text
+            Write-Host "`n⣿ADVENTURENET⣿Service Ticket⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
             Write-Host $AVNSTCurrentEncounter.IntroductionText -foregroundcolor $global:AVNDefaultTextForegroundColor
             If ($True -eq $Dev) {
                 $AVNSTCurrentEncounter
@@ -157,12 +147,6 @@ Function Close-AVNServiceTicket {
             $AVNDataFileContent | ForEach-Object {
             Invoke-Expression $_
             }
-            <#
-            Old way
-            (Get-Content -path ($global:AVNRootPath + "\bGBIuKWniXYw")) | ForEach-Object {
-                Invoke-Expression $_
-            }
-            #>
 
             #Gathering all dice available to the player.
             #Dice that are added as specials during the encounter. There are the complete hashes of the actual dice. Leave it outside of the loop because these will be added later on in the script.
@@ -345,9 +329,11 @@ Function Close-AVNServiceTicket {
                     }
                     If ($AVNSTActionEntry -eq "?") {
                         Get-AVNHelp -dice
+                        Write-Host "`nDefenses for this wave are:" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                        $AVNSTCurrentWaveDefenses
                     }
                     If ($AVNSTCurrentWaveOptions.$AVNSTActionEntry -eq 'Opportunity') {
-                        Write-Host "You have sent this service ticket to the procurement department! As a result, you've saved the engineer team some stress. Service tickets reduced by 1 without reducing team health." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                        Write-Host "`nYou have sent this service ticket to the procurement department! As a result, you've saved the engineer team some stress. Service tickets reduced by 1 without reducing team health." -foregroundcolor $global:AVNDefaultTextForegroundColor
                         #Adding back health and technical question default removals. Sending off to an opportunity reduces turns and service ticket counts only.
                         $global:AVNCompanyData_CurrentPlayer.TechnicalQuestionsAdded -= 1
                         $global:AVNCompanyData_CurrentPlayer.teamhealth += 2
@@ -407,15 +393,12 @@ Function Close-AVNServiceTicket {
 
                 #Getting inputted dice by their keys in $AVNAvailableDice, creating a simple array of the ints entered, removing hashes of those dice by their int.
                 Do {
-                    Write-Host "Wave 1 defenses are:" -foregroundcolor $global:AVNDefaultTextForegroundColor
-                    $AVNSTCurrentWaveDefenses
                     Write-Host "`nYou have the following dice available to roll:" -foregroundcolor $global:AVNDefaultTextForegroundColor
                     $AVNAvailableDice
                     [string]$AVNDiceRollChoice = Read-Host "Choose which die or dice you'd like to roll by its number in the above table; for multiple, separate numbers by a comma (ex: 1,2); enter ? to display work-type value alottment per dice"
                     If ($AVNDiceRollChoice -eq '?') {
-                        Write-Host "Dice info blah blah blah for each of the player's dice" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                        Get-AVNHelp -dice
                         $AVNDiceRollChoicePass = $False
-                        Wait-AVNKeyPress
                     } Else {
                         $AVNDiceRollChoicePass = $True
                         $AVNDiceRollChoiceArray = $AVNDiceRollChoice -split ","
@@ -517,7 +500,7 @@ Function Close-AVNServiceTicket {
                                 $global:AVNSpecials_CurrentPlayer = $AVNPlayerDataSpecialsTempArray
                                 $AVNInjectionSpecials = GatherAvailableInjectionSpecials
 
-                                Write-Host "nYou now have the following work types in your roll:" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                                Write-Host "`nYou now have the following work types in your roll:" -foregroundcolor $global:AVNDefaultTextForegroundColor
                                 $AVNDiceRolls
                             }
                         }
@@ -578,6 +561,8 @@ Function Close-AVNServiceTicket {
                 Write-Host "`nYou have defeated all waves!" -foregroundcolor $global:AVNDefaultTextForegroundColor
                 $AVNSTCurrentEncounter.deathtext
 
+                Write-Host "`n⣿ADVENTURENET⣿Service Ticket⣿Success!⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
+
                 #GIF award
                 If ($global:AVNCompanyDataCommon.CurrentStage = 1) {
                     $AVNSTGifAwardMin = $global:AVNSTGifAwardMultiplier * 1
@@ -603,7 +588,7 @@ Function Close-AVNServiceTicket {
                 $AVNInjectionRewardRoll = Get-Random -minimum 0 -maximum $AVNInjectionRewardRollMax
                 If ($AVNInjectionRewardRoll -le ($AVNInjectionSpecials.count -1)) {
                     $global:AVNSpecials_CurrentPlayer += $AVNInjectionSpecials[$AVNInjectionRewardRoll].name
-                    Write-Host "`nYou found the following interrupt special!" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                    Write-Host "`nYou found the following Injection Special!" -foregroundcolor $global:AVNDefaultTextForegroundColor
                     $AVNInjectionSpecials[$AVNInjectionRewardRoll].name
                 }
 
@@ -612,7 +597,6 @@ Function Close-AVNServiceTicket {
                 $global:AVNCompanyData_CurrentPlayer.teamhealth += 1
                 $global:AVNCompanyData_CurrentPlayer.clienthealth += 1
                 $global:AVNPlayerData_CurrentPlayer.kudos += 1
-                Wait-AVNKeyPress
             } Else {
                 #Failure results. 
                 Write-Host "You failed to close the Service Ticket." -foregroundcolor $global:AVNDefaultTextForegroundColor
@@ -636,15 +620,16 @@ Function Close-AVNServiceTicket {
             }
             $AVNSTAttainedSpecial = $AVNSTNonPurchaseSpecials[$AVNSTSpecialRoll]
 
-            Write-Host "Instead of a Service Ticket, you found the following Special:" -foregroundcolor $global:AVNDefaultTextForegroundColor
+            Write-Host "`n⣿ADVENTURENET⣿Service Ticket⣿Special⣿`n`nYou found the following Special!" -foregroundcolor $global:AVNDefaultTextForegroundColor
             $AVNSTAttainedSpecial.Name
             $AVNSTAttainedSpecial.description
+            $AVNSTAttainedSpecial.effectdescription
 
             If ($AVNSTAttainedSpecial.type -eq "Instant") {
                 Invoke-Expression $AVNSTAttainedSpecial.effect
                 $global:AVNPlayerData_CurrentPlayer.globalnotice = $AVNSTAttainedSpecial.globalnotice
             } Else {
-                Write-Host "`nYou store the" $AVNSTAttainedSpecial.Name "away for later use." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "`nYou store the" $AVNSTAttainedSpecial.Name "away for later use.`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
                 $global:AVNSpecials_CurrentPlayer += $AVNSTAttainedSpecial.Name
             }
         }
