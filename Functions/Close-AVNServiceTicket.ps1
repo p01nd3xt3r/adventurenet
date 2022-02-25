@@ -53,17 +53,18 @@ Function Close-AVNServiceTicket {
         Function GatherAvailablePreEmptiveSpecials {
             #Cycling through the player's specials and creating a full version of it in a temporary variable to be used in this function.
             #If this goes in the function, I just have to remove the special from the global variable and then run the function to get the current ones again.
-            $avnpremptivespecials = @()
+            $AVNPreEmptiveSpecials = @()
             $global:AVNSpecials_CurrentPlayer | ForEach-Object {
                 ForEach ($AVNSTRawSpecial in $AVNSpecials) {
                     If (($AVNSTRawSpecial.name -eq $_) -and ($AVNSTRawSpecial.type -eq 'preemptive')) {
-                        $avnpremptivespecials += $AVNSTRawSpecial
+                        $AVNPreEmptiveSpecials += $AVNSTRawSpecial
                     }
                 }
             }
+            $AVNPreEmptiveSpecials = $AVNPreEmptiveSpecials | Sort-Object
             ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile
             Get-AVNConfig
-            Return $avnpremptivespecials
+            Return $AVNPreEmptiveSpecials
         }
         #Note that it returns only the value. This is what you should run later when you need to get them again.
         $AVNPreEmptiveSpecials = GatherAvailablePreEmptiveSpecials
@@ -71,17 +72,18 @@ Function Close-AVNServiceTicket {
         Function GatherAvailableInterruptSpecials {
             #Cycling through the player's specials and creating a full version of it in a temporary variable to be used in this function.
             #If this goes in the function, I just have to remove the special from the global variable and then run the function to get the current ones again.
-            $avninterruptspecials = @()
+            $AVNInterruptSpecials = @()
             $global:AVNSpecials_CurrentPlayer | ForEach-Object {
                 ForEach ($AVNSTRawSpecial in $AVNSpecials) {
                     If (($AVNSTRawSpecial.name -eq $_) -and ($AVNSTRawSpecial.type -eq 'interrupt')) {
-                        $avninterruptspecials += $AVNSTRawSpecial
+                        $AVNInterruptSpecials += $AVNSTRawSpecial
                     }
                 }
             }
+            $AVNInterruptSpecials = $AVNInterruptSpecials | Sort-Object
             ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile
             Get-AVNConfig
-            Return $avninterruptspecials
+            Return $AVNInterruptSpecials
         }
         #Note that it returns only the value. This is what you should run later when you need to get them again.
         $AVNInterruptSpecials = GatherAvailableInterruptSpecials
@@ -95,6 +97,7 @@ Function Close-AVNServiceTicket {
                     }
                 }
             }
+            $AVNInjectionSpecials = $AVNInjectionSpecials | Sort-Object
             ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile
             Get-AVNConfig
             Return $AVNInjectionSpecials
@@ -149,6 +152,17 @@ Function Close-AVNServiceTicket {
             Function GatherAvailableDice {
                 $AVNAvailableDice = [ordered]@{}
                 [int]$AvailableDiceI = 0
+                $AVNAllDice = @()
+                $AVNAllDice += $global:AVNDicePerm_CurrentPlayer
+                $AVNAllDice += $global:AVNDiceDaily_CurrentPlayer
+                $AVNAllDice += $AVNSpecialDice
+                $AVNAllDice = $AVNAllDice | Sort-Object
+                $AVNAllDice | ForEach-Object {
+                    $AvailableDiceI++
+                    $AVNAvailableDice.add($AvailableDiceI, $_)
+                }
+                <#
+                Before alphebetizing.
                 $global:AVNDicePerm_CurrentPlayer | ForEach-Object {
                     $AvailableDiceI++
                     $AVNAvailableDice.add($AvailableDiceI, $_)
@@ -163,6 +177,7 @@ Function Close-AVNServiceTicket {
                         $AVNAvailableDice.add($AvailableDiceI, $_)
                     }
                 }
+                #>
 
                 ###I did an array for these instead of working with the hash table above. I fixed it. Need to test.
                 #Penalties from client health being low. Removing dice from available dice.
@@ -195,7 +210,7 @@ Function Close-AVNServiceTicket {
                     $ANVUnavailableDice.keys | ForEach-Object {
                         Write-Host $ANVUnavailableDice.$_
                     }
-                }              
+                }        
                 Return $AVNAvailableDice
             }
             $AVNAvailableDice = GatherAvailableDice
@@ -349,7 +364,7 @@ Function Close-AVNServiceTicket {
                                     $AVNSTChosenSpecial = $_
                                 }
                             }
-                        }   
+                        }
                         
                         Write-Host "`nYou used your" $AVNSTChosenSpecial.name -foregroundcolor $global:AVNDefaultTextForegroundColor
                         $AVNSTChosenSpecial.description

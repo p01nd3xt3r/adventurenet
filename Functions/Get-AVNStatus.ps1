@@ -82,7 +82,7 @@ Function Get-AVNStatus {
             }
         )
         Write-Host "`n`n⣿ADVENTURENET⣿Inventory⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
-        Write-Output $AVNDiceTable | Sort-Object "Dice" | Format-Table Dice,Type
+        Write-Output $AVNDiceTable | Sort-Object dice,type | Format-Table Dice,Type
         
         #Getting specials
         #Yields the $AVNSpecials array of hashtables, which is the cipher for specials.

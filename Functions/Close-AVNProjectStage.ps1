@@ -112,6 +112,9 @@ Function Close-AVNProjectStage {
                 }
             }
         }
+        $AVNPreEmptiveSpecials = $AVNPreEmptiveSpecials | Sort-Object
+        ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile
+        Get-AVNConfig
         Return $AVNPreEmptiveSpecials
     }
 
@@ -126,6 +129,7 @@ Function Close-AVNProjectStage {
                 }
             }
         }
+        $AVNInterruptSpecials = $AVNInterruptSpecials | Sort-Object
         ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile
         Get-AVNConfig
         Return $AVNInterruptSpecials
@@ -140,6 +144,7 @@ Function Close-AVNProjectStage {
                 }
             }
         }
+        $AVNInjectionSpecials = $AVNInjectionSpecials | Sort-Object
         ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile
         Get-AVNConfig
         Return $AVNInjectionSpecials
@@ -149,6 +154,17 @@ Function Close-AVNProjectStage {
     Function GatherAvailableDice {
         $AVNAvailableDice = [ordered]@{}
         [int]$AvailableDiceI = 0
+        $AVNAllDice = @()
+        $AVNAllDice += $global:AVNDicePerm_CurrentPlayer
+        $AVNAllDice += $global:AVNDiceDaily_CurrentPlayer
+        $AVNAllDice += $AVNSpecialDice
+        $AVNAllDice = $AVNAllDice | Sort-Object
+        $AVNAllDice | ForEach-Object {
+            $AvailableDiceI++
+            $AVNAvailableDice.add($AvailableDiceI, $_)
+        }
+        <#
+        Before alphebetizing
         $global:AVNDicePerm_CurrentPlayer | ForEach-Object {
             $AvailableDiceI++
             $AVNAvailableDice.add($AvailableDiceI, $_)
@@ -163,6 +179,7 @@ Function Close-AVNProjectStage {
                 $AVNAvailableDice.add($AvailableDiceI, $_)
             }
         }
+        #>
         ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile
         Get-AVNConfig
         Return $AVNAvailableDice

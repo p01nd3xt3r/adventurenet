@@ -116,10 +116,10 @@ Function Get-AVNConfig {
                 $global:AVNServiceTickets_CurrentPlayer = @()
             }
             #Dice of the current player.
-            $global:AVNDicePerm_CurrentPlayer = $AVNStoredDicePerm
-            $global:AVNDiceDaily_CurrentPlayer = $AVNStoredDiceDaily
+            $global:AVNDicePerm_CurrentPlayer = $AVNStoredDicePerm | Sort-Object
+            $global:AVNDiceDaily_CurrentPlayer = $AVNStoredDiceDaily | Sort-Object
             #Service ticket specials of the current player
-            $global:AVNSpecials_CurrentPlayer = $AVNStoredSpecials
+            $global:AVNSpecials_CurrentPlayer = $AVNStoredSpecials | Sort-Object
         } Else {
             #Assigning all other player data to variables with their player names in them.
             $global:AVNPlayerDataCommon += @{PlayerName = $AVNStoredPlayerData.playername; Kudos = $AVNStoredPlayerData.kudos; GlobalNotice = $AVNStoredPlayerData.globalnotice}
