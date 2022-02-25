@@ -12,13 +12,6 @@
 .Functionality
 #>
 Function Get-AVNConfig {
-    <#
-    Not sure this parameter is needed anymore.
-    param (
-        [Parameter(helpmessage='Forces the config to run again even if the $AVNVariable already exists.')][switch]$Force
-    )
-    #>
-
     #Quick check to make sure this function is running from the imported module. Also creating root folder path variable at the same time. 
     $global:AVNRootPath = (Get-Module "AdventureNet").ModuleBase.tostring()
     If (!(Test-Path $global:AVNRootPath)) {
@@ -34,11 +27,6 @@ Function Get-AVNConfig {
     $AVNConfigContent | ForEach-Object {
         Invoke-Expression $_
     }
-
-    <#Warning if running the module from some non-standard location.
-    If ($global:AVNRootPath -ne $global:AVNProductionPath) {
-        Write-Host "Note that you are not running this module from the assigned production path." -foregroundcolor "darkred"
-    }#>
     
     #Getting current username.
     $global:AVNCurrentUser = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name

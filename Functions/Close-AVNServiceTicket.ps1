@@ -15,12 +15,6 @@ Function Close-AVNServiceTicket {
     param (
         [Parameter()][switch]$Dev
     )
-    <#
-    Parameters for any special conditions, like if you have a special that changes what you're looking for or something.
-    Give the option to run away? That'd only help cases where there's also a negative consequence in addition to the technical question that'll be generated.
-    Data for encounters--like what the monsters are and what they do and say and weaknesses and all--will be in a common data file.
-    Most text comes from the encounters hash per mob. If I leave some field empty, I can have a separate default text table and use that instead.
-    #>
 
     Get-AVNConfig
 
@@ -605,10 +599,6 @@ Function Close-AVNServiceTicket {
                     $AVNSTNonPurchaseSpecials += $_
                 }
             }
-            
-            #Old $AVNSTSpecialRoll = Get-Random -minimum 0 -maximum ($AVNSTNonPurchaseSpecials.count - 1)
-            #$AVNSTAttainedSpecial = $AVNSTNonPurchaseSpecials[$AVNSTSpecialRoll]
-            #$AVNSTWeightedSpecialRoll = Get-Random -minimum 0 -maximum ($AVNSTNonPurchaseSpecials.count - 1)
 
             #Making it so that each category gets a specified chance of being rolled and then each special within that category then has its own equal chance after that.
             $AVNSTSpecialTypeWeightsArray = @()

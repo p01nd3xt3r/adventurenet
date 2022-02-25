@@ -27,18 +27,6 @@ Function Enter-AVNTeams {
     $AVNDataFileContent | ForEach-Object {
     Invoke-Expression $_
     }
-
-    <#
-    $AVNTeamsSpecials = [ordered]@{'?' = 'Show information about your options.'}
-    [int]$AVNTeamsSpecialsI = 0
-    $AVNSpecials | ForEach-Object {
-        If ($_.teamscost -gt 0) {
-            $AVNTeamsSpecialsI++
-            $AVNTeamsSpecials.add($AVNTeamsSpecialsI, $_.name)
-        }
-    }
-    #need to add the teamscost field. Might need to make these objects with properties instead of a hash table.
-    #>
     
     [int]$AVNSpecialsI = 0
     $AVNSpecialsPossibleChoices = @()

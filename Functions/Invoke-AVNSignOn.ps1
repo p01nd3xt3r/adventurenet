@@ -20,8 +20,6 @@ Function Invoke-AVNSignOn {
     }
 
     #Checking if it's been 24 hours since the last Invoke-AVNSignOn before running everything.
-    #Old $AVNLastSignOnInterval = New-Timespan –Start $global:AVNPlayerData_CurrentPlayer.lastsignon –End (Get-Date)
-    #Old If ($AVNLastSignOnInterval -gt (New-TimeSpan -Hours 24)) {
     $AVNLastSignOnDate = (Get-Date $global:AVNPlayerData_CurrentPlayer.lastsignon).date
     If ((Get-Date).date -gt $AVNLastSignOnDate) {
         #Invisible stuff
