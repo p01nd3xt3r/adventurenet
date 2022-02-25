@@ -33,6 +33,7 @@
  - Specials
 #### Decreased by:
  - Service Tickets that become technical questions
+ - Failing project stages
  - Specials
 #### At configured thresholds, low Client Health detriments all players:
  - Players use one fewer die per service ticket encounter
@@ -46,7 +47,7 @@
 #### Increased by:
  - Specials
 #### Decreased by:
- - Addressing service tickets; additional decrease if fail to close
+ - Addressing service tickets
  - Addressing project stages
  - Specials
 #### At the following thresholds, low Team Health detriments all players:

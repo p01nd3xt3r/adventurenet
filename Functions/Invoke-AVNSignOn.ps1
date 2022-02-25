@@ -106,17 +106,19 @@ Function Invoke-AVNSignOn {
             Write-Host "`nChoose $global:AVNDiceChoicePerDay of the following to keep for the day:" -foregroundcolor $global:AVNDefaultTextForegroundColor
 
             $AVNChoiceText = @("first","second","third","fourth","fifth","sixth","seventh","eighth","ninth","tenth")
-            [int]$AVNDiceChoiceNumber = -1
             For ($I = 0; $I -lt $global:AVNDiceChoicePerDay; $I++) {
                 Do {
                     $AVNDiceOffer | Format-Table
-                    $AVNDiceChoiceNumber = Read-Host ("Enter the number next to your " + $AVNChoiceText[$I] + " choice")
-                    If ($AVNDiceChoiceNumber -notin $AVNDiceOffer.keys) {
+                    $AVNDiceChoiceNumber = Read-Host ("Enter the number next to your " + $AVNChoiceText[$I] + " choice or ? for dice help")
+                    If ($AVNDiceChoiceNumber -eq "?") {
+                        Get-AVNHelp -dice
+                    } ElseIf ($AVNDiceChoiceNumber -notin $AVNDiceOffer.keys) {
                         Write-Host "`nPlease choose a number from the list." -foregroundcolor $global:AVNDefaultTextForegroundColor
                     }
                 } Until ($AVNDiceChoiceNumber -in $AVNDiceOffer.keys)
-            $global:AVNDiceDaily_CurrentPlayer += $AVNDiceOffer.$AVNDiceChoiceNumber
-            $AVNDiceOffer.remove($AVNDiceChoiceNumber)
+                $AVNDiceChoiceNumber = [int]$AVNDiceChoiceNumber
+                $global:AVNDiceDaily_CurrentPlayer += $AVNDiceOffer.$AVNDiceChoiceNumber
+                $AVNDiceOffer.remove($AVNDiceChoiceNumber)
             }
             Write-Host "`nYou have selected the following Daily Dice:" -foregroundcolor $global:AVNDefaultTextForegroundColor
             $global:AVNDiceDaily_CurrentPlayer

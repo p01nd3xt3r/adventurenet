@@ -30,11 +30,13 @@ Function Close-AVNServiceTicket {
         Write-Host $_ -foregroundcolor $global:AVNDefaultBannerForegroundColor
         Start-Sleep -Milliseconds 20
     }
+    Write-Host "⣿ADVENTURENET⣿Service Ticket⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
+    
 
     If ($global:AVNServiceTickets_CurrentPlayer.count -lt 1) { 
-        Throw "You don't have any service tickets!"
+        Throw "`nYou don't have any service tickets!`n"
     } ElseIf ($global:AVNPlayerData_CurrentPlayer.turns -lt 1) {
-        Write-Host "You don't have any turns available!" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "`nYou don't have any turns available!`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
     } Else {
         #Prep stuff
         #Decreasing turns. 
@@ -117,8 +119,8 @@ Function Close-AVNServiceTicket {
             #Setting this encounter as a technical question by default in case the user hits ctrl+c or something. It will go back to an answered service ticket if the player succeeds. 
             $global:AVNCompanyData_CurrentPlayer.TechnicalQuestionsAdded += 1
             #Same thing for team health hit. If the player succeeds, +1 gets added back so that it's total -1 instead of -2.
-            $global:AVNCompanyData_CurrentPlayer.teamhealth -= 2
-            $global:AVNCompanyData_CurrentPlayer.clienthealth -= 2
+            $global:AVNCompanyData_CurrentPlayer.teamhealth -= 1
+            $global:AVNCompanyData_CurrentPlayer.clienthealth -= 1
             #Removing the oldest service ticket from the player's service ticket array.
             If ($global:AVNServiceTickets_CurrentPlayer.count -gt 1) {
                 $global:AVNServiceTickets_CurrentPlayer = $global:AVNServiceTickets_CurrentPlayer[1..($global:AVNServiceTickets_CurrentPlayer.count-1)]
@@ -136,7 +138,6 @@ Function Close-AVNServiceTicket {
             $AVNSTCurrentEncounter = Get-Random -InputObject $AVNSTPossibleEncounters
 
             #Intro text
-            Write-Host "`n⣿ADVENTURENET⣿Service Ticket⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
             Write-Host $AVNSTCurrentEncounter.IntroductionText -foregroundcolor $global:AVNDefaultTextForegroundColor
             If ($True -eq $Dev) {
                 $AVNSTCurrentEncounter
@@ -298,9 +299,6 @@ Function Close-AVNServiceTicket {
                             }
                         }
 
-
-
-                        #Account for singles and multiples in your verbage.
                         Write-Host "`nDefenses for this wave are:" -foregroundcolor $global:AVNDefaultTextForegroundColor
                         $AVNSTCurrentWaveDefenses
 
@@ -328,18 +326,17 @@ Function Close-AVNServiceTicket {
                         Return
                     }
                     If ($AVNSTActionEntry -eq "?") {
-                        Get-AVNHelp -dice
-                        Write-Host "`nDefenses for this wave are:" -foregroundcolor $global:AVNDefaultTextForegroundColor
-                        $AVNSTCurrentWaveDefenses
+                        Get-AVNHelp -encounters
                     }
                     If ($AVNSTCurrentWaveOptions.$AVNSTActionEntry -eq 'Opportunity') {
-                        Write-Host "`nYou have sent this service ticket to the procurement department! As a result, you've saved the engineer team some stress. Service tickets reduced by 1 without reducing team health." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                        Write-Host "`nYou have converted the service ticket into an Opportunity, reducing Service Tickets by 1." -foregroundcolor $global:AVNDefaultTextForegroundColor
                         #Adding back health and technical question default removals. Sending off to an opportunity reduces turns and service ticket counts only.
                         $global:AVNCompanyData_CurrentPlayer.TechnicalQuestionsAdded -= 1
                         $global:AVNCompanyData_CurrentPlayer.teamhealth += 2
-                        $global:AVNCompanyData_CurrentPlayer.clienthealth += 2
+                        $global:AVNCompanyData_CurrentPlayer.clienthealth += 1
                         #Removing the opportunity from the player's alottment.
                         $global:AVNPlayerData_CurrentPlayer.opportunities -= 1
+                        $global:AVNPlayerData_CurrentPlayer.turns += 1
                         ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile
                         Return
                     }
@@ -360,8 +357,9 @@ Function Close-AVNServiceTicket {
                             }
                         }   
                         
-                        Write-Host "You used your " $AVNSTChosenSpecial.name -foregroundcolor $global:AVNDefaultTextForegroundColor
+                        Write-Host "`nYou used your" $AVNSTChosenSpecial.name -foregroundcolor $global:AVNDefaultTextForegroundColor
                         $AVNSTChosenSpecial.description
+                        $AVNSTChosenSpecial.effectdescription
                         Invoke-Expression $AVNSTChosenSpecial.effect
 
                         #Removing the special from the player's data variable by adding all specials that don't match the chosen variable to a temporary array and then making the normal array mirror the temporary array.
@@ -397,7 +395,7 @@ Function Close-AVNServiceTicket {
                     $AVNAvailableDice
                     [string]$AVNDiceRollChoice = Read-Host "Choose which die or dice you'd like to roll by its number in the above table; for multiple, separate numbers by a comma (ex: 1,2); enter ? to display work-type value alottment per dice"
                     If ($AVNDiceRollChoice -eq '?') {
-                        Get-AVNHelp -dice
+                        Get-AVNHelp -dice -rolls
                         $AVNDiceRollChoicePass = $False
                     } Else {
                         $AVNDiceRollChoicePass = $True
@@ -412,12 +410,11 @@ Function Close-AVNServiceTicket {
                         $AVNDiceRollChoiceArray | ForEach-Object {
                             If ($_ -notmatch "\d{1,}") {
                                 $AVNDiceRollChoicePass = $False
-                                Write-Host "Something is odd about your entry. Please make sure to enter using the appropriate format. No letters or special characters are permitted, and if you're trying to get information about the dice, please enter a solitary ?." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                                Write-Host "`nSomething is odd about your entry. Please make sure to enter using the appropriate format. No letters or special characters are permitted, and if you're trying to get information about the dice, please enter a solitary ?." -foregroundcolor $global:AVNDefaultTextForegroundColor
                                 Wait-AVNKeyPress
-                            }
-                            If ([int]$_ -notin $AVNAvailableDice.keys){
+                            } ElseIf ([int]$_ -notin $AVNAvailableDice.keys){
                                 $AVNDiceRollChoicePass = $False
-                                Write-Host "Please only enter a number that's in your list of available dice." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                                Write-Host "`nPlease only enter a number that's in your list of available dice." -foregroundcolor $global:AVNDefaultTextForegroundColor
                                 Wait-AVNKeyPress
                             }
                         }
@@ -543,14 +540,12 @@ Function Close-AVNServiceTicket {
                         $AVNSTAllWavesComplete = $True
                         $AVNSTCurrentWave++
                     } Else {
-                        Write-Host "Success! You defeated the current wave." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                        Write-Host "`nSuccess! You defeated the current wave." -foregroundcolor $global:AVNDefaultTextForegroundColor
                         $AVNSTCurrentWave++
                         Wait-AVNKeyPress
                     }
                 } Else {
-                    Write-Host "You failed to defeat the current wave." -foregroundcolor $global:AVNDefaultTextForegroundColor
                     $AVNSTCurrentWave = ($AVNSTTotalWaves + 1)
-                    Wait-AVNKeyPress
                 }
             } Until ($AVNSTCurrentWave -gt $AVNSTTotalWaves)
             #After this, if $AVNSTAllWavesComplete -eq $True, the player succeded, and if not, the player failed.
@@ -594,15 +589,12 @@ Function Close-AVNServiceTicket {
 
                 $global:AVNCompanyData_CurrentPlayer.TechnicalQuestionsAdded -= 1
                 #I have already decreased this by two at the beginning, similar to the above. This changes it to just -1 because of the service ticket success. Answering technical questions increases team health the other +1?
-                $global:AVNCompanyData_CurrentPlayer.teamhealth += 1
                 $global:AVNCompanyData_CurrentPlayer.clienthealth += 1
                 $global:AVNPlayerData_CurrentPlayer.kudos += 1
             } Else {
                 #Failure results. 
-                Write-Host "You failed to close the Service Ticket." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "`nYou failed to close the Service Ticket, adding 1 Technical Question and losing 1 Client Health in the process." -foregroundcolor $global:AVNDefaultTextForegroundColor
                 $AVNSTCurrentEncounter.failuretext
-                Wait-AVNKeyPress
-                #The ticket has already been sent to technical questions and decreased team health by 2 by default, so this is mostly going to be for extra detriments and will depend on what encounter you're facing.
             }
         } Else {
             #If the player gets a roll for a special, goes through the available ones for a random one and assigns just the name to the array in the player's data variable.
@@ -613,23 +605,45 @@ Function Close-AVNServiceTicket {
                     $AVNSTNonPurchaseSpecials += $_
                 }
             }
-            If ($AVNSTNonPurchaseSpecials.count -lt 2) {
-                $AVNSTSpecialRoll = 0
-            } Else {
-                $AVNSTSpecialRoll = Get-Random -minimum 0 -maximum ($AVNSTNonPurchaseSpecials.count - 1)
+            
+            #Old $AVNSTSpecialRoll = Get-Random -minimum 0 -maximum ($AVNSTNonPurchaseSpecials.count - 1)
+            #$AVNSTAttainedSpecial = $AVNSTNonPurchaseSpecials[$AVNSTSpecialRoll]
+            #$AVNSTWeightedSpecialRoll = Get-Random -minimum 0 -maximum ($AVNSTNonPurchaseSpecials.count - 1)
+
+            #Making it so that each category gets a specified chance of being rolled and then each special within that category then has its own equal chance after that.
+            $AVNSTSpecialTypeWeightsArray = @()
+            $AVNSTSpecialByTypeArray = @()
+            $AVNSTSpecialTypeWeighting = @{
+                General = 2
+                Interrupt = 1
+                Instant = 2
+                PreEmptive = 1
+                Injection = 0 #Might change this later. Trying to figure out balancing, and getting these only with wins might be enough.
             }
-            $AVNSTAttainedSpecial = $AVNSTNonPurchaseSpecials[$AVNSTSpecialRoll]
+            For ($I = 0; $I -lt $AVNSTSpecialTypeWeighting.General; $I++) {$AVNSTSpecialTypeWeightsArray += "General"}
+            For ($I = 0; $I -lt $AVNSTSpecialTypeWeighting.Interrupt; $I++) {$AVNSTSpecialTypeWeightsArray += "Interrupt"}
+            For ($I = 0; $I -lt $AVNSTSpecialTypeWeighting.Instant; $I++) {$AVNSTSpecialTypeWeightsArray += "Instant"}
+            For ($I = 0; $I -lt $AVNSTSpecialTypeWeighting.PreEmptive; $I++) {$AVNSTSpecialTypeWeightsArray += "PreEmptive"}
+            For ($I = 0; $I -lt $AVNSTSpecialTypeWeighting.Injection; $I++) {$AVNSTSpecialTypeWeightsArray += "Injection"}
+            $AVNSTSpecialTypeSelection = Get-Random $AVNSTSpecialTypeWeightsArray
+            $AVNSTNonPurchaseSpecials | ForEach-Object {
+                If ($_.type -eq $AVNSTSpecialTypeSelection) {
+                    $AVNSTSpecialByTypeArray += $_
+                }
+            }
+            $AVNSTAttainedSpecial = Get-Random $AVNSTSpecialByTypeArray
 
             Write-Host "`n⣿ADVENTURENET⣿Service Ticket⣿Special⣿`n`nYou found the following Special!" -foregroundcolor $global:AVNDefaultTextForegroundColor
             $AVNSTAttainedSpecial.Name
             $AVNSTAttainedSpecial.description
             $AVNSTAttainedSpecial.effectdescription
+            Write-Host ""
 
             If ($AVNSTAttainedSpecial.type -eq "Instant") {
                 Invoke-Expression $AVNSTAttainedSpecial.effect
                 $global:AVNPlayerData_CurrentPlayer.globalnotice = $AVNSTAttainedSpecial.globalnotice
             } Else {
-                Write-Host "`nYou store the" $AVNSTAttainedSpecial.Name "away for later use.`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "You store the" $AVNSTAttainedSpecial.Name "away for later use.`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
                 $global:AVNSpecials_CurrentPlayer += $AVNSTAttainedSpecial.Name
             }
         }

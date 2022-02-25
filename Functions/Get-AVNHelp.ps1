@@ -15,11 +15,13 @@ Function Get-AVNHelp {
     param (
         [Parameter()][switch]$Functions,
         [Parameter()][switch]$Dice,
-        [Parameter()][switch]$Specials
+        [Parameter()][switch]$Specials,
+        [Parameter()][switch]$Encounters,
+        [Parameter()][switch]$Rolls
     )
     Get-AVNConfig
 
-    If (($False -eq $Functions) -and ($False -eq $Dice) -and ($False -eq $Specials)) {
+    If (($False -eq $Functions) -and ($False -eq $Dice) -and ($False -eq $Specials) -and ($False -eq $Encounters) -and ($False -eq $Rolls)) {
         $Functions = $True
         $Dice = $True
         $Specials = $True
@@ -246,6 +248,14 @@ Close-AVNSeason converts current data in all player data files into historical d
         Write-Host "`n⣿ADVENTURENET⣿Help⣿Specials⣿Type: Teams-Purchasable⣿`nThese varied Specials may be purchased with GIFs within Enter-AVNTeams." -foregroundcolor $global:AVNDefaultTextForegroundColor
         Write-Output $AVNTeamsSpecialsTable | Sort-Object "type" | Format-Table Name,Type,Effect
         
+        Wait-AVNKeyPress
+    }
+    If ($True -eq $Encounters) {
+        Write-Host "`n⣿ADVENTURENET⣿Help⣿Encounters⣿`nPlaceholder text." -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Wait-AVNKeyPress
+    }
+    If ($True -eq $Rolls) {
+        Write-Host "`n⣿ADVENTURENET⣿Help⣿Rolls⣿`nPlaceholder text." -foregroundcolor $global:AVNDefaultTextForegroundColor
         Wait-AVNKeyPress
     }
 }

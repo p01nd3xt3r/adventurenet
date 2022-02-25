@@ -97,12 +97,12 @@ Function Get-AVNStatus {
                 $AVNOwnedSpecialProperties = [ordered]@{
                     Specials = $AVNOwnedSpecial
                     Type = $AVNDecipheredSpecial.type
-                    Description = $AVNDecipheredSpecial.description
+                    Effect = $AVNDecipheredSpecial.effectdescription
                 }
                 New-Object psobject -property $AVNOwnedSpecialProperties
             }
         )
-        Write-Output $global:AVNSpecialsTable | Sort-Object Specials | Format-Table Specials,Type,Description
+        Write-Output $global:AVNSpecialsTable | Sort-Object type,specials | Format-Table Specials,Type,Effect
     }
     If ($True -eq $Historical) {
         #Really, this should show for all players.

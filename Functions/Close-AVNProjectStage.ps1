@@ -36,7 +36,8 @@ Function Close-AVNProjectStage {
     } Else {
         #Writing data so that if the player tries to use ctrl+c to get out of it, he's already lost whatever it is.
         $global:AVNPlayerData_CurrentPlayer.ProjectStageAttempts += 1
-        $global:AVNCompanyData_CurrentPlayer.teamhealth -= 2
+        $global:AVNCompanyData_CurrentPlayer.teamhealth -= 1
+        $global:AVNCompanyData_CurrentPlayer.clienthealth -= 2
         ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile
         Get-AVNConfig
 
@@ -273,8 +274,9 @@ Function Close-AVNProjectStage {
                         }
                     }   
                     
-                    Write-Host "You used your" $AVNProjectCurrentWaveChosenSpecial.name -foregroundcolor $global:AVNDefaultTextForegroundColor
+                    Write-Host "`nYou used your" $AVNProjectCurrentWaveChosenSpecial.name -foregroundcolor $global:AVNDefaultTextForegroundColor
                     $AVNProjectCurrentWaveChosenSpecial.description
+                    $AVNProjectCurrentWaveChosenSpecial.effectdescription
                     Invoke-Expression $AVNProjectCurrentWaveChosenSpecial.effect
 
                     $AVNPlayerDataSpecialsTempArray = @()
@@ -332,8 +334,7 @@ Function Close-AVNProjectStage {
                         $AVNDiceRollChoicePass = $False
                         Write-Host "Something is odd about your entry. Please make sure to enter using the appropriate format. No letters or special characters are permitted, and if you're trying to get information about the dice, please enter a solitary ?." -foregroundcolor $global:AVNDefaultTextForegroundColor
                         Wait-AVNKeyPress
-                    }
-                    If ([int]$_ -notin $AVNAvailableDice.keys){
+                    } ElseIf ([int]$_ -notin $AVNAvailableDice.keys){
                         $AVNDiceRollChoicePass = $False
                         Write-Host "Please only enter a number that's in your list of available dice." -foregroundcolor $global:AVNDefaultTextForegroundColor
                         Wait-AVNKeyPress
@@ -510,8 +511,8 @@ Function Close-AVNProjectStage {
             Start-Sleep -Milliseconds 20
         }
         
-        #I've taken away two already. That stays for the failure branch.
-        $global:AVNCompanyData_CurrentPlayer.teamhealth += 1
+        #Already -= 2 at the beginning. Player's only lose that if they fail.
+        $global:AVNCompanyData_CurrentPlayer.clienthealth += 2
 
         If ($AVNProjectCurrentStage -lt 3) {
             Write-Host "`n⣿ADVENTURENET⣿Project⣿Success!⣿`n`nYou completed Stage " $AVNProjectCurrentStage " of the Project. Go now, and prepare for the next." -foregroundcolor $global:AVNDefaultTextForegroundColor
@@ -543,12 +544,6 @@ Function Close-AVNProjectStage {
     } Else {
         Write-Host "`n⣿ADVENTURENET⣿Project⣿Failure⣿`n`nThe Project, in its immensity, has overwhelmed you." -foregroundcolor $global:AVNDefaultTextForegroundColor
         $global:AVNPlayerData_CurrentPlayer.globalnotice = "was overcome by a Project Stage."
-        #Set turn and loss changes at the beginning of the function.
-        #No turn loss?
-        #Lose gifs
-        #Always lose team health like service tickets, but lose more when you fail?
-
-        #Set turn and loss changes back based on success or failure.
     }
     ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile
 }

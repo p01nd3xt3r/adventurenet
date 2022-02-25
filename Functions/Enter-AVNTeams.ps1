@@ -119,5 +119,5 @@ Function Enter-AVNTeams {
     $AVNTeamsChosenSpecial.name
     $AVNTeamsChosenSpecial.description
     $AVNTeamsChosenSpecial.effectdescription
-    Write-Host "`n"
+    Write-Host ""
 }

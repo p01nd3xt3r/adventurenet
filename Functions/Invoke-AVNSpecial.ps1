@@ -87,6 +87,7 @@ Function Invoke-AVNSpecial {
 
         Write-Host "`nYou used your" $AVNChosenGeneralSpecial.name -foregroundcolor $global:AVNDefaultTextForegroundColor
         $AVNChosenGeneralSpecial.description
+        $AVNChosenGeneralSpecial.effectdescription
 
         Invoke-Expression $AVNChosenGeneralSpecial.effect
         $global:AVNPlayerData_CurrentPlayer.globalnotice = $AVNChosenGeneralSpecial.globalnotice
