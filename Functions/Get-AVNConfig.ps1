@@ -70,6 +70,10 @@ Function Get-AVNConfig {
         New-Item -path ($global:AVNRootPath + '\data') -itemtype "directory"
     }
     $AVNDataFiles = Get-ChildItem -path ($global:AVNRootPath + '\data')
+    
+    #Goes with checking last sign on at the beginning of this next loop.
+    $global:AVNMostRecentSignOn = (Get-Date).addyears(-100)
+
     $AVNDataFiles | ForEach-Object {
         #Getting content from the current data file and invoking each line of it. Each line is its own variable declaration.
         $AVNCurrentDataFileContent = ConvertFrom-AVNObfuscated -path $_
@@ -77,8 +81,16 @@ Function Get-AVNConfig {
             #$AVNStoredPlayerData and $AVNStoredCompanyData are in here.
             Invoke-Expression $_
         }
+
+        #Getting most recent sign on and getting the current penalty level from it. avnsignon will be where this value is set and will determine if the most recent sign on is from today or not. If it's not, then this is the first sign on of the day, and the player will set the penalty. if the most recent is from today, avnsignon does nothing, and avnconfig gets the value from the most recent here, like normal.
+        $AVNStoredLastSignOn = (Get-Date $AVNStoredPlayerData.LastSignOn -date)
+        If ($AVNStoredLastSignOn -gt ($global:AVNMostRecentSignOn)) {
+            $global:AVNMostRecentSignOn = $AVNStoredLastSignOn
+            $global:AVNCurrentPenaltyLevel = $AVNStoredCurrentPenaltyLevel
+        }
+        #Fix this. I need to set current penalty only at the beginning of the day and then not change it until the next first sign on of a day.
+
         #Finding current username, seeing if the data file belongs to that user, and assigning it to the user. Also applying the player name to the user, which can be used to find the right player and company data variables later. Also adding player and company data to currentuser variables.
-        
         If ($AVNStoredPlayerData.CurrentUser -eq $global:AVNCurrentUser) {
             #Assigning the filename and path currently being addressed to this variable.
             $global:AVNCurrentPlayerDataFile = $_.fullname
