@@ -89,6 +89,7 @@ Function Get-AVNConfig {
             $global:AVNCurrentPenaltyLevel = $AVNStoredCurrentPenaltyLevel
         }
         #Fix this. I need to set current penalty only at the beginning of the day and then not change it until the next first sign on of a day.
+        #AVNSignOn checks to see if the player is the first one of the day. If the player isn't, the player gets the penalty from the player that was the first of the day. If the player is, then the penalty is set from that player's calculations. Subsequent actions use the penalty field that's set at this time.
 
         #Finding current username, seeing if the data file belongs to that user, and assigning it to the user. Also applying the player name to the user, which can be used to find the right player and company data variables later. Also adding player and company data to currentuser variables.
         If ($AVNStoredPlayerData.CurrentUser -eq $global:AVNCurrentUser) {
