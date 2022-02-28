@@ -22,7 +22,7 @@ Function Get-AVNTraining {
     Write-Host "⣿ADVENTURENET⣿Training⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
 
     If ($global:AVNPlayerData_CurrentPlayer.training -gt 0) {
-        If ($global:AVNCompanyDataCommon.teamhealth -lt $global:AVNPenaltyThresholdTwo) {
+        If ($global:AVNCompanyData_CurrentPlayer.teamhealthpenaltylevel -ge 2) {
             If ($global:AVNPlayerData_CurrentPlayer.gifs -lt 10) {
                 Write-Host "`nNote that as a result of low team health, training requires 10 GIFs, and you don't have enough." -foregroundcolor $global:AVNDefaultTextForegroundColor
                 Return
@@ -60,7 +60,7 @@ Function Get-AVNTraining {
             7 = "ITGlue"
         }
         
-        If ($global:AVNCompanyDataCommon.teamhealth -ge $global:AVNPenaltyThresholdFive) {
+        If ($global:AVNCompanyData_CurrentPlayer.teamhealthpenaltylevel -lt 5) {
            Do {
                 Do {
                     Write-Host "`nChoose any one dice to permanently add to your collection." -foregroundcolor $global:AVNDefaultTextForegroundColor
@@ -92,7 +92,7 @@ Function Get-AVNTraining {
 
             Write-Host "`nCongratulations! You've attained the following permanent die." -foregroundcolor $global:AVNDefaultTextForegroundColor
             $AVNTrainingDiceTypes.$AVNTrainingChoice
-            If ($global:AVNCompanyDataCommon.teamhealth -lt $global:AVNPenaltyThresholdTwo) {
+            If ($global:AVNCompanyData_CurrentPlayer.teamhealthpenaltylevel -ge 2) {
                 $global:AVNPlayerData_CurrentPlayer.gifs -= 10
             }
             $global:AVNPlayerData_CurrentPlayer.training -= 1

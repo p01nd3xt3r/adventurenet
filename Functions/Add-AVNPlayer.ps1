@@ -55,6 +55,8 @@ Function Add-AVNPlayer {
     $AVNStoredCompanyData = @{
         ClientHealth = 0
         TeamHealth = 0
+        TeamHealthPenaltyLevel = 0
+        ClientHealthPenaltyLevel = 0
         TechnicalQuestionsAdded = 0
         TechnicalQuestionsRemoved = 0
         ProjectStage1WaveGenerated = 0

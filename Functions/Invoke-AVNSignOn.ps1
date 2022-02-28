@@ -50,6 +50,42 @@ Function Invoke-AVNSignOn {
         #Making the current array only the good tickets.
         $global:AVNServiceTickets_CurrentPlayer = $AVNServiceTicketsWithinInterval
 
+        #Getting/Setting penalty level
+        If ((Get-Date).date -gt $global:AVNMostRecentSignOn.date) {
+            #The player is the first one to sign on today. Calculate/write penalty from the current health levels.
+            If ($global:AVNCompanyDataCommon.teamhealth -lt $global:AVNPenaltyThresholdFive) {
+                $global:AVNCompanyData_CurrentPlayer.teamhealthpenaltylevel = 5
+            } ElseIf ($global:AVNCompanyDataCommon.teamhealth -lt $global:AVNPenaltyThresholdFour) {
+                $global:AVNCompanyData_CurrentPlayer.teamhealthpenaltylevel = 4
+            } ElseIf ($global:AVNCompanyDataCommon.teamhealth -lt $global:AVNPenaltyThresholdThree) {
+                $global:AVNCompanyData_CurrentPlayer.teamhealthpenaltylevel = 3
+            } ElseIf ($global:AVNCompanyDataCommon.teamhealth -lt $global:AVNPenaltyThresholdTwo) {
+                $global:AVNCompanyData_CurrentPlayer.teamhealthpenaltylevel = 2
+            } ElseIf ($global:AVNCompanyDataCommon.teamhealth -lt $global:AVNPenaltyThresholdOne) {
+                $global:AVNCompanyData_CurrentPlayer.teamhealthpenaltylevel = 1
+            } Else {
+                $global:AVNCompanyData_CurrentPlayer.teamhealthpenaltylevel = 0
+            }
+
+            If ($global:AVNCompanyDataCommon.clienthealth -lt $global:AVNPenaltyThresholdFive) {
+                $global:AVNCompanyData_CurrentPlayer.clienthealthpenaltylevel = 5
+            } ElseIf ($global:AVNCompanyDataCommon.clienthealth -lt $global:AVNPenaltyThresholdFour) {
+                $global:AVNCompanyData_CurrentPlayer.clienthealthpenaltylevel = 4
+            } ElseIf ($global:AVNCompanyDataCommon.clienthealth -lt $global:AVNPenaltyThresholdThree) {
+                $global:AVNCompanyData_CurrentPlayer.clienthealthpenaltylevel = 3
+            } ElseIf ($global:AVNCompanyDataCommon.clienthealth -lt $global:AVNPenaltyThresholdTwo) {
+                $global:AVNCompanyData_CurrentPlayer.clienthealthpenaltylevel = 2
+            } ElseIf ($global:AVNCompanyDataCommon.clienthealth -lt $global:AVNPenaltyThresholdOne) {
+                $global:AVNCompanyData_CurrentPlayer.clienthealthpenaltylevel = 1
+            } Else {
+                $global:AVNCompanyData_CurrentPlayer.clienthealthpenaltylevel = 0
+            }
+        } Else {
+            #The player is NOT the first one to sign on today. Copy/write penalty from the most recent sign on.
+            $global:AVNCompanyData_CurrentPlayer.teamhealthpenaltylevel = $global:AVNMostRecentTeamHealthPenaltyLevel
+            $global:AVNCompanyData_CurrentPlayer.clienthealthpenaltylevel = $global:AVNMostRecentClientHealthPenaltyLevel
+        }
+
         #Daily service ticket assignment:
         For ($I = 0; $I -lt $global:AVNServiceTicketsPerDay; $I++) {
             $global:AVNServiceTickets_CurrentPlayer += $AVNDate
@@ -91,7 +127,7 @@ Function Invoke-AVNSignOn {
         #Have some kind of animation for the roll process.
         #Show information about the dice if asked. Can use the hash.
         $global:AVNDiceDaily_CurrentPlayer = @()
-        If ($global:AVNCompanyDataCommon.teamhealth -ge $global:AVNPenaltyThresholdOne) {
+        If ($global:AVNCompanyData_CurrentPlayer.teamhealthpenaltylevel -lt 1) {        
             $AVNDiceOffer = [ordered]@{}
             $AVNallotmentRoll = Get-Random -count $global:AVNDiceOfferingPerDay -maximum ($AVNDiceTypes.count) -minimum 1
             [int]$AVNDiceOfferNumber = 0

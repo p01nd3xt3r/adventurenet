@@ -78,19 +78,16 @@ Function Get-AVNConfig {
         #Getting content from the current data file and invoking each line of it. Each line is its own variable declaration.
         $AVNCurrentDataFileContent = ConvertFrom-AVNObfuscated -path $_
         $AVNCurrentDataFileContent | ForEach-Object {
-            #$AVNStoredPlayerData and $AVNStoredCompanyData are in here.
             Invoke-Expression $_
         }
 
-        #Getting most recent sign on and getting the current penalty level from it. avnsignon will be where this value is set and will determine if the most recent sign on is from today or not. If it's not, then this is the first sign on of the day, and the player will set the penalty. if the most recent is from today, avnsignon does nothing, and avnconfig gets the value from the most recent here, like normal.
-        $AVNStoredLastSignOn = (Get-Date $AVNStoredPlayerData.LastSignOn -date)
-        If ($AVNStoredLastSignOn -gt ($global:AVNMostRecentSignOn)) {
-            $global:AVNMostRecentSignOn = $AVNStoredLastSignOn
-            $global:AVNCurrentPenaltyLevel = $AVNStoredCurrentPenaltyLevel
+        #For balancing penalties in conjunction with Invoke-AVNSignOn; runs for every data file so precedes the fork below. $global:AVNMostRecentSignOn is initialized above this ForEach-Object.
+        If ((Get-Date $AVNStoredPlayerData.LastSignOn) -gt ($global:AVNMostRecentSignOn)) {
+            $global:AVNMostRecentSignOn = (Get-Date $AVNStoredPlayerData.LastSignOn)
+            $global:AVNMostRecentTeamHealthPenaltyLevel = $global:AVNCompanyData_CurrentPlayer.teamhealthpenaltylevel
+            $global:AVNMostRecentClientHealthPenaltyLevel = $global:AVNCompanyData_CurrentPlayer.clienthealthpenaltylevel
         }
-        #Fix this. I need to set current penalty only at the beginning of the day and then not change it until the next first sign on of a day.
-        #AVNSignOn checks to see if the player is the first one of the day. If the player isn't, the player gets the penalty from the player that was the first of the day. If the player is, then the penalty is set from that player's calculations. Subsequent actions use the penalty field that's set at this time.
-
+        
         #Finding current username, seeing if the data file belongs to that user, and assigning it to the user. Also applying the player name to the user, which can be used to find the right player and company data variables later. Also adding player and company data to currentuser variables.
         If ($AVNStoredPlayerData.CurrentUser -eq $global:AVNCurrentUser) {
             #Assigning the filename and path currently being addressed to this variable.

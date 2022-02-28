@@ -29,13 +29,13 @@ Function Close-AVNTechnicalQuestion {
     
     Do {
         Write-Host "`nService Tickets that aren't closed within the configured interval or that are failed by their assignees convert into Technical Questions. Closing them adds 1 to your Kudos and to Client Health." -foregroundcolor $global:AVNDefaultTextForegroundColor
-        If ($global:AVNCompanyDataCommon.clienthealth -ge $global:AVNPenaltyThresholdOne) {
+        If ($global:AVNCompanyData_CurrentPlayer.clienthealthpenaltylevel -lt 1) {
             Write-Host "`nDoing so will require 1 of your turns." -foregroundcolor $global:AVNDefaultTextForegroundColor
             If ($global:AVNPlayerData_CurrentPlayer.turns -lt 1) {
                 Write-Host "`nYou do not have enough turns." -foregroundcolor $global:AVNDefaultTextForegroundColor
                 Return
             }
-        } ElseIf ($global:AVNCompanyDataCommon.clienthealth -ge $global:AVNPenaltyThresholdThree) {
+        } ElseIf ($global:AVNCompanyData_CurrentPlayer.clienthealthpenaltylevel -lt 3) {
             Write-Host "`nAs a result of low client health, closing a Technical Question will require 1 turn and 10 GIFs. Your GIFs:" -foregroundcolor $global:AVNDefaultTextForegroundColor
             $global:AVNPlayerData_CurrentPlayer.gifs
             If ($global:AVNPlayerData_CurrentPlayer.gifs -lt 10) {
@@ -68,9 +68,9 @@ Function Close-AVNTechnicalQuestion {
 
     If (($AVNTechConfirmation -eq "y") -or ($AVNTechConfirmation -eq "yes")) {
         $global:AVNPlayerData_CurrentPlayer.kudos += 1
-        If ($global:AVNCompanyDataCommon.clienthealth -ge $global:AVNPenaltyThresholdOne) {
+        If ($global:AVNCompanyData_CurrentPlayer.clienthealthpenaltylevel -lt 1) {
             $global:AVNPlayerData_CurrentPlayer.turns -= 1
-        } ElseIf ($global:AVNCompanyDataCommon.clienthealth -ge $global:AVNPenaltyThresholdThree) {
+        } ElseIf ($global:AVNCompanyData_CurrentPlayer.clienthealthpenaltylevel -lt 3) {
             $global:AVNPlayerData_CurrentPlayer.turns -= 1
             $global:AVNPlayerData_CurrentPlayer.gifs -= 10
         } Else {
