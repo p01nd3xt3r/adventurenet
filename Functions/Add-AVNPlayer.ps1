@@ -98,6 +98,9 @@ Function Add-AVNPlayer {
     $global:AVNHistoricalData_CurrentPlayer = $AVNStoredHistoricalData
     $global:AVNPlayerDataCommon += @{PlayerName = $AVNStoredPlayerData.playername; Kudos = $AVNStoredPlayerData.kudos; GlobalNotice = $AVNStoredPlayerData.globalnotice}
     #Assigning all company data as well.
+    $global:AVNCompanyData_CurrentPlayer = $AVNStoredCompanyData
+    <#
+    Old
     $global:AVNCompanyData_CurrentPlayer.clienthealth = $AVNStoredCompanyData.clienthealth
     $global:AVNCompanyData_CurrentPlayer.teamhealth = $AVNStoredCompanyData.teamhealth
     $global:AVNCompanyData_CurrentPlayer.ProjectStage1WaveGenerated = $AVNStoredCompanyData.ProjectStage1WaveGenerated
@@ -106,6 +109,7 @@ Function Add-AVNPlayer {
     $global:AVNCompanyData_CurrentPlayer.ProjectStage1WaveDefeated = $AVNStoredCompanyData.ProjectStage1WaveDefeated
     $global:AVNCompanyData_CurrentPlayer.ProjectStage2WaveDefeated = $AVNStoredCompanyData.ProjectStage2WaveDefeated
     $global:AVNCompanyData_CurrentPlayer.ProjectStage3WaveDefeated = $AVNStoredCompanyData.ProjectStage3WaveDefeated
+    #>
 
     #Assigning service tickets.
     $global:AVNServiceTickets_CurrentPlayer = @()

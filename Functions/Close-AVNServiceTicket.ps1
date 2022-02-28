@@ -28,9 +28,11 @@ Function Close-AVNServiceTicket {
     
 
     If ($global:AVNServiceTickets_CurrentPlayer.count -lt 1) { 
-        Throw "`nYou don't have any service tickets!`n"
+        Write-Host "`nYou don't have any service tickets!`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Return
     } ElseIf ($global:AVNPlayerData_CurrentPlayer.turns -lt 1) {
         Write-Host "`nYou don't have any turns available!`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Return
     } Else {
         #Prep stuff
         #Decreasing turns. 

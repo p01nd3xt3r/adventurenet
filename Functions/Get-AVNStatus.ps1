@@ -47,22 +47,48 @@ Function Get-AVNStatus {
     }
     If ($True -eq $Team) {
         Write-Host "`n⣿ADVENTURENET⣿Team Stats⣿`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
-        Write-Host "Team Health:                     " $global:AVNCompanyDataCommon.teamhealth "out of" $global:AVNHealthDefault
-        Write-Host "Client Health:                   " $global:AVNCompanyDataCommon.clienthealth "out of" $global:AVNHealthDefault
-        Write-Host "Current Project Stage:           " $global:AVNCompanyDataCommon.currentstage
-        Write-Host "Technical Questions:             " $global:AVNCompanyDataCommon.technicalquestionstotal
+        Write-Host "Team Health:                      " $global:AVNCompanyDataCommon.teamhealth "out of" $global:AVNHealthDefault
+        Write-Host "Daily Team Health Penalty Level:  " $global:AVNCompanyData_CurrentPlayer.teamhealthpenaltylevel
+        Write-Host "Client Health:                    " $global:AVNCompanyDataCommon.clienthealth "out of" $global:AVNHealthDefault
+        Write-Host "Daily Client Health Penalty Level:" $global:AVNCompanyData_CurrentPlayer.clienthealthpenaltylevel
+        Write-Host "Current Project Stage:            " $global:AVNCompanyDataCommon.currentstage
+        Write-Host "Technical Questions:              " $global:AVNCompanyDataCommon.technicalquestionstotal
+
+        If ($global:AVNCompanyData_CurrentPlayer.teamhealthpenaltylevel -eq 5) {
+            Write-Host "`nAs a result of low Team Health, the following penalties have been applied:`n- Daily Dice randomly assigned`n- Training requires GIFs`n- Increased risk of Project counterattacks`n- Reduction in chance of finding Specials in Service Tickets`n- Permanent dice randomly assigned in Training" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        } ElseIf ($global:AVNCompanyData_CurrentPlayer.teamhealthpenaltylevel -eq 4) {
+            Write-Host "`nAs a result of low Team Health, the following penalties have been applied:`n- Daily Dice randomly assigned`n- Training requires GIFs`n- Increased risk of Project counterattacks`n- Reduction in chance of finding Specials in Service Tickets" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        } ElseIf ($global:AVNCompanyData_CurrentPlayer.teamhealthpenaltylevel -eq 3) {
+            Write-Host "`nAs a result of low Team Health, the following penalties have been applied:`n- Daily Dice randomly assigned`n- Training requires GIFs`n- Increased risk of Project counterattacks" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        } ElseIf ($global:AVNCompanyData_CurrentPlayer.teamhealthpenaltylevel -eq 2) {
+            Write-Host "`nAs a result of low Team Health, the following penalties have been applied:`n- Daily Dice randomly assigned`n- Training requires GIFs" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        } ElseIf ($global:AVNCompanyData_CurrentPlayer.teamhealthpenaltylevel -eq 1) {
+            Write-Host "`nAs a result of low Team Health, the following penalty has been applied:`n- Daily Dice randomly assigned" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        }
+
+        If ($global:AVNCompanyData_CurrentPlayer.clienthealthpenaltylevel -eq 5) {
+            Write-Host "`nAs a result of low Client Health, the following penalties have been applied:`n- Use three fewer dice per Service Ticket encounter`n- Closing Technical Questions requires GIFs and an additional turn" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        } ElseIf ($global:AVNCompanyData_CurrentPlayer.clienthealthpenaltylevel -eq 4) {
+            Write-Host "`nAs a result of low Client Health, the following penalties have been applied:`n- Use two fewer dice per Service Ticket encounter`n- Closing Technical Questions requires GIFs and an additional turn" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        } ElseIf ($global:AVNCompanyData_CurrentPlayer.clienthealthpenaltylevel -eq 3) {
+            Write-Host "`nAs a result of low Client Health, the following penalties have been applied:`n- Use two fewer dice per Service Ticket encounter`n- Closing Technical Questions requires GIFs" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        } ElseIf ($global:AVNCompanyData_CurrentPlayer.clienthealthpenaltylevel -eq 2) {
+            Write-Host "`nAs a result of low Client Health, the following penalties have been applied:`n- Use one fewer die per Service Ticket encounter`n- Closing Technical Questions requires GIFs" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        } ElseIf ($global:AVNCompanyData_CurrentPlayer.clienthealthpenaltylevel -eq 1) {
+            Write-Host "`nAs a result of low Client Health, the following penalty has been applied:`n- Use one fewer die per Service Ticket encounter" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        }
     }
     If ($True -eq $Player) {
         Write-Host "`n`n⣿ADVENTURENET⣿Player Stats⣿`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
-        Write-Host "Player Name:                     " $global:AVNPlayerData_CurrentPlayer.playername
-        Write-Host "GIFs:                            " $global:AVNPlayerData_CurrentPlayer.gifs
-        Write-Host "Training Available:              " $global:AVNPlayerData_CurrentPlayer.training
-        Write-Host "Project Stage Attempts Available:" ($global:AVNProjectStageDailyAllowance - $global:AVNPlayerData_CurrentPlayer.projectstageattempts)
-        Write-Host "Service Tickets:                 " $global:AVNServiceTickets_CurrentPlayer.count
-        Write-Host "Turns Available:                 " $global:AVNPlayerData_CurrentPlayer.turns
-        Write-Host "Opportunities Available:         " $global:AVNPlayerData_CurrentPlayer.opportunities
-        Write-Host "Technical Questions Available:   " $global:AVNCompanyDataCommon.technicalquestionsavailable
-        Write-Host "Last Sign On:                    " $global:AVNPlayerData_CurrentPlayer.lastsignon
+        Write-Host "Player Name:                      " $global:AVNPlayerData_CurrentPlayer.playername
+        Write-Host "GIFs:                             " $global:AVNPlayerData_CurrentPlayer.gifs
+        Write-Host "Training Available:               " $global:AVNPlayerData_CurrentPlayer.training
+        Write-Host "Project Stage Attempts Available: " ($global:AVNProjectStageDailyAllowance - $global:AVNPlayerData_CurrentPlayer.projectstageattempts)
+        Write-Host "Service Tickets:                  " $global:AVNServiceTickets_CurrentPlayer.count
+        Write-Host "Turns Available:                  " $global:AVNPlayerData_CurrentPlayer.turns
+        Write-Host "Opportunities Available:          " $global:AVNPlayerData_CurrentPlayer.opportunities
+        Write-Host "Technical Questions Available:    " $global:AVNCompanyDataCommon.technicalquestionsavailable
+        Write-Host "Last Sign On:                     " $global:AVNPlayerData_CurrentPlayer.lastsignon
     }
     If ($True -eq $Inventory) {
         $AVNDiceTable = @(

@@ -84,8 +84,10 @@ Function Get-AVNConfig {
         #For balancing penalties in conjunction with Invoke-AVNSignOn; runs for every data file so precedes the fork below. $global:AVNMostRecentSignOn is initialized above this ForEach-Object.
         If ((Get-Date $AVNStoredPlayerData.LastSignOn) -gt ($global:AVNMostRecentSignOn)) {
             $global:AVNMostRecentSignOn = (Get-Date $AVNStoredPlayerData.LastSignOn)
-            $global:AVNMostRecentTeamHealthPenaltyLevel = $global:AVNCompanyData_CurrentPlayer.teamhealthpenaltylevel
-            $global:AVNMostRecentClientHealthPenaltyLevel = $global:AVNCompanyData_CurrentPlayer.clienthealthpenaltylevel
+            #$global:AVNMostRecentTeamHealthPenaltyLevel = $global:AVNCompanyData_CurrentPlayer.teamhealthpenaltylevel
+            $global:AVNMostRecentTeamHealthPenaltyLevel = $AVNStoredCompanyData.teamhealthpenaltylevel
+            #$global:AVNMostRecentClientHealthPenaltyLevel = $global:AVNCompanyData_CurrentPlayer.clienthealthpenaltylevel
+            $global:AVNMostRecentClientHealthPenaltyLevel = $AVNStoredCompanyData.clienthealthpenaltylevel
         }
         
         #Finding current username, seeing if the data file belongs to that user, and assigning it to the user. Also applying the player name to the user, which can be used to find the right player and company data variables later. Also adding player and company data to currentuser variables.

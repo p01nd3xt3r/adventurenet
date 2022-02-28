@@ -72,10 +72,10 @@ Function Invoke-AVNSpecial {
                 }
             } Until ($AVNGeneralSpecialChoice -in $AVNGeneralSpecialsHashTable.keys)
 
-            If ($AVNTeamsPurchaseChoice -eq "?") {
+            If ($AVNGeneralSpecialChoice -eq "?") {
                 Get-AVNHelp -specials
             }
-        } Until ($AVNTeamsPurchaseChoice -ne "?")
+        } Until ($AVNGeneralSpecialChoice -ne "?")
 
         $AVNGeneralSpecialChoice = [int]$AVNGeneralSpecialChoice
 
@@ -85,7 +85,7 @@ Function Invoke-AVNSpecial {
             }
         }
 
-        Write-Host "`nYou used your" $AVNChosenGeneralSpecial.name -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "`nYou used your" $AVNChosenGeneralSpecial.name "`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
         $AVNChosenGeneralSpecial.description
         $AVNChosenGeneralSpecial.effectdescription
 
