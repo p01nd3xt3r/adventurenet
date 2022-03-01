@@ -16,7 +16,7 @@
 	# Minor    - new solutions, e.g. new cmdlets
 	# Build    - new features, e.g. new params
 	# Revision - fixed bugs, typos, etc...
-ModuleVersion = '0.23.0.0'
+ModuleVersion = '0.24.0.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -82,6 +82,7 @@ NestedModules = @(
     '.\Functions\ConvertTo-AVNWriteData.ps1',
     '.\Functions\Enter-AVNTeams.ps1',
     '.\Functions\Get-AVNConfig.ps1',
+    '.\Functions\Get-AVNGIFs.ps1',
     '.\Functions\Get-AVNHelp.ps1',
     '.\Functions\Get-AVNStatus.ps1',
     '.\Functions\Get-AVNTraining.ps1',
@@ -103,6 +104,7 @@ FunctionsToExport = @(
     'ConvertTo-AVNWriteData',
     'Enter-AVNTeams',
     'Get-AVNConfig',
+    'Get-AVNGIFs',
     'Get-AVNHelp',
     'Get-AVNStatus',
     'Get-AVNTraining',
@@ -137,6 +139,7 @@ FileList = @(
     '.\uhGNpSAZCzIt',
     '.\wlBjUrtSsTIO',
     '.\XQxoHZJajcgW',
+    '.\Media\AVNGIFsAnim',
     '.\Media\AVNHelpAnim',
     '.\Media\AVNIntroAnim',
     '.\Media\AVNServiceTicketAnim',

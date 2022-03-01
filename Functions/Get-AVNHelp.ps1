@@ -65,6 +65,9 @@ Service tickets older than the configured threshold become Technical Questions. 
 Enter-AVNTeams
 Players will find GIFs while closing service tickets, and they may use those GIFs to purchase powerful Specials here.
 
+Get-AVNGIFs
+Players may trade their unwanted Specials for a small GIF reward.
+
 Get-AVNTraining
 Players are allowed to train once per day. Training allows players to add a single die of any type to his or her permanent dice collection.
 

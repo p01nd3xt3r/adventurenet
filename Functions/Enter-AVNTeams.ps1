@@ -31,21 +31,21 @@ Function Enter-AVNTeams {
     [int]$AVNSpecialsI = 0
     $AVNSpecialsPossibleChoices = @()
     $AVNSpecialsTable = @(
-            ForEach ($AVNSpecial in $AVNSpecials) {
-                If ($AVNSpecial.teamscost -gt 0) {
-                    $AVNSpecialsI++
-                    $AVNSpecialsPossibleChoices += $AVNSpecialsI
-                    $AVNSpecialProperties = [ordered]@{
-                        Item = $AVNSpecialsI
-                        Name = $AVNSpecial.name
-                        Type = $AVNSpecial.type
-                        Cost = $AVNSpecial.teamscost
-                        Effect = $AVNSpecial.effectdescription
-                    }
-                    New-Object psobject -property $AVNSpecialProperties
+        ForEach ($AVNSpecial in $AVNSpecials) {
+            If ($AVNSpecial.teamscost -gt 0) {
+                $AVNSpecialsI++
+                $AVNSpecialsPossibleChoices += $AVNSpecialsI
+                $AVNSpecialProperties = [ordered]@{
+                    Item = $AVNSpecialsI
+                    Name = $AVNSpecial.name
+                    Type = $AVNSpecial.type
+                    Cost = $AVNSpecial.teamscost
+                    Effect = $AVNSpecial.effectdescription
                 }
+                New-Object psobject -property $AVNSpecialProperties
             }
-        )
+        }
+    )
 
     Do {
         Do {

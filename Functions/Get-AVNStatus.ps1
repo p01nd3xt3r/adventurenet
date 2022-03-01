@@ -55,27 +55,27 @@ Function Get-AVNStatus {
         Write-Host "Technical Questions:              " $global:AVNCompanyDataCommon.technicalquestionstotal
 
         If ($global:AVNCompanyData_CurrentPlayer.teamhealthpenaltylevel -eq 5) {
-            Write-Host "`nAs a result of low Team Health at the first sign on today, the following penalties have been applied:`n- Daily Dice randomly assigned`n- Training requires GIFs`n- Increased risk of Project counterattacks`n- Reduction in chance of finding Specials in Service Tickets`n- Permanent dice randomly assigned in Training" -foregroundcolor $global:AVNDefaultTextForegroundColor
+            Write-Host "`nAs a result of low Team Health, the following penalties have been applied:`n- Daily Dice randomly assigned`n- Training requires GIFs`n- Increased risk of Project counterattacks`n- Reduction in chance of finding Specials in Service Tickets`n- Permanent dice randomly assigned in Training" -foregroundcolor $global:AVNDefaultTextForegroundColor
         } ElseIf ($global:AVNCompanyData_CurrentPlayer.teamhealthpenaltylevel -eq 4) {
-            Write-Host "`nAs a result of low Team Health at the first sign on today, the following penalties have been applied:`n- Daily Dice randomly assigned`n- Training requires GIFs`n- Increased risk of Project counterattacks`n- Reduction in chance of finding Specials in Service Tickets" -foregroundcolor $global:AVNDefaultTextForegroundColor
+            Write-Host "`nAs a result of low Team Health, the following penalties have been applied:`n- Daily Dice randomly assigned`n- Training requires GIFs`n- Increased risk of Project counterattacks`n- Reduction in chance of finding Specials in Service Tickets" -foregroundcolor $global:AVNDefaultTextForegroundColor
         } ElseIf ($global:AVNCompanyData_CurrentPlayer.teamhealthpenaltylevel -eq 3) {
-            Write-Host "`nAs a result of low Team Health at the first sign on today, the following penalties have been applied:`n- Daily Dice randomly assigned`n- Training requires GIFs`n- Increased risk of Project counterattacks" -foregroundcolor $global:AVNDefaultTextForegroundColor
+            Write-Host "`nAs a result of low Team Health, the following penalties have been applied:`n- Daily Dice randomly assigned`n- Training requires GIFs`n- Increased risk of Project counterattacks" -foregroundcolor $global:AVNDefaultTextForegroundColor
         } ElseIf ($global:AVNCompanyData_CurrentPlayer.teamhealthpenaltylevel -eq 2) {
-            Write-Host "`nAs a result of low Team Health at the first sign on today, the following penalties have been applied:`n- Daily Dice randomly assigned`n- Training requires GIFs" -foregroundcolor $global:AVNDefaultTextForegroundColor
+            Write-Host "`nAs a result of low Team Health, the following penalties have been applied:`n- Daily Dice randomly assigned`n- Training requires GIFs" -foregroundcolor $global:AVNDefaultTextForegroundColor
         } ElseIf ($global:AVNCompanyData_CurrentPlayer.teamhealthpenaltylevel -eq 1) {
-            Write-Host "`nAs a result of low Team Health at the first sign on today, the following penalty has been applied:`n- Daily Dice randomly assigned" -foregroundcolor $global:AVNDefaultTextForegroundColor
+            Write-Host "`nAs a result of low Team Health, the following penalty has been applied:`n- Daily Dice randomly assigned" -foregroundcolor $global:AVNDefaultTextForegroundColor
         }
 
         If ($global:AVNCompanyData_CurrentPlayer.clienthealthpenaltylevel -eq 5) {
-            Write-Host "`nAs a result of low Client Health at the first sign on today, the following penalties have been applied:`n- Use three fewer dice per Service Ticket encounter`n- Closing Technical Questions requires GIFs and an additional turn" -foregroundcolor $global:AVNDefaultTextForegroundColor
+            Write-Host "`nAs a result of low Client Health, the following penalties have been applied:`n- Use three fewer dice per Service Ticket encounter`n- Closing Technical Questions requires GIFs and an additional turn" -foregroundcolor $global:AVNDefaultTextForegroundColor
         } ElseIf ($global:AVNCompanyData_CurrentPlayer.clienthealthpenaltylevel -eq 4) {
-            Write-Host "`nAs a result of low Client Health at the first sign on today, the following penalties have been applied:`n- Use two fewer dice per Service Ticket encounter`n- Closing Technical Questions requires GIFs and an additional turn" -foregroundcolor $global:AVNDefaultTextForegroundColor
+            Write-Host "`nAs a result of low Client Health, the following penalties have been applied:`n- Use two fewer dice per Service Ticket encounter`n- Closing Technical Questions requires GIFs and an additional turn" -foregroundcolor $global:AVNDefaultTextForegroundColor
         } ElseIf ($global:AVNCompanyData_CurrentPlayer.clienthealthpenaltylevel -eq 3) {
-            Write-Host "`nAs a result of low Client Health at the first sign on today, the following penalties have been applied:`n- Use two fewer dice per Service Ticket encounter`n- Closing Technical Questions requires GIFs" -foregroundcolor $global:AVNDefaultTextForegroundColor
+            Write-Host "`nAs a result of low Client Health, the following penalties have been applied:`n- Use two fewer dice per Service Ticket encounter`n- Closing Technical Questions requires GIFs" -foregroundcolor $global:AVNDefaultTextForegroundColor
         } ElseIf ($global:AVNCompanyData_CurrentPlayer.clienthealthpenaltylevel -eq 2) {
-            Write-Host "`nAs a result of low Client Health at the first sign on today, the following penalties have been applied:`n- Use one fewer die per Service Ticket encounter`n- Closing Technical Questions requires GIFs" -foregroundcolor $global:AVNDefaultTextForegroundColor
+            Write-Host "`nAs a result of low Client Health, the following penalties have been applied:`n- Use one fewer die per Service Ticket encounter`n- Closing Technical Questions requires GIFs" -foregroundcolor $global:AVNDefaultTextForegroundColor
         } ElseIf ($global:AVNCompanyData_CurrentPlayer.clienthealthpenaltylevel -eq 1) {
-            Write-Host "`nAs a result of low Client Health at the first sign on today, the following penalty has been applied:`n- Use one fewer die per Service Ticket encounter" -foregroundcolor $global:AVNDefaultTextForegroundColor
+            Write-Host "`nAs a result of low Client Health, the following penalty has been applied:`n- Use one fewer die per Service Ticket encounter" -foregroundcolor $global:AVNDefaultTextForegroundColor
         }
     }
     If ($True -eq $Player) {

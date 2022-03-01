@@ -136,12 +136,6 @@ Function Close-AVNServiceTicket {
             $AVNSTPossibleEncounters = $global:AVNServiceTicketEncounters | Where-Object {$_.ReqProjectStage -eq $global:AVNCompanyDataCommon.CurrentStage}
             $AVNSTCurrentEncounter = Get-Random -InputObject $AVNSTPossibleEncounters
 
-            #Intro text
-            Write-Host $AVNSTCurrentEncounter.IntroductionText -foregroundcolor $global:AVNDefaultTextForegroundColor
-            If ($True -eq $Dev) {
-                $AVNSTCurrentEncounter
-            }
-
             #Getting the $AVNDiceValues array.
             $AVNDataFileContent = ConvertFrom-AVNObfuscated -path ($global:AVNRootPath + "\bGBIuKWniXYw")
             $AVNDataFileContent | ForEach-Object {
@@ -238,10 +232,17 @@ Function Close-AVNServiceTicket {
                 $AVNSTTotalWaves = 1
             }
 
+            #Intro text
+            Write-Host ""
+            Write-Host $AVNSTCurrentEncounter.IntroductionText -foregroundcolor $global:AVNDefaultTextForegroundColor
+            If ($True -eq $Dev) {
+                $AVNSTCurrentEncounter
+            }
+
             If ($AVNSTTotalWaves -lt 2) {
-                Write-Host "`nThe" $AVNSTCurrentEncounter.name "has only $AVNSTTotalWaves wave of defense." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "The" $AVNSTCurrentEncounter.name "has only $AVNSTTotalWaves wave of defense."
             } Else {
-                Write-Host "`nThe" $AVNSTCurrentEncounter.name "has $AVNSTTotalWaves waves of defenses." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "The" $AVNSTCurrentEncounter.name "has $AVNSTTotalWaves waves of defenses."
             }
 
             $AVNSTCurrentWave = 1
