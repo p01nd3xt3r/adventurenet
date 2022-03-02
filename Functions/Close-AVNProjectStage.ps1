@@ -331,11 +331,17 @@ Function Close-AVNProjectStage {
             $AVNAvailableDice
             #Create entry hash that includes ?
 
-            [string]$AVNDiceRollChoice = Read-Host "Choose which you'd like to roll by its number in the above table; for multiple, separate numbers by a comma (ex: 1,2), or else enter ? to display work-type value alottment per dice"
+            [string]$AVNDiceRollChoice = Read-Host "Choose which die or dice you'd like to roll by its number in the above table; for multiple, separate numbers by a comma (ex: 1,2); enter ? to display work-type value alottment per dice; enter nothing to roll all"
 
             If ($AVNDiceRollChoice -eq '?') {
                 Get-AVNHelp -dice
                 $AVNDiceRollChoicePass = $False
+            }  ElseIf ($AVNDiceRollChoice -eq '') {
+                $AVNDiceRollChoiceArray = @()
+                For ($I = 1; $I -le $AVNAvailableDice.count; $I++) {
+                    $AVNDiceRollChoiceArray += [string]$I
+                }
+                $AVNDiceRollChoicePass = $True
             } Else {
                 $AVNDiceRollChoiceArray = $AVNDiceRollChoice -split ","
                 $AVNDiceRollChoiceArrayComparer = $AVNDiceRollChoiceArray | Select-Object -unique
