@@ -250,6 +250,22 @@ Close-AVNSeason converts current data in all player data files into historical d
         )
         Write-Host "`n⣿ADVENTURENET⣿Help⣿Specials⣿Type: Teams-Purchasable⣿`nThese varied Specials may be purchased with GIFs within Enter-AVNTeams." -foregroundcolor $global:AVNDefaultTextForegroundColor
         Write-Output $AVNTeamsSpecialsTable | Sort-Object "type" | Format-Table Name,Type,Effect
+
+        $AVNCrisisSpecialsTable = @(
+            ForEach ($AVNSpecial in $AVNSpecials) {
+                If ($AVNSpecial.type -eq "crisis") {
+                    $AVNCrisisSpecialProperties = [ordered]@{
+                        Name = $AVNSpecial.name
+                        Type = $AVNSpecial.type
+                        Description = $AVNSpecial.description
+                        Effect = $AVNSpecial.EffectDescription
+                    }
+                    New-Object psobject -property $AVNCrisisSpecialProperties
+                }
+            }
+        )
+        Write-Host "`n⣿ADVENTURENET⣿Help⣿Specials⣿Type: Crisis⣿`nCrises work like Instant Specials, but you don't want to find these." -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Output $AVNPreEmptiveSpecialsTable | Sort-Object "type" | Format-Table Name,Effect
         
         Wait-AVNKeyPress
     }

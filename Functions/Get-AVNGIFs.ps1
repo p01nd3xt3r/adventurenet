@@ -30,7 +30,7 @@ Function Get-AVNGIFs {
     $AVNPlayerSpecials = @()
     $global:AVNSpecials_CurrentPlayer | ForEach-Object {
         ForEach ($AVNSTRawSpecial in $AVNSpecials) {
-            If ($AVNSTRawSpecial.name -eq $_) {
+            If (($AVNSTRawSpecial.name -eq $_) -and ($AVNSTRawSpecial.gifreward -gt 0)) {
                 $AVNPlayerSpecials += $AVNSTRawSpecial
             }
         }

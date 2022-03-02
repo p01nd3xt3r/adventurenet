@@ -258,8 +258,7 @@ Function Close-AVNProjectStage {
                 If (($AVNProjectCurrentWaveChoice -notmatch "\d+") -and ($AVNProjectCurrentWaveChoice -ne "?") -and ($AVNProjectCurrentWaveChoice -ne "r")) {
                     Write-Host "`nSomething seems to be wrong with your entry. Please make sure to enter only the integer that's next to your choice or a single ?." -foregroundcolor $global:AVNDefaultTextForegroundColor
                     Wait-AVNKeyPress
-                }
-                If ($AVNProjectCurrentWaveChoice -notin $AVNProjectCurrentWaveOptions.keys) {
+                } ElseIf ($AVNProjectCurrentWaveChoice -notin $AVNProjectCurrentWaveOptions.keys) {
                     Write-Host "`nPlease only enter ? or the integer of an item in the list." -foregroundcolor $global:AVNDefaultTextForegroundColor
                     Wait-AVNKeyPress
                 }
@@ -351,7 +350,8 @@ Function Close-AVNProjectStage {
                         $AVNDiceRollChoicePass = $False
                         Write-Host "Something is odd about your entry. Please make sure to enter using the appropriate format. No letters or special characters are permitted, and if you're trying to get information about the dice, please enter a solitary ?." -foregroundcolor $global:AVNDefaultTextForegroundColor
                         Wait-AVNKeyPress
-                    } ElseIf ([int]$_ -notin $AVNAvailableDice.keys){
+                    } 
+                    If ([int]$_ -notin $AVNAvailableDice.keys){
                         $AVNDiceRollChoicePass = $False
                         Write-Host "Please only enter a number that's in your list of available dice." -foregroundcolor $global:AVNDefaultTextForegroundColor
                         Wait-AVNKeyPress

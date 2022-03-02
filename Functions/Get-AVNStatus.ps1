@@ -21,7 +21,6 @@ Function Get-AVNStatus {
         [Parameter()][switch]$Dev
     )
     #Writes current health levels and the last host output the player had to the screen.
-    #Do a type param for each different category, and if no type is chosen, show all?
     Get-AVNConfig
 
     If (($False -eq $Scoreboard) -and ($False -eq $Team) -and ($False -eq $Player) -and ($False -eq $Inventory) -and ($False -eq $Historical) -and ($False -eq $Dev)) {
@@ -43,7 +42,7 @@ Function Get-AVNStatus {
             }
         )
         Write-Host "`n⣿ADVENTURENET⣿Scoreboard⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
-        $AVNPlayerTable | Format-Table player,global,kudos | Sort-Object -property "kudos" -descending
+        $AVNPlayerTable | Format-Table player,global,kudos | Sort-Object kudos,playername -descending
     }
     If ($True -eq $Team) {
         Write-Host "`n⣿ADVENTURENET⣿Team Stats⣿`n" -foregroundcolor $global:AVNDefaultTextForegroundColor

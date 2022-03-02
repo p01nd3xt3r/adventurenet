@@ -322,7 +322,7 @@ Function Close-AVNServiceTicket {
                         If (($AVNSTActionEntry -notmatch "\d+") -and ($AVNSTActionEntry -ne "?") -and ($AVNSTActionEntry -ne "r")) {
                             Write-Host "Something seems to be wrong with your entry. Please make sure to enter only the integer that's next to your choice or a single ?." -foregroundcolor $global:AVNDefaultTextForegroundColor
                             Wait-AVNKeyPress
-                        }
+                        } 
                         If ($AVNSTActionEntry -notin $AVNSTCurrentWaveOptions.keys) {
                             Write-Host "Please only enter the integer of an item in the list." -foregroundcolor $global:AVNDefaultTextForegroundColor
                             Wait-AVNKeyPress
@@ -609,50 +609,73 @@ Function Close-AVNServiceTicket {
                 $AVNSTCurrentEncounter.failuretext
             }
         } Else {
-            #If the player gets a roll for a special, goes through the available ones for a random one and assigns just the name to the array in the player's data variable.
-            $AVNSTNonPurchaseSpecials = @()
-            #Filtering out purchase-only specials
-            $AVNSpecials | ForEach-Object {
-                If ($_.teamscost -eq 0) {
-                    $AVNSTNonPurchaseSpecials += $_
+            #If the player gets a roll for a special, then roll again to see if it's a crisis or not.
+            $AVNSTCrisisChance = .1
+            $AVNSTCrisisRoll = Get-Random -minimum 0 -maximum 100
+            If ($AVNSTCrisisRoll -le (100 *$AVNSTCrisisChance )) {
+                #If crisis:
+                $AVNSTCrisisSpecials = @()
+                $AVNSpecials | ForEach-Object {
+                    If ($_.type -eq 'crisis') {
+                        $AVNSTCrisisSpecials += $_
+                    }
                 }
-            }
 
-            #Making it so that each category gets a specified chance of being rolled and then each special within that category then has its own equal chance after that.
-            $AVNSTSpecialTypeWeightsArray = @()
-            $AVNSTSpecialByTypeArray = @()
-            $AVNSTSpecialTypeWeighting = @{
-                General = 2
-                Interrupt = 1
-                Instant = 2
-                PreEmptive = 1
-                Injection = 0 #Might change this later. Trying to figure out balancing, and getting these only with wins might be enough.
-            }
-            For ($I = 0; $I -lt $AVNSTSpecialTypeWeighting.General; $I++) {$AVNSTSpecialTypeWeightsArray += "General"}
-            For ($I = 0; $I -lt $AVNSTSpecialTypeWeighting.Interrupt; $I++) {$AVNSTSpecialTypeWeightsArray += "Interrupt"}
-            For ($I = 0; $I -lt $AVNSTSpecialTypeWeighting.Instant; $I++) {$AVNSTSpecialTypeWeightsArray += "Instant"}
-            For ($I = 0; $I -lt $AVNSTSpecialTypeWeighting.PreEmptive; $I++) {$AVNSTSpecialTypeWeightsArray += "PreEmptive"}
-            For ($I = 0; $I -lt $AVNSTSpecialTypeWeighting.Injection; $I++) {$AVNSTSpecialTypeWeightsArray += "Injection"}
-            $AVNSTSpecialTypeSelection = Get-Random $AVNSTSpecialTypeWeightsArray
-            $AVNSTNonPurchaseSpecials | ForEach-Object {
-                If ($_.type -eq $AVNSTSpecialTypeSelection) {
-                    $AVNSTSpecialByTypeArray += $_
-                }
-            }
-            $AVNSTAttainedSpecial = Get-Random $AVNSTSpecialByTypeArray
+                $AVNSTAttainedCrisisSpecial = Get-Random $AVNSTCrisisSpecials
 
-            Write-Host "`n⣿ADVENTURENET⣿Service Ticket⣿Special⣿`n`nYou found the following Special!" -foregroundcolor $global:AVNDefaultTextForegroundColor
-            $AVNSTAttainedSpecial.Name
-            $AVNSTAttainedSpecial.description
-            $AVNSTAttainedSpecial.effectdescription
-            Write-Host ""
-
-            If ($AVNSTAttainedSpecial.type -eq "Instant") {
-                Invoke-Expression $AVNSTAttainedSpecial.effect
-                $global:AVNPlayerData_CurrentPlayer.globalnotice = $AVNSTAttainedSpecial.globalnotice
+                Write-Host "`n⣿ADVENTURENET⣿Service Ticket⣿Special⣿`n`nThe Special you found is, in fact, a Crisis!" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                $AVNSTAttainedCrisisSpecial.Name
+                $AVNSTAttainedCrisisSpecial.description
+                $AVNSTAttainedCrisisSpecial.effectdescription
+                Write-Host ""
+            
+                Invoke-Expression $AVNSTAttainedCrisisSpecial.effect
+                $global:AVNPlayerData_CurrentPlayer.globalnotice = $AVNSTAttainedCrisisSpecial.globalnotice
             } Else {
-                Write-Host "You store the" $AVNSTAttainedSpecial.Name "away for later use.`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
-                $global:AVNSpecials_CurrentPlayer += $AVNSTAttainedSpecial.Name
+                #If non-crisis.
+                $AVNSTNonPurchaseSpecials = @()
+                $AVNSpecials | ForEach-Object {
+                    If (($_.teamscost -eq 0) -and ($_.type -ne 'crisis')) {
+                        $AVNSTNonPurchaseSpecials += $_
+                    }
+                }
+
+                #Making it so that each category gets a specified chance of being rolled and then each special within that category then has its own equal chance after that.
+                $AVNSTSpecialTypeWeightsArray = @()
+                $AVNSTSpecialByTypeArray = @()
+                $AVNSTSpecialTypeWeighting = @{
+                    General = 2
+                    Interrupt = 1
+                    Instant = 2
+                    PreEmptive = 1
+                    Injection = 0 #Might change this later. Trying to figure out balancing, and getting these only with wins might be enough.
+                }
+                For ($I = 0; $I -lt $AVNSTSpecialTypeWeighting.General; $I++) {$AVNSTSpecialTypeWeightsArray += "General"}
+                For ($I = 0; $I -lt $AVNSTSpecialTypeWeighting.Interrupt; $I++) {$AVNSTSpecialTypeWeightsArray += "Interrupt"}
+                For ($I = 0; $I -lt $AVNSTSpecialTypeWeighting.Instant; $I++) {$AVNSTSpecialTypeWeightsArray += "Instant"}
+                For ($I = 0; $I -lt $AVNSTSpecialTypeWeighting.PreEmptive; $I++) {$AVNSTSpecialTypeWeightsArray += "PreEmptive"}
+                For ($I = 0; $I -lt $AVNSTSpecialTypeWeighting.Injection; $I++) {$AVNSTSpecialTypeWeightsArray += "Injection"}
+                $AVNSTSpecialTypeSelection = Get-Random $AVNSTSpecialTypeWeightsArray
+                $AVNSTNonPurchaseSpecials | ForEach-Object {
+                    If ($_.type -eq $AVNSTSpecialTypeSelection) {
+                        $AVNSTSpecialByTypeArray += $_
+                    }
+                }
+                $AVNSTAttainedSpecial = Get-Random $AVNSTSpecialByTypeArray
+
+                Write-Host "`n⣿ADVENTURENET⣿Service Ticket⣿Special⣿`n`nYou found the following Special!" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                $AVNSTAttainedSpecial.Name
+                $AVNSTAttainedSpecial.description
+                $AVNSTAttainedSpecial.effectdescription
+                Write-Host ""
+
+                If ($AVNSTAttainedSpecial.type -eq "Instant") {
+                    Invoke-Expression $AVNSTAttainedSpecial.effect
+                    $global:AVNPlayerData_CurrentPlayer.globalnotice = $AVNSTAttainedSpecial.globalnotice
+                } Else {
+                    Write-Host "You store the" $AVNSTAttainedSpecial.Name "away for later use.`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                    $global:AVNSpecials_CurrentPlayer += $AVNSTAttainedSpecial.Name
+                }
             }
         }
 

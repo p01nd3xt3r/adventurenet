@@ -29,7 +29,7 @@ Function Enter-AVNTeams {
     }
     
     [int]$AVNSpecialsI = 0
-    $AVNSpecialsPossibleChoices = @()
+    $AVNSpecialsPossibleChoices = @('?')
     $AVNSpecialsTable = @(
         ForEach ($AVNSpecial in $AVNSpecials) {
             If ($AVNSpecial.teamscost -gt 0) {
@@ -64,8 +64,8 @@ Function Enter-AVNTeams {
             If (($AVNTeamsPurchaseChoice -notmatch "\d+") -and ($AVNTeamsPurchaseChoice -ne "?")) {
                 Write-Host "`nSomething seems to be wrong with your entry. Please make sure to enter ? or the integer that's next to your choice." -foregroundcolor $global:AVNDefaultTextForegroundColor
                 Wait-AVNKeyPress
-            }
-            If (($AVNTeamsPurchaseChoice -notin $AVNSpecialsPossibleChoices) -and ($AVNTeamsPurchaseChoice -ne "?")) {
+            } 
+            If ($AVNTeamsPurchaseChoice -notin $AVNSpecialsPossibleChoices) {
                 Write-Host "`nPlease only enter an ? or the integer of an item in the list." -foregroundcolor $global:AVNDefaultTextForegroundColor
                 Wait-AVNKeyPress
             }
