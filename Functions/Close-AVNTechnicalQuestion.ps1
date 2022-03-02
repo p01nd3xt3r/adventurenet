@@ -32,29 +32,29 @@ Function Close-AVNTechnicalQuestion {
         If ($global:AVNCompanyData_CurrentPlayer.clienthealthpenaltylevel -lt 1) {
             Write-Host "`nDoing so will require 1 of your turns." -foregroundcolor $global:AVNDefaultTextForegroundColor
             If ($global:AVNPlayerData_CurrentPlayer.turns -lt 1) {
-                Write-Host "`nYou do not have enough turns." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "`nYou do not have enough turns.`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
                 Return
             }
         } ElseIf ($global:AVNCompanyData_CurrentPlayer.clienthealthpenaltylevel -lt 3) {
             Write-Host "`nAs a result of low client health, closing a Technical Question will require 1 turn and 10 GIFs. Your GIFs:" -foregroundcolor $global:AVNDefaultTextForegroundColor
             $global:AVNPlayerData_CurrentPlayer.gifs
             If ($global:AVNPlayerData_CurrentPlayer.gifs -lt 10) {
-                Write-Host "`nYou do not have enough GIFs." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "`nYou do not have enough GIFs.`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
                 Return
             }
             If ($global:AVNPlayerData_CurrentPlayer.turn -lt 1) {
-                Write-Host "`nYou do not have enough turns." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "`nYou do not have enough turns.`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
                 Return
             }
         } Else {
             Write-Host "`nAs a result of low client health, closing a Technical Question will require 2 of your turns and 10 GIFs. Your GIFs:" -foregroundcolor $global:AVNDefaultTextForegroundColor
             $global:AVNPlayerData_CurrentPlayer.gifs
             If ($global:AVNPlayerData_CurrentPlayer.gifs -lt 10) {
-                Write-Host "`nYou do not have enough GIFs." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "`nYou do not have enough GIFs.`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
                 Return
             }
             If ($global:AVNPlayerData_CurrentPlayer.turn -lt 2) {
-                Write-Host "`nYou do not have enough turns." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "`nYou do not have enough turns.`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
                 Return
             }
         }
