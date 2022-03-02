@@ -58,6 +58,7 @@ Function Get-AVNTraining {
             5 = "HuntressDefender"
             6 = "CoreValues"
             7 = "ITGlue"
+            8 = "Ubiquiti"
         }
         
         If ($global:AVNCompanyData_CurrentPlayer.teamhealthpenaltylevel -lt 5) {
@@ -111,7 +112,7 @@ Function Get-AVNTraining {
                 } Until ($AVNTrainingChoice -ne "?")
             } Until (($AVNTrainingConfirmation -eq "y") -or ($AVNTrainingConfirmation -eq "yes") -or ($AVNTrainingConfirmation -eq 'n') -or ($AVNTrainingConfirmation -eq 'no'))
             If (($AVNTrainingConfirmation -eq "y") -or ($AVNTrainingConfirmation -eq "yes")) {
-                $AVNTrainingRoll = Get-Random -minimum 1 -maximum 7
+                $AVNTrainingRoll = Get-Random -minimum 1 -maximum 8
                 $global:AVNDicePerm_CurrentPlayer += $AVNTrainingDiceTypes.$AVNTrainingRoll
 
                 $global:AVNPlayerData_CurrentPlayer.gifs -= 10
