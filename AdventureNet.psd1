@@ -72,7 +72,7 @@ Copyright = '(c) Patrick D. Pace. All rights reserved.'
 # Modules to import as nested modules of the module specified in RootModule/ModuleToProcess
 NestedModules = @(
     '.\Functions\Add-AVNPlayer.ps1',
-    '.\Functions\Add-AVNProjectWaves.ps1',
+    '.\Functions\Add-AVNProjectBloc.ps1',
     '.\Functions\Close-AVNProjectStage.ps1',
     '.\Functions\Close-AVNSeason.ps1',
     '.\Functions\Close-AVNServiceTicket.ps1',
@@ -94,7 +94,7 @@ NestedModules = @(
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
 FunctionsToExport = @(
     'Add-AVNPlayer',
-    'Add-AVNProjectWaves',
+    'Add-AVNProjectBloc',
     'Close-AVNProjectStage',
     'Close-AVNSeason',
     'Close-AVNServiceTicket',

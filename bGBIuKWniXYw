@@ -2,7 +2,7 @@ $AVNCoreValues = @{Workstation = 0; Cloud = 0; OnPrem = 0; Networking = 0; Secur
 $AVNMicrosoft365 = @{Workstation = 3; Cloud = 2; OnPrem = 0; Networking = 0; Security = 1; Character = 0}
 $AVNDatto = @{Workstation = 0; Cloud = 2; OnPrem = 3; Networking = 1; Security = 0; Character = 0}
 $AVNMimecastUmbrella = @{Workstation = 1; Cloud = 2; OnPrem = 0; Networking = 0; Security = 3; Character = 0}
-$AVNWindows = @{Workstation = 2; Cloud = 0; OnPrem = 2; Networking = 1; Security = 1; Character = 0}
+$AVNWindows = @{Workstation = 3; Cloud = 0; OnPrem = 1; Networking = 1; Security = 1; Character = 0}
 $AVNHuntressDefender = @{Workstation = 2; Cloud = 0; OnPrem = 0; Networking = 0; Security = 4; Character = 0}
 $AVNITGlue = @{Workstation = 1; Cloud = 1; OnPrem = 1; Networking = 1; Security = 1; Character = 1}
 $AVNUbiquiti = @{Workstation = 0; Cloud = 1; OnPrem = 1; Networking = 3; Security = 1; Character = 0}

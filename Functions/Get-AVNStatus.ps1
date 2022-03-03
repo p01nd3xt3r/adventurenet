@@ -42,7 +42,7 @@ Function Get-AVNStatus {
             }
         )
         Write-Host "`n⣿ADVENTURENET⣿Scoreboard⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
-        $AVNPlayerTable | Format-Table player,global,kudos | Sort-Object kudos,playername -descending
+        $AVNPlayerTable | Sort-Object kudos,player -descending | Format-Table player,global,kudos
     }
     If ($True -eq $Team) {
         Write-Host "`n⣿ADVENTURENET⣿Team Stats⣿`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
@@ -51,7 +51,15 @@ Function Get-AVNStatus {
         Write-Host "Client Health:                    " $global:AVNCompanyDataCommon.clienthealth "out of" $global:AVNHealthDefault
         Write-Host "Daily Client Health Penalty Level:" $global:AVNCompanyData_CurrentPlayer.clienthealthpenaltylevel
         Write-Host "Current Project Stage:            " $global:AVNCompanyDataCommon.currentstage
+        If ($global:AVNCompanyDataCommon.currentstage -eq 1) {
+            Write-Host "Remaining Project Stage Blocs:    " $global:AVNCompanyDataCommon.ProjectStage1BlocsRemaining
+        } ElseIf ($global:AVNCompanyDataCommon.currentstage -eq 2) {
+            Write-Host "Remaining Project Stage Blocs:    " $global:AVNCompanyDataCommon.ProjectStage2BlocsRemaining
+        } ElseIf ($global:AVNCompanyDataCommon.currentstage -eq 3) {
+            Write-Host "Remaining Project Stage Blocs:    " $global:AVNCompanyDataCommon.ProjectStage3BlocsRemaining
+        }
         Write-Host "Technical Questions:              " $global:AVNCompanyDataCommon.technicalquestionstotal
+
 
         If ($global:AVNCompanyData_CurrentPlayer.teamhealthpenaltylevel -eq 5) {
             Write-Host "`nAs a result of low Team Health, the following penalties have been applied:`n- Daily Dice randomly assigned`n- Training requires GIFs`n- Increased risk of Project counterattacks`n- Reduction in chance of finding Specials in Service Tickets`n- Permanent dice randomly assigned in Training" -foregroundcolor $global:AVNDefaultTextForegroundColor
@@ -134,12 +142,12 @@ Function Get-AVNStatus {
         Write-Host "`n⣿ADVENTURENET⣿Historical Stats⣿`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
         Write-Host "Recent Client Health Contributions:  " $global:AVNHistoricalData_CurrentPlayer.RecentClientHealthContributions
         Write-Host "Recent Team Health Contributions:    " $global:AVNHistoricalData_CurrentPlayer.RecentTeamHealthContributions
-        Write-Host "Recent Project Stage Waves Completed:" $global:AVNHistoricalData_CurrentPlayer.RecentProjectStageWavesCompleted
+        Write-Host "Recent Project Stage Blocs Completed:" $global:AVNHistoricalData_CurrentPlayer.RecentProjectStageBlocsCompleted
         Write-Host "Recent Kudos Attained:               " $global:AVNHistoricalData_CurrentPlayer.RecentKudos
         Write-Host "Recent GIFs Attained:                " $global:AVNHistoricalData_CurrentPlayer.RecentGIFs
         Write-Host "Total Client Health Contributions:   " $global:AVNHistoricalData_CurrentPlayer.TotalClientHealthContributions
         Write-Host "Total Team Health Contributions:     " $global:AVNHistoricalData_CurrentPlayer.TotalTeamHealthContributions
-        Write-Host "Total Project Stage Waves Completed: " $global:AVNHistoricalData_CurrentPlayer.TotalProjectStageWavesCompleted
+        Write-Host "Total Project Stage Blocs Completed: " $global:AVNHistoricalData_CurrentPlayer.TotalProjectStageBlocsCompleted
         Write-Host "Total Kudos Attained:                " $global:AVNHistoricalData_CurrentPlayer.TotalKudos
         Write-Host "Total GIFs Attained:                 " $global:AVNHistoricalData_CurrentPlayer.TotalGIFs "`n"
     }

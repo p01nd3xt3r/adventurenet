@@ -37,9 +37,9 @@ Function Close-AVNSeason {
         $global:AVNHistoricalData_CurrentPlayer.TotalClientHealthContributions += $global:AVNCompanyData_CurrentPlayer.clienthealth
         $global:AVNHistoricalData_CurrentPlayer.RecentTeamHealthContributions = $global:AVNCompanyData_CurrentPlayer.teamhealth
         $global:AVNHistoricalData_CurrentPlayer.TotalTeamHealthContributions += $global:AVNCompanyData_CurrentPlayer.teamhealth
-        $AVNTotalProjectStageWavesCompleted = $global:AVNCompanyData_CurrentPlayer.ProjectStage1WaveDefeated + $global:AVNCompanyData_CurrentPlayer.ProjectStage2WaveDefeated + $global:AVNCompanyData_CurrentPlayer.ProjectStage3WaveDefeated
-        $global:AVNHistoricalData_CurrentPlayer.RecentProjectStageWavesCompleted = $AVNTotalProjectStageWavesCompleted
-        $global:AVNHistoricalData_CurrentPlayer.TotalProjectStageWavesCompleted += $AVNTotalProjectStageWavesCompleted
+        $AVNTotalProjectStageBlocsCompleted = $global:AVNCompanyData_CurrentPlayer.ProjectStage1BlocDefeated + $global:AVNCompanyData_CurrentPlayer.ProjectStage2BlocDefeated + $global:AVNCompanyData_CurrentPlayer.ProjectStage3BlocDefeated
+        $global:AVNHistoricalData_CurrentPlayer.RecentProjectStageBlocsCompleted = $AVNTotalProjectStageBlocsCompleted
+        $global:AVNHistoricalData_CurrentPlayer.TotalProjectStageBlocsCompleted += $AVNTotalProjectStageBlocsCompleted
         $global:AVNHistoricalData_CurrentPlayer.RecentKudos = $global:AVNPlayerData_CurrentPlayer.kudos
         $global:AVNHistoricalData_CurrentPlayer.TotalKudos += $global:AVNPlayerData_CurrentPlayer.kudos
         $global:AVNHistoricalData_CurrentPlayer.RecentGIFs = $global:AVNPlayerData_CurrentPlayer.gifs
@@ -51,12 +51,12 @@ Function Close-AVNSeason {
             TeamHealth = 0
             TechnicalQuestionsAdded = 0 
             TechnicalQuestionsRemoved = 0
-            ProjectStage1WaveGenerated = 0
-            ProjectStage2WaveGenerated = 0
-            ProjectStage3WaveGenerated = 0
-            ProjectStage1WaveDefeated = 0
-            ProjectStage2WaveDefeated = 0
-            ProjectStage3WaveDefeated = 0
+            ProjectStage1BlocGenerated = 0
+            ProjectStage2BlocGenerated = 0
+            ProjectStage3BlocGenerated = 0
+            ProjectStage1BlocDefeated = 0
+            ProjectStage2BlocDefeated = 0
+            ProjectStage3BlocDefeated = 0
         }
 
         #Not changing player name or current user --allow players to change their own names?

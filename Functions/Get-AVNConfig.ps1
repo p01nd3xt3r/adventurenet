@@ -44,10 +44,10 @@ Function Get-AVNConfig {
         #This technicalquestions is used for determinging how many there are minus the player's own. The player shouldn't be able to answer his own technical questions. It comes from the _added and _removed keys in the player's company data hash.
         TechnicalQuestionsAvailable = 0
         TechnicalQuestionsTotal = 0
-        ProjectWavesGenerated = $False
-        ProjectStage1WavesRemaining = 0
-        ProjectStage2WavesRemaining = 0
-        ProjectStage3WavesRemaining = 0
+        ProjectBlocsGenerated = $False
+        ProjectStage1BlocsRemaining = 0
+        ProjectStage2BlocsRemaining = 0
+        ProjectStage3BlocsRemaining = 0
         ProjectStage1Complete = $False
         SeasonComplete = $False
         CurrentStage = 1
@@ -107,16 +107,16 @@ Function Get-AVNConfig {
             $global:AVNCompanyDataCommon.technicalquestionsavailable -= $AVNStoredCompanyData.technicalquestionsremoved
             $global:AVNCompanyDataCommon.technicalquestionstotal -= $AVNStoredCompanyData.technicalquestionsremoved
             $global:AVNCompanyDataCommon.technicalquestionstotal += $AVNStoredCompanyData.technicalquestionsadded
-            If ($AVNStoredCompanyData.ProjectStage1WaveGenerated -gt 0) {
-                $global:AVNCompanyDataCommon.ProjectWavesGenerated = $True
+            If ($AVNStoredCompanyData.ProjectStage1BlocGenerated -gt 0) {
+                $global:AVNCompanyDataCommon.ProjectBlocsGenerated = $True
             }
-            #Remaining doesn't take into account whether or not a player has completed a wave, unlike technical questions.
-            $global:AVNCompanyDataCommon.ProjectStage1WavesRemaining += $AVNStoredCompanyData.ProjectStage1WaveGenerated
-            $global:AVNCompanyDataCommon.ProjectStage1WavesRemaining -= $AVNStoredCompanyData.ProjectStage1WaveDefeated
-            $global:AVNCompanyDataCommon.ProjectStage2WavesRemaining += $AVNStoredCompanyData.ProjectStage2WaveGenerated
-            $global:AVNCompanyDataCommon.ProjectStage2WavesRemaining -= $AVNStoredCompanyData.ProjectStage2WaveDefeated
-            $global:AVNCompanyDataCommon.ProjectStage3WavesRemaining += $AVNStoredCompanyData.ProjectStage3WaveGenerated
-            $global:AVNCompanyDataCommon.ProjectStage3WavesRemaining -= $AVNStoredCompanyData.ProjectStage3WaveDefeated
+            #Remaining doesn't take into account whether or not a player has completed a Bloc, unlike technical questions.
+            $global:AVNCompanyDataCommon.ProjectStage1BlocsRemaining += $AVNStoredCompanyData.ProjectStage1BlocGenerated
+            $global:AVNCompanyDataCommon.ProjectStage1BlocsRemaining -= $AVNStoredCompanyData.ProjectStage1BlocDefeated
+            $global:AVNCompanyDataCommon.ProjectStage2BlocsRemaining += $AVNStoredCompanyData.ProjectStage2BlocGenerated
+            $global:AVNCompanyDataCommon.ProjectStage2BlocsRemaining -= $AVNStoredCompanyData.ProjectStage2BlocDefeated
+            $global:AVNCompanyDataCommon.ProjectStage3BlocsRemaining += $AVNStoredCompanyData.ProjectStage3BlocGenerated
+            $global:AVNCompanyDataCommon.ProjectStage3BlocsRemaining -= $AVNStoredCompanyData.ProjectStage3BlocDefeated
             
             #Assigning service tickets.
             If ($AVNStoredServiceTickets.count -gt 0) {
@@ -141,16 +141,16 @@ Function Get-AVNConfig {
             $global:AVNCompanyDataCommon.technicalquestionsavailable -= $AVNStoredCompanyData.technicalquestionsremoved
             $global:AVNCompanyDataCommon.technicalquestionstotal += $AVNStoredCompanyData.technicalquestionsadded
             $global:AVNCompanyDataCommon.technicalquestionstotal -= $AVNStoredCompanyData.technicalquestionsremoved
-            If ($AVNStoredCompanyData.ProjectStage1WaveGenerated -gt 0) {
-                $global:AVNCompanyDataCommon.ProjectWavesGenerated = $True
+            If ($AVNStoredCompanyData.ProjectStage1BlocGenerated -gt 0) {
+                $global:AVNCompanyDataCommon.ProjectBlocsGenerated = $True
             }
-            #Remaining doesn't take into account whether or not a player has completed a wave, unlike technical questions.
-            $global:AVNCompanyDataCommon.ProjectStage1WavesRemaining += $AVNStoredCompanyData.ProjectStage1WaveGenerated
-            $global:AVNCompanyDataCommon.ProjectStage1WavesRemaining -= $AVNStoredCompanyData.ProjectStage1WaveDefeated
-            $global:AVNCompanyDataCommon.ProjectStage2WavesRemaining += $AVNStoredCompanyData.ProjectStage2WaveGenerated
-            $global:AVNCompanyDataCommon.ProjectStage2WavesRemaining -= $AVNStoredCompanyData.ProjectStage2WaveDefeated
-            $global:AVNCompanyDataCommon.ProjectStage3WavesRemaining += $AVNStoredCompanyData.ProjectStage3WaveGenerated
-            $global:AVNCompanyDataCommon.ProjectStage3WavesRemaining -= $AVNStoredCompanyData.ProjectStage3WaveDefeated
+            #Remaining doesn't take into account whether or not a player has completed a Bloc, unlike technical questions.
+            $global:AVNCompanyDataCommon.ProjectStage1BlocsRemaining += $AVNStoredCompanyData.ProjectStage1BlocGenerated
+            $global:AVNCompanyDataCommon.ProjectStage1BlocsRemaining -= $AVNStoredCompanyData.ProjectStage1BlocDefeated
+            $global:AVNCompanyDataCommon.ProjectStage2BlocsRemaining += $AVNStoredCompanyData.ProjectStage2BlocGenerated
+            $global:AVNCompanyDataCommon.ProjectStage2BlocsRemaining -= $AVNStoredCompanyData.ProjectStage2BlocDefeated
+            $global:AVNCompanyDataCommon.ProjectStage3BlocsRemaining += $AVNStoredCompanyData.ProjectStage3BlocGenerated
+            $global:AVNCompanyDataCommon.ProjectStage3BlocsRemaining -= $AVNStoredCompanyData.ProjectStage3BlocDefeated
         }
     }
 
@@ -161,14 +161,14 @@ Function Get-AVNConfig {
 
     #Determining current stage (for determining things like what encounters are available) and if stage1 or the whole season has been completed. The seasoncomplete hash is used in invoke-avnsignon to throw an error if $true, and the projectstage1complete hash is used in add-avnnewplayer to throw an error if true.
 
-    If (($True -eq $global:AVNCompanyDataCommon.ProjectWavesGenerated) -and ($global:AVNCompanyDataCommon.ProjectStage3WavesRemaining -lt 1)) {
+    If (($True -eq $global:AVNCompanyDataCommon.ProjectBlocsGenerated) -and ($global:AVNCompanyDataCommon.ProjectStage3BlocsRemaining -lt 1)) {
         $global:AVNCompanyDataCommon.ProjectStage1Complete = $True
         $global:AVNCompanyDataCommon.CurrentStage = 3
         $global:AVNCompanyDataCommon.SeasonComplete = $True
-    } ElseIf (($True -eq $global:AVNCompanyDataCommon.ProjectWavesGenerated) -and ($global:AVNCompanyDataCommon.ProjectStage2WavesRemaining -lt 1)) {
+    } ElseIf (($True -eq $global:AVNCompanyDataCommon.ProjectBlocsGenerated) -and ($global:AVNCompanyDataCommon.ProjectStage2BlocsRemaining -lt 1)) {
         $global:AVNCompanyDataCommon.ProjectStage1Complete = $True
         $global:AVNCompanyDataCommon.CurrentStage = 3
-    } ElseIf (($True -eq $global:AVNCompanyDataCommon.ProjectWavesGenerated) -and ($global:AVNCompanyDataCommon.ProjectStage1WavesRemaining -lt 1)) {
+    } ElseIf (($True -eq $global:AVNCompanyDataCommon.ProjectBlocsGenerated) -and ($global:AVNCompanyDataCommon.ProjectStage1BlocsRemaining -lt 1)) {
         $global:AVNCompanyDataCommon.ProjectStage1Complete = $True
         $global:AVNCompanyDataCommon.CurrentStage = 2
     }

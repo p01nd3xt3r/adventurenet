@@ -59,12 +59,12 @@ Function Add-AVNPlayer {
         ClientHealthPenaltyLevel = 0
         TechnicalQuestionsAdded = 0
         TechnicalQuestionsRemoved = 0
-        ProjectStage1WaveGenerated = 0
-        ProjectStage2WaveGenerated = 0
-        ProjectStage3WaveGenerated = 0
-        ProjectStage1WaveDefeated = 0
-        ProjectStage2WaveDefeated = 0
-        ProjectStage3WaveDefeated = 0
+        ProjectStage1BlocGenerated = 0
+        ProjectStage2BlocGenerated = 0
+        ProjectStage3BlocGenerated = 0
+        ProjectStage1BlocDefeated = 0
+        ProjectStage2BlocDefeated = 0
+        ProjectStage3BlocDefeated = 0
     }
     $AVNDateTimePlaceHolder = (Get-Date).AddHours(-25)
     $AVNStoredPlayerData = @{
@@ -85,8 +85,8 @@ Function Add-AVNPlayer {
         TotalClientHealthContributions = 0
         RecentTeamHealthContributions = 0
         TotalTeamHealthContributions = 0
-        RecentProjectStageWavesCompleted = 0
-        TotalProjectStageWavesCompleted = 0
+        RecentProjectStageBlocsCompleted = 0
+        TotalProjectStageBlocsCompleted = 0
         RecentKudos = 0
         TotalKudos = 0
         RecentGIFs = 0 
@@ -99,17 +99,6 @@ Function Add-AVNPlayer {
     $global:AVNPlayerDataCommon += @{PlayerName = $AVNStoredPlayerData.playername; Kudos = $AVNStoredPlayerData.kudos; GlobalNotice = $AVNStoredPlayerData.globalnotice}
     #Assigning all company data as well.
     $global:AVNCompanyData_CurrentPlayer = $AVNStoredCompanyData
-    <#
-    Old
-    $global:AVNCompanyData_CurrentPlayer.clienthealth = $AVNStoredCompanyData.clienthealth
-    $global:AVNCompanyData_CurrentPlayer.teamhealth = $AVNStoredCompanyData.teamhealth
-    $global:AVNCompanyData_CurrentPlayer.ProjectStage1WaveGenerated = $AVNStoredCompanyData.ProjectStage1WaveGenerated
-    $global:AVNCompanyData_CurrentPlayer.ProjectStage2WaveGenerated = $AVNStoredCompanyData.ProjectStage2WaveGenerated
-    $global:AVNCompanyData_CurrentPlayer.ProjectStage3WaveGenerated = $AVNStoredCompanyData.ProjectStage3WaveGenerated
-    $global:AVNCompanyData_CurrentPlayer.ProjectStage1WaveDefeated = $AVNStoredCompanyData.ProjectStage1WaveDefeated
-    $global:AVNCompanyData_CurrentPlayer.ProjectStage2WaveDefeated = $AVNStoredCompanyData.ProjectStage2WaveDefeated
-    $global:AVNCompanyData_CurrentPlayer.ProjectStage3WaveDefeated = $AVNStoredCompanyData.ProjectStage3WaveDefeated
-    #>
 
     #Assigning service tickets.
     $global:AVNServiceTickets_CurrentPlayer = @()
@@ -119,12 +108,12 @@ Function Add-AVNPlayer {
     $global:AVNSpecials_CurrentPlayer = @()
 
     
-    If ($AVNStoredCompanyData.ProjectStage1WaveGenerated -gt 0) {
-        $global:AVNCompanyDataCommon.ProjectWavesGenerated = $True
+    If ($AVNStoredCompanyData.ProjectStage1BlocGenerated -gt 0) {
+        $global:AVNCompanyDataCommon.ProjectBlocsGenerated = $True
     }
 
     #Does this go here? Do I need get-config after it? Do I only need it for new player data files and not in signon? 
-    Add-AVNProjectWaves -system
+    Add-AVNProjectBloc -system
 
     ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile
 }

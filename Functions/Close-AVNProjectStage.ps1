@@ -12,12 +12,12 @@
 .Functionality
 #>
 Function Close-AVNProjectStage {
-    #Same as service tickets but harder. Assumes the player has trained numerous times and horded some specials. Each player faces the same, designed waves. The project stage counter attacks after a player successfully defeats a wave. Players may attempt stages repeatedly, according to the configured alottment of allowed attempts per day.
+    #Same as service tickets but harder. Assumes the player has trained numerous times and horded some specials. Each player faces the same, designed bloc of waves. The project stage counter attacks after a player successfully defeats a wave. Players may attempt stages repeatedly, according to the configured alottment of allowed attempts per day.
     
     Get-AVNConfig
 
-    #Getting project stage wave data
-    #Yields the $AVNProjectStage1Waves and $AVNProjectStage2Waves and $AVNProjectStage3Waves arrays of hashtables.
+    #Getting project stage Bloc data
+    #Yields the $AVNProjectStage1Bloc and $AVNProjectStage2Bloc and $AVNProjectStage3Bloc arrays of hashtables.
     (Get-Content -path ($global:AVNRootPath + "\wlBjUrtSsTIO")) | ForEach-Object {
         Invoke-Expression $_
     }
@@ -41,12 +41,12 @@ Function Close-AVNProjectStage {
         ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile
         Get-AVNConfig
 
-        If ($global:AVNCompanyDataCommon.ProjectStage1WavesRemaining -gt 0) {
-            If ($global:AVNCompanyData_CurrentPlayer.ProjectStage1WaveDefeated -gt 0) {
-                Write-Host "You have already closed your portion of Project Stage 1." -foregroundcolor $global:AVNDefaultTextForegroundColor
+        If ($global:AVNCompanyDataCommon.ProjectStage1BlocsRemaining -gt 0) {
+            If ($global:AVNCompanyData_CurrentPlayer.ProjectStage1BlocDefeated -gt 0) {
+                Write-Host "You have already closed your Project Stage 1 bloc." -foregroundcolor $global:AVNDefaultTextForegroundColor
             } Else {
                 [int]$AVNProjectCurrentStage = 1
-                $AVNProjectCurrentStageArray = $AVNProjectStage1Waves
+                $AVNProjectCurrentStageArray = $AVNProjectStage1Bloc
                 #Intro Graphic
                 $AVNStage1Anim = Get-Content ($AVNRootPath + "\Media\AVNStage1Anim")
                 $AVNStage1Anim  | ForEach-Object {
@@ -54,12 +54,12 @@ Function Close-AVNProjectStage {
                     Start-Sleep -Milliseconds 20
                 }
             } 
-        } ElseIf ($global:AVNCompanyDataCommon.ProjectStage2WavesRemaining -gt 0) {
-            If ($global:AVNCompanyData_CurrentPlayer.ProjectStage2WaveDefeated -gt 0) {
-                Write-Host "You have already closed your portion of Project Stage 2." -foregroundcolor $global:AVNDefaultTextForegroundColor
+        } ElseIf ($global:AVNCompanyDataCommon.ProjectStage2BlocsRemaining -gt 0) {
+            If ($global:AVNCompanyData_CurrentPlayer.ProjectStage2BlocDefeated -gt 0) {
+                Write-Host "You have already closed your Project Stage 2 bloc." -foregroundcolor $global:AVNDefaultTextForegroundColor
             } Else {
                 [int]$AVNProjectCurrentStage = 2
-                $AVNProjectCurrentStageArray = $AVNProjectStage2Waves
+                $AVNProjectCurrentStageArray = $AVNProjectStage2Bloc
                 #Intro Graphic
                 $AVNStage2Anim = Get-Content ($AVNRootPath + "\Media\AVNStage2Anim")
                 $AVNStage2Anim  | ForEach-Object {
@@ -67,12 +67,12 @@ Function Close-AVNProjectStage {
                     Start-Sleep -Milliseconds 20
                 }
             }
-        } ElseIf ($global:AVNCompanyDataCommon.ProjectStage3WavesRemaining -gt 0) {
-            If ($global:AVNCompanyData_CurrentPlayer.ProjectStage3WaveDefeated -gt 0) {
-                Write-Host "You have already closed your portion of Project Stage 3." -foregroundcolor $global:AVNDefaultTextForegroundColor
+        } ElseIf ($global:AVNCompanyDataCommon.ProjectStage3BlocsRemaining -gt 0) {
+            If ($global:AVNCompanyData_CurrentPlayer.ProjectStage3BlocDefeated -gt 0) {
+                Write-Host "You have already closed your Project Stage 3 bloc." -foregroundcolor $global:AVNDefaultTextForegroundColor
             } Else {
                 [int]$AVNProjectCurrentStage = 3
-                $AVNProjectCurrentStageArray = $AVNProjectStage3Waves
+                $AVNProjectCurrentStageArray = $AVNProjectStage3Bloc
                 #Intro Graphic
                 $AVNStage3Anim = Get-Content ($AVNRootPath + "\Media\AVNStage3Anim")
                 $AVNStage3Anim  | ForEach-Object {
@@ -510,17 +510,17 @@ Function Close-AVNProjectStage {
     $AVNProjectPrecedeDeadlineSwitch = $False
     If ($True -eq $AVNProjectAllWavesComplete) {
         If ($AVNProjectCurrentStage -eq 1) {
-            $global:AVNCompanyData_CurrentPlayer.ProjectStage1WaveDefeated = 1
+            $global:AVNCompanyData_CurrentPlayer.ProjectStage1BlocDefeated = 1
             If ((Get-Date) -lt (Get-Date $global:AVNProjectStage1Deadline)) {
                 $AVNProjectPrecedeDeadlineSwitch = $True
             }
         } ElseIf ($AVNProjectCurrentStage -eq 2) {
-            $global:AVNCompanyData_CurrentPlayer.ProjectStage2WaveDefeated = 1
+            $global:AVNCompanyData_CurrentPlayer.ProjectStage2BlocDefeated = 1
             If ((Get-Date) -lt (Get-Date $global:AVNProjectStage2Deadline)) {
                 $AVNProjectPrecedeDeadlineSwitch = $True
             }
         } ElseIf ($AVNProjectCurrentStage -eq 3) {
-            $global:AVNCompanyData_CurrentPlayer.ProjectStage3WaveDefeated = 1
+            $global:AVNCompanyData_CurrentPlayer.ProjectStage3BlocDefeated = 1
             If ((Get-Date) -lt (Get-Date $global:AVNProjectStage3Deadline)) {
                 $AVNProjectPrecedeDeadlineSwitch = $True
             }
@@ -537,9 +537,9 @@ Function Close-AVNProjectStage {
         $global:AVNCompanyData_CurrentPlayer.clienthealth += 2
 
         If ($AVNProjectCurrentStage -lt 3) {
-            Write-Host "`n⣿ADVENTURENET⣿Project⣿Success!⣿`n`nYou completed Stage " $AVNProjectCurrentStage " of the Project. Go now, and prepare for the next." -foregroundcolor $global:AVNDefaultTextForegroundColor
+            Write-Host "`n⣿ADVENTURENET⣿Project⣿Success!⣿`n`nYou completed your bloc of stage" $AVNProjectCurrentStage "of the project." -foregroundcolor $global:AVNDefaultTextForegroundColor
             If ($True -eq $AVNProjectPrecedeDeadlineSwitch) {
-                Write-Host "`nFor completing this stage prior to its deadline, you..." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "`nFor completing this bloc prior to the stage's deadline, you..." -foregroundcolor $global:AVNDefaultTextForegroundColor
                 #Invoke bonuses
                 $global:AVNPlayerData_CurrentPlayer.globalnotice = "defeated a Project Stage before its deadline."
                 $global:AVNPlayerData_CurrentPlayer.kudos += 5
@@ -550,7 +550,11 @@ Function Close-AVNProjectStage {
             }
             Wait-AVNKeyPress
         } Else {
-            Write-Host "`n⣿ADVENTURENET⣿Project⣿Victory!⣿`n`nYou completed the final stage of the project! `nThe season is now complete, and all tallies, once players finish all remaining turns, are final." -foregroundcolor $global:AVNDefaultTextForegroundColor
+            Write-Host "`n⣿ADVENTURENET⣿Project⣿Victory!⣿`n`nYou completed your bloc of the final stage of the project! `nThe season is now complete, and all tallies, once players finish all remaining turns, are final." -foregroundcolor $global:AVNDefaultTextForegroundColor
+
+            #########################################################################################Need to fix this. The player has only finished their bloc. The season's only over once all blocs are finished.
+
+
             If ($True -eq $AVNProjectPrecedeDeadlineSwitch) {
                 Write-Host "`nAnd for completing it prior to its deadline, you..." -foregroundcolor $global:AVNDefaultTextForegroundColor
                 #Invoke bonuses
@@ -565,7 +569,7 @@ Function Close-AVNProjectStage {
         }
     } Else {
         Write-Host "`n⣿ADVENTURENET⣿Project⣿Failure⣿`n`nThe Project, in its immensity, has overwhelmed you." -foregroundcolor $global:AVNDefaultTextForegroundColor
-        $global:AVNPlayerData_CurrentPlayer.globalnotice = "was overcome by a Project Stage."
+        $global:AVNPlayerData_CurrentPlayer.globalnotice = "was overcome by a project bloc."
     }
     ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile
 }

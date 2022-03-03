@@ -23,9 +23,9 @@ Function Invoke-AVNSignOn {
     $AVNLastSignOnDate = (Get-Date $global:AVNPlayerData_CurrentPlayer.lastsignon).date
     If ((Get-Date).date -gt $AVNLastSignOnDate) {
         #Invisible stuff
-        #If first sign on of the season, adding project waves.
+        #If first sign on of the season, adding project bloc.
         If ($True -eq $global:AVNPlayerData_CurrentPlayer.seasonfirstrun) {
-            Add-AVNProjectWaves -system
+            Add-AVNProjectBloc -system
             #Refreshing variables
             Get-AVNConfig
         }

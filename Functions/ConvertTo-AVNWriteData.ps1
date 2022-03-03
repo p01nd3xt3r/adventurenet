@@ -26,13 +26,12 @@ Function ConvertTo-AVNWriteData {
     $AVNWriteClientHealthPenaltyLevel = $global:AVNCompanyData_CurrentPlayer.clienthealthpenaltylevel
     $AVNWriteTechnicalQuestionsAdded = $global:AVNCompanyData_CurrentPlayer.technicalquestionsadded
     $AVNWriteTechnicalQuestionsRemoved = $global:AVNCompanyData_CurrentPlayer.technicalquestionsremoved
-    $AVNWriteProjectStage1WaveGenerated = $global:AVNCompanyData_CurrentPlayer.ProjectStage1WaveGenerated
-    $AVNWriteProjectStage2WaveGenerated = $global:AVNCompanyData_CurrentPlayer.ProjectStage2WaveGenerated
-    $AVNWriteProjectStage3WaveGenerated = $global:AVNCompanyData_CurrentPlayer.ProjectStage3WaveGenerated
-    $AVNWriteProjectStage1WaveDefeated = $global:AVNCompanyData_CurrentPlayer.ProjectStage1WaveDefeated
-    $AVNWriteProjectStage2WaveDefeated = $global:AVNCompanyData_CurrentPlayer.ProjectStage2WaveDefeated
-    $AVNWriteProjectStage3WaveDefeated = $global:AVNCompanyData_CurrentPlayer.ProjectStage3WaveDefeated
-    #ProjectStage1WaveDefeated = ; ProjectStage2WaveDefeated = ; ProjectStage3WaveDefeated = }
+    $AVNWriteProjectStage1BlocGenerated = $global:AVNCompanyData_CurrentPlayer.ProjectStage1BlocGenerated
+    $AVNWriteProjectStage2BlocGenerated = $global:AVNCompanyData_CurrentPlayer.ProjectStage2BlocGenerated
+    $AVNWriteProjectStage3BlocGenerated = $global:AVNCompanyData_CurrentPlayer.ProjectStage3BlocGenerated
+    $AVNWriteProjectStage1BlocDefeated = $global:AVNCompanyData_CurrentPlayer.ProjectStage1BlocDefeated
+    $AVNWriteProjectStage2BlocDefeated = $global:AVNCompanyData_CurrentPlayer.ProjectStage2BlocDefeated
+    $AVNWriteProjectStage3BlocDefeated = $global:AVNCompanyData_CurrentPlayer.ProjectStage3BlocDefeated
     $AVNWriteKudos = $global:AVNPlayerData_CurrentPlayer.kudos
     $AVNWriteTurns = $global:AVNPlayerData_CurrentPlayer.turns
     $AVNWriteTraining = $global:AVNPlayerData_CurrentPlayer.training
@@ -47,8 +46,8 @@ Function ConvertTo-AVNWriteData {
     $AVNWriteHistTotalClient = $global:AVNHistoricalData_CurrentPlayer.TotalClientHealthContributions
     $AVNWriteHistRecentTeam = $global:AVNHistoricalData_CurrentPlayer.RecentTeamHealthContributions
     $AVNWriteHistTotalTeam = $global:AVNHistoricalData_CurrentPlayer.TotalTeamHealthContributions
-    $AVNWriteHistRecentProjectWaves = $global:AVNHistoricalData_CurrentPlayer.RecentProjectStageWavesCompleted
-    $AVNWriteHistTotalProjectWaves = $global:AVNHistoricalData_CurrentPlayer.TotalProjectStageWavesCompleted
+    $AVNWriteHistRecentProjectBlocs = $global:AVNHistoricalData_CurrentPlayer.RecentProjectStageBlocsCompleted
+    $AVNWriteHistTotalProjectBlocs = $global:AVNHistoricalData_CurrentPlayer.TotalProjectStageBlocsCompleted
     $AVNWriteHistRecentKudos = $global:AVNHistoricalData_CurrentPlayer.RecentKudos
     $AVNWriteHistTotalKudos = $global:AVNHistoricalData_CurrentPlayer.TotalKudos
     $AVNWriteHistRecentGIFs = $global:AVNHistoricalData_CurrentPlayer.RecentGIFs
@@ -86,5 +85,5 @@ Function ConvertTo-AVNWriteData {
         $AVNWriteSpecials = ""
     }
 
-    Return "`$AVNStoredCompanyData = @{ClientHealth = $AVNWriteClientHealth; TeamHealth = $AVNWriteTeamHealth; TeamHealthPenaltyLevel = $AVNWriteTeamHealthPenaltyLevel; ClientHealthPenaltyLevel = $AVNWriteClientHealthPenaltyLevel; TechnicalQuestionsAdded = $AVNWriteTechnicalQuestionsAdded; TechnicalQuestionsRemoved = $AVNWriteTechnicalQuestionsRemoved; ProjectStage1WaveGenerated = $AVNWriteProjectStage1WaveGenerated; ProjectStage2WaveGenerated = $AVNWriteProjectStage2WaveGenerated; ProjectStage3WaveGenerated = $AVNWriteProjectStage3WaveGenerated; ProjectStage1WaveDefeated = $AVNWriteProjectStage1WaveDefeated; ProjectStage2WaveDefeated = $AVNWriteProjectStage2WaveDefeated; ProjectStage3WaveDefeated = $AVNWriteProjectStage3WaveDefeated}`n`$AVNStoredPlayerData = @{CurrentUser = '$global:AVNCurrentUser'; PlayerName = '$global:AVNCurrentPlayerName'; Kudos = $AVNWriteKudos; Turns = $AVNWriteTurns; Training = $AVNWriteTraining; LastSignOn = (Get-Date '$AVNWriteLastSignOn').datetime; Opportunities = $AVNWriteOpportunities; SeasonFirstRun = $AVNWriteSeasonFirstRun; GlobalNotice = '$AVNWriteGlobalNotice'; Gifs = $AVNWriteGifs; ProjectStageAttempts = $AVNWriteProjectStageAttempts}`n`$AVNStoredServiceTickets = @($AVNWriteServiceTickets)`n`$AVNStoredDicePerm = @($AVNWriteDicePerm)`n`$AVNStoredDiceDaily = @($AVNWriteDiceDaily)`n`$AVNStoredSpecials = @($AVNWriteSpecials)`n`$AVNStoredHistoricalData = @{RecentClientHealthContributions = $AVNWriteHistRecentClient; TotalClientHealthContributions = $AVNWriteHistTotalClient; RecentTeamHealthContributions = $AVNWriteHistRecentTeam; TotalTeamHealthContributions = $AVNWriteHistTotalTeam; RecentProjectStageWavesCompleted = $AVNWriteHistRecentProjectWaves; TotalProjectStageWavesCompleted = $AVNWriteHistTotalProjectWaves; RecentKudos = $AVNWriteHistRecentKudos; TotalKudos = $AVNWriteHistTotalKudos; RecentGIFs = $AVNWriteHistRecentGIFs; TotalGIFs = $AVNWriteHistTotalGIFs}"
+    Return "`$AVNStoredCompanyData = @{ClientHealth = $AVNWriteClientHealth; TeamHealth = $AVNWriteTeamHealth; TeamHealthPenaltyLevel = $AVNWriteTeamHealthPenaltyLevel; ClientHealthPenaltyLevel = $AVNWriteClientHealthPenaltyLevel; TechnicalQuestionsAdded = $AVNWriteTechnicalQuestionsAdded; TechnicalQuestionsRemoved = $AVNWriteTechnicalQuestionsRemoved; ProjectStage1BlocGenerated = $AVNWriteProjectStage1BlocGenerated; ProjectStage2BlocGenerated = $AVNWriteProjectStage2BlocGenerated; ProjectStage3BlocGenerated = $AVNWriteProjectStage3BlocGenerated; ProjectStage1BlocDefeated = $AVNWriteProjectStage1BlocDefeated; ProjectStage2BlocDefeated = $AVNWriteProjectStage2BlocDefeated; ProjectStage3BlocDefeated = $AVNWriteProjectStage3BlocDefeated}`n`$AVNStoredPlayerData = @{CurrentUser = '$global:AVNCurrentUser'; PlayerName = '$global:AVNCurrentPlayerName'; Kudos = $AVNWriteKudos; Turns = $AVNWriteTurns; Training = $AVNWriteTraining; LastSignOn = (Get-Date '$AVNWriteLastSignOn').datetime; Opportunities = $AVNWriteOpportunities; SeasonFirstRun = $AVNWriteSeasonFirstRun; GlobalNotice = '$AVNWriteGlobalNotice'; Gifs = $AVNWriteGifs; ProjectStageAttempts = $AVNWriteProjectStageAttempts}`n`$AVNStoredServiceTickets = @($AVNWriteServiceTickets)`n`$AVNStoredDicePerm = @($AVNWriteDicePerm)`n`$AVNStoredDiceDaily = @($AVNWriteDiceDaily)`n`$AVNStoredSpecials = @($AVNWriteSpecials)`n`$AVNStoredHistoricalData = @{RecentClientHealthContributions = $AVNWriteHistRecentClient; TotalClientHealthContributions = $AVNWriteHistTotalClient; RecentTeamHealthContributions = $AVNWriteHistRecentTeam; TotalTeamHealthContributions = $AVNWriteHistTotalTeam; RecentProjectStageBlocsCompleted = $AVNWriteHistRecentProjectBlocs; TotalProjectStageBlocsCompleted = $AVNWriteHistTotalProjectBlocs; RecentKudos = $AVNWriteHistRecentKudos; TotalKudos = $AVNWriteHistTotalKudos; RecentGIFs = $AVNWriteHistRecentGIFs; TotalGIFs = $AVNWriteHistTotalGIFs}"
 }
