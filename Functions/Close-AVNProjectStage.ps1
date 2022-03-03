@@ -346,7 +346,7 @@ Function Close-AVNProjectStage {
                 $AVNDiceRollChoiceArray = $AVNDiceRollChoice -split ","
                 $AVNDiceRollChoiceArrayComparer = $AVNDiceRollChoiceArray | Select-Object -unique
                 If ($AVNDiceRollChoiceArray.count -ne $AVNDiceRollChoiceArrayComparer.count) {
-                    Write-Host "You appear to have entered the same value more than once. You can only roll any dice once without an appropriate special." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                    Write-Host "`nYou appear to have entered the same value more than once. You can only roll any dice once without an appropriate special." -foregroundcolor $global:AVNDefaultTextForegroundColor
                     $AVNDiceRollChoicePass = $False
                     #A special might change this.
                     Wait-AVNKeyPress
@@ -354,12 +354,11 @@ Function Close-AVNProjectStage {
                 $AVNDiceRollChoiceArray | ForEach-Object {
                     If ($_ -notmatch "\d+") {
                         $AVNDiceRollChoicePass = $False
-                        Write-Host "Something is odd about your entry. Please make sure to enter using the appropriate format. No letters or special characters are permitted, and if you're trying to get information about the dice, please enter a solitary ?." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                        Write-Host "`nSomething is odd about your entry. Please make sure to enter using the appropriate format. No letters or special characters are permitted, and if you're trying to get information about the dice, please enter a solitary ?." -foregroundcolor $global:AVNDefaultTextForegroundColor
                         Wait-AVNKeyPress
-                    } 
-                    If ([int]$_ -notin $AVNAvailableDice.keys){
+                    } ElseIf ([int]$_ -notin $AVNAvailableDice.keys){
                         $AVNDiceRollChoicePass = $False
-                        Write-Host "Please only enter a number that's in your list of available dice." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                        Write-Host "`nPlease only enter a number that's in your list of available dice." -foregroundcolor $global:AVNDefaultTextForegroundColor
                         Wait-AVNKeyPress
                     }
                 }

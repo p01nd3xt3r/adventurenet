@@ -320,11 +320,10 @@ Function Close-AVNServiceTicket {
                         $AVNSTActionEntry = Read-Host "`nEnter your choice"
                         #Making sure the entry is valid.
                         If (($AVNSTActionEntry -notmatch "\d+") -and ($AVNSTActionEntry -ne "?") -and ($AVNSTActionEntry -ne "r")) {
-                            Write-Host "Something seems to be wrong with your entry. Please make sure to enter only the integer that's next to your choice or a single ?." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                            Write-Host `n"Something seems to be wrong with your entry. Please make sure to enter only the integer that's next to your choice or a single ?." -foregroundcolor $global:AVNDefaultTextForegroundColor
                             Wait-AVNKeyPress
-                        } 
-                        If ($AVNSTActionEntry -notin $AVNSTCurrentWaveOptions.keys) {
-                            Write-Host "Please only enter the integer of an item in the list." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                        } ElseIf ($AVNSTActionEntry -notin $AVNSTCurrentWaveOptions.keys) {
+                            Write-Host "`nPlease only enter the integer of an item in the list." -foregroundcolor $global:AVNDefaultTextForegroundColor
                             Wait-AVNKeyPress
                         }
                     } Until ($AVNSTActionEntry -in $AVNSTCurrentWaveOptions.keys)
@@ -421,7 +420,7 @@ Function Close-AVNServiceTicket {
                         $AVNDiceRollChoiceArray = $AVNDiceRollChoice -split ","
                         $AVNDiceRollChoiceArrayComparer = $AVNDiceRollChoiceArray | Select-Object -unique
                         If ($AVNDiceRollChoiceArray.count -ne $AVNDiceRollChoiceArrayComparer.count) {
-                            Write-Host "You appear to have entered the same value more than once. You can only roll any dice once without an appropriate special." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                            Write-Host "`nYou appear to have entered the same value more than once. You can only roll any dice once without an appropriate special." -foregroundcolor $global:AVNDefaultTextForegroundColor
                             $AVNDiceRollChoicePass = $False
                             #A special might change this.
                             Wait-AVNKeyPress
