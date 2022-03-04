@@ -43,7 +43,8 @@ Function Close-AVNProjectStage {
 
         If ($global:AVNCompanyDataCommon.ProjectStage1BlocsRemaining -gt 0) {
             If ($global:AVNCompanyData_CurrentPlayer.ProjectStage1BlocDefeated -gt 0) {
-                Write-Host "You have already closed your Project Stage 1 bloc." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "`nYou have already closed your Project Stage 1 bloc.`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Return
             } Else {
                 [int]$AVNProjectCurrentStage = 1
                 $AVNProjectCurrentStageArray = $AVNProjectStage1Bloc
@@ -56,7 +57,8 @@ Function Close-AVNProjectStage {
             } 
         } ElseIf ($global:AVNCompanyDataCommon.ProjectStage2BlocsRemaining -gt 0) {
             If ($global:AVNCompanyData_CurrentPlayer.ProjectStage2BlocDefeated -gt 0) {
-                Write-Host "You have already closed your Project Stage 2 bloc." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "`nYou have already closed your Project Stage 2 bloc.`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Return
             } Else {
                 [int]$AVNProjectCurrentStage = 2
                 $AVNProjectCurrentStageArray = $AVNProjectStage2Bloc
@@ -69,7 +71,8 @@ Function Close-AVNProjectStage {
             }
         } ElseIf ($global:AVNCompanyDataCommon.ProjectStage3BlocsRemaining -gt 0) {
             If ($global:AVNCompanyData_CurrentPlayer.ProjectStage3BlocDefeated -gt 0) {
-                Write-Host "You have already closed your Project Stage 3 bloc." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "`nYou have already closed your Project Stage 3 bloc.`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Return
             } Else {
                 [int]$AVNProjectCurrentStage = 3
                 $AVNProjectCurrentStageArray = $AVNProjectStage3Bloc
