@@ -22,3 +22,46 @@ Image to ASCII conversion? https://cloudapps.herokuapp.com/imagetoascii/
 https://www.cynet.com/attack-techniques-hands-on/powershell-obfuscation-demystified-series-chapter-1-intro/
 https://www.wietzebeukema.nl/blog/powershell-obfuscation-using-securestring
 https://www.cit-devops.com/post/encrypt-and-decrypt-strings-in-powershell-code
+
+
+temp: 
+add a note about how many turns left after taking a turn. maybe just show changes. you have used 1 turn and now have x turns left. you have lost 1 team health, and team health is now X. you have used one GIF and now have X. So maybe say all gains and losses when you get them.
+DONE WHEN I ADD MORE CONTENT Players should have more buy options and should be able to buy on the first day.
+What about a player having their own ability upgrades? Increasing GIF yield, for instance.
+What about dice that add specials like bonus gifs?
+maybe reduce chance of finding specials. 
+more service tickets that can be taken care of by opportunities.
+DONE-ISH should finding specials reduce service tickets? I have 6 turns and 12 service tickets left. that's too big a disparity. i have a .2 special rate right now, so 1/5 are specials. else, I could start with less service tickets than turns. i changed it to 18. Players should have enough turns to dig out of a hole (as a group).
+do I really need interrupt and preemptive specials? it feels like i have a whole lot of specials that i don't care to use. those should be coming in and going out more often
+What if specials are permanent, but you have a limit, and you have to manage what you hang onto? maximum number of injections? maximum nimber of dice?
+Maybe separate specials by type in avnstatus
+should later stages have harsher effects in health? Probably. Needs testing.
+I can buy client health specials for cheaper than closing tech questions? Cp buying turns, buying client health...
+vanity purchases: 
+	change name
+	set a color for your name for the scoreboard...
+	perhaps the leader gets some special addition without having to buy it
+	change player's own color scheme
+	set a permanent global or title
+add an easter egg or two...
+maybe indicate who you are in the scoreboard
+again, show what dice you have when you go to training
+note what project stage we're on when engaging service tickets
+sell your specials or dice?
+something to break up just going through service ticket? recharging?
+some other work thing than just service tickets? internal work?
+alphabetize roll results
+roll up specials/dice so that you see the name and (x3) or however many you have? Would make lists much easier to read. i would have a lot of lists to adjust.
+decrease chance of injection specials? need to see what subsequent stages are like; maybe change it based on the stage.
+order enter-avnteams list by cost
+order training dice list by name
+see screenshot of technical questions available for patrick2. math must be wrong somewhere.
+project counterattacks need to show their effects
+need to show what you gain or lose with project results.
+is current project stage updating with a win?
+special that's a thank you from the client
+crisis that's a boss being a jerk
+need to show how many waves there are in the project in status and double check that it's showing right when starting the stage. can also say what's left when trying to start the stage if you've already defeated one
+my nomenclature is wrong--I am using "waves" both for the different defense groups and for each player having to defeat all those groups. whoops. need to change the latter. stage > __ > wave     heat, contribution, responsibility, iteration, bloc
+change "you have already closed your project stage 1 bloc" responses to show how many need to be closed by other people.
+need to make clear that someone else has already defeated their bloc of this stage and how many are left to be beaten
