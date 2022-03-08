@@ -131,11 +131,29 @@ Function Get-AVNStatus {
                     Specials = $AVNOwnedSpecial
                     Type = $AVNDecipheredSpecial.type
                     Effect = $AVNDecipheredSpecial.effectdescription
+                    Count = 1
                 }
                 New-Object psobject -property $AVNOwnedSpecialProperties
             }
         )
-        Write-Output $global:AVNSpecialsTable | Sort-Object type,specials | Format-Table Specials,Type,Effect
+        #Old. The below script rolls it up and displays a count for each.
+        #Write-Output $global:AVNSpecialsTable | Sort-Object type,specials | Format-Table Specials,Type,Effect
+        $AVNSpecialsTableRolled = @()
+        $AVNSpecialsTableRolledTracker = @()
+        ForEach ($AVNSpecialsTableSpecial in $global:AVNSpecialsTable) {
+            If ($AVNSpecialsTableSpecial.specials -notin $AVNSpecialsTableRolledTracker) {
+                $AVNSpecialsTableRolled += $AVNSpecialsTableSpecial
+                $AVNSpecialsTableRolledTracker += $AVNSpecialsTableSpecial.specials
+            } Else {
+                ForEach ($AVNSpecialsTableRolledSpecial in $AVNSpecialsTableRolled) {
+                    If ($AVNSpecialsTableSpecial.specials -eq $AVNSpecialsTableRolledSpecial.specials) {
+                        $AVNSpecialsTableRolledSpecial.count += 1
+                    }
+                }
+            }
+        }
+        Write-Output $AVNSpecialsTableRolled | Sort-Object type,specials | Format-Table Specials,Type,Effect,Count
+        
     }
     If ($True -eq $Historical) {
         #Really, this should show for all players.

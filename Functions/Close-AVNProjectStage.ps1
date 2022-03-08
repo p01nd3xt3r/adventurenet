@@ -26,7 +26,7 @@ Function Close-AVNProjectStage {
     #Yields the $AVNSpecials array of hashtables, which is the cipher for specials.
     $AVNDataFileContent = ConvertFrom-AVNObfuscated -path ($global:AVNRootPath + "\XQxoHZJajcgW")
     $AVNDataFileContent | ForEach-Object {
-    Invoke-Expression $_
+        Invoke-Expression $_
     }
 
     #Intro text and assigning correct stage to current

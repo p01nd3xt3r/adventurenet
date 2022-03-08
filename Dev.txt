@@ -58,10 +58,9 @@ order training dice list by name
 see screenshot of technical questions available for patrick2. math must be wrong somewhere.
 project counterattacks need to show their effects
 need to show what you gain or lose with project results.
-is current project stage updating with a win?
 special that's a thank you from the client
 crisis that's a boss being a jerk
 need to show how many waves there are in the project in status and double check that it's showing right when starting the stage. can also say what's left when trying to start the stage if you've already defeated one
-my nomenclature is wrong--I am using "waves" both for the different defense groups and for each player having to defeat all those groups. whoops. need to change the latter. stage > __ > wave     heat, contribution, responsibility, iteration, bloc
 change "you have already closed your project stage 1 bloc" responses to show how many need to be closed by other people.
 need to make clear that someone else has already defeated their bloc of this stage and how many are left to be beaten
+losses giving training--after all, you learn as you fail.
