@@ -78,7 +78,7 @@ Function Add-AVNPlayer {
         SeasonFirstRun = $True
         GlobalNotice = "just got here."
         Gifs = 0
-        ProjectStageAttempts = 0
+        ProjectBlocAttempts = 0
     }
     $AVNStoredHistoricalData = @{
         RecentClientHealthContributions = 0

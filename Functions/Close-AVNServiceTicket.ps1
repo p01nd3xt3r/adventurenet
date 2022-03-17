@@ -411,7 +411,9 @@ Function Close-AVNServiceTicket {
                         $AVNDiceRollChoicePass = $False
                     } ElseIf ($AVNDiceRollChoice -eq '') {
                         $AVNDiceRollChoiceArray = @()
-                        For ($I = 1; $I -le $AVNAvailableDice.count; $I++) {
+                        $AVNAvailableDiceMin = $AVNAvailableDice.keys | Select-Object -first 1
+                        $AVNAvailableDiceMax = $AVNAvailableDice.keys | Select-Object -last 1
+                        For ($I = $AVNAvailableDiceMin; $I -le $AVNAvailableDiceMax; $I++) {
                             $AVNDiceRollChoiceArray += [string]$I
                         }
                         $AVNDiceRollChoicePass = $True
@@ -466,33 +468,54 @@ Function Close-AVNServiceTicket {
                             Wait-AVNKeyPress
                         } Else {
                             Do {
-                                $AVNInjectionSpecialsHashTable = [ordered]@{}
-                                $AVNInjectionSpecialsHashTableI = 0
-                                $AVNInjectionSpecials | ForEach-Object {
-                                    $AVNInjectionSpecialsHashTableI++
-                                    $AVNInjectionSpecialsHashTable.add($AVNInjectionSpecialsHashTableI, $_.name)
+                                $AVNInjectionSpecialsTable = @(
+                                    $AVNInjectionSpecials | ForEach-Object {
+                                        $AVNInjectionSpecialProperties = [ordered]@{
+                                            Name = $_.name
+                                            Count = 1
+                                            Effect = $_.effectdescription
+                                        }
+                                        New-Object psobject -property $AVNInjectionSpecialProperties
+                                    }
+                                )
+                                $AVNInjectionSpecialsTable = $AVNInjectionSpecialsTable | Sort-Object name
+                                $AVNInjectionSpecialsTableRolled = @()
+                                $AVNInjectionSpecialsTableRolledI = 0
+                                $AVNInjectionSpecialsTableRolledTracker = @()
+                                ForEach ($AVNInjectionSpecial in $AVNInjectionSpecialsTable) {
+                                    If ($AVNInjectionSpecial.name -notin $AVNInjectionSpecialsTableRolledTracker) {
+                                        $AVNInjectionSpecialsTableRolledI++
+                                        $AVNInjectionSpecialsTableRolledTracker += $AVNInjectionSpecial.name
+                                        $AVNInjectionSpecial | Add-Member -NotePropertyName Item -NotePropertyValue $AVNInjectionSpecialsTableRolledI
+                                        $AVNInjectionSpecialsTableRolled += $AVNInjectionSpecial
+                                    } Else {
+                                        ForEach ($AVNInjectionSpecialsTableRolledSpecial in $AVNInjectionSpecialsTableRolled) {
+                                            If ($AVNInjectionSpecialsTableRolledSpecial.name -eq $AVNInjectionSpecial.name) {
+                                                $AVNInjectionSpecialsTableRolledSpecial.count += 1
+                                            }
+                                        }
+                                    }
                                 }
-
                                 Write-Host "`nYou have the following Specials available to inject into your roll:" -foregroundcolor $global:AVNDefaultTextForegroundColor
-                                $AVNInjectionSpecialsHashTable
+                                Write-Output $AVNInjectionSpecialsTableRolled | Sort-Object name | Format-Table Item,Name,Count,Effect
+                                $AVNInjectionSpecialsEntry = Read-Host "Enter the item number of one you'd like to inject (enter nothing to skip)"
 
-                                $AVNInjectionSpecialsEntry = Read-Host "Enter the number of one you'd like to inject (enter nothing to skip)"
-
+                                 
                                 #Verifying entry
                                 If (($AVNInjectionSpecialsEntry -notmatch "\d+") -and ($AVNInjectionSpecialsEntry -ne "")) {
-                                    Write-Host "Something seems to be wrong with your entry. Please make sure to enter only the integer that's next to your choice." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                                    Write-Host "`nSomething seems to be wrong with your entry. Please make sure to enter only the integer that's next to your choice." -foregroundcolor $global:AVNDefaultTextForegroundColor
                                     Wait-AVNKeyPress
                                 }
-                                If (($AVNInjectionSpecialsEntry -notin $AVNInjectionSpecialsHashTable.keys) -and ($AVNInjectionSpecialsEntry -ne "")) {
-                                    Write-Host "Please only enter the integer of an item in the list." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                                If (($AVNInjectionSpecialsEntry -notin ($AVNInjectionSpecialsTableRolled | ForEach-Object {$_.Item})) -and ($AVNInjectionSpecialsEntry -ne "")) {
+                                    Write-Host "`nPlease only enter the integer of an item in the list." -foregroundcolor $global:AVNDefaultTextForegroundColor
                                     Wait-AVNKeyPress
                                 }
-                            } Until (($AVNInjectionSpecialsEntry -in $AVNInjectionSpecialsHashTable.keys) -or ($AVNInjectionSpecialsEntry -eq ""))
+                            } Until (($AVNInjectionSpecialsEntry -in ($AVNInjectionSpecialsTableRolled | ForEach-Object {$_.Item})) -or ($AVNInjectionSpecialsEntry -eq ""))
 
                             If ($AVNInjectionSpecialsEntry -ne "") {
                                 $AVNInjectionSpecialsEntry = [int]$AVNInjectionSpecialsEntry
                                 $AVNInjectionSpecials | ForEach-Object {
-                                    If ($_.name -eq $AVNInjectionSpecialsHashTable.$AVNInjectionSpecialsEntry) {
+                                    If ($_.name -eq ($AVNInjectionSpecialsTableRolled | Where-Object {$AVNInjectionSpecialsEntry -eq $_.item}).name) {
                                         $AVNInjectionSpecialSelected = $_
                                     }
                                 }

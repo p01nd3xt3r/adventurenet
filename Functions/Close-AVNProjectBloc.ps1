@@ -11,7 +11,7 @@
 .Role
 .Functionality
 #>
-Function Close-AVNProjectStage {
+Function Close-AVNProjectBloc {
     #Same as service tickets but harder. Assumes the player has trained numerous times and horded some specials. Each player faces the same, designed bloc of waves. The project stage counter attacks after a player successfully defeats a wave. Players may attempt stages repeatedly, according to the configured alottment of allowed attempts per day.
     
     Get-AVNConfig
@@ -30,12 +30,12 @@ Function Close-AVNProjectStage {
     }
 
     #Intro text and assigning correct stage to current
-    If ($global:AVNPlayerData_CurrentPlayer.ProjectStageAttempts -ge $global:AVNProjectStageDailyAllowance) {
-        Write-Host "`nYou have already attempted Project Stages the maximum number of times for your current Invoke-AVNSignOn.`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
+    If ($global:AVNPlayerData_CurrentPlayer.ProjectBlocAttempts -ge $global:AVNProjectBlocDailyAllowance) {
+        Write-Host "`nYou have already attempted Project Blocs the maximum number of times for your current Invoke-AVNSignOn.`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
         Return
     } Else {
         #Writing data so that if the player tries to use ctrl+c to get out of it, he's already lost whatever it is.
-        $global:AVNPlayerData_CurrentPlayer.ProjectStageAttempts += 1
+        $global:AVNPlayerData_CurrentPlayer.ProjectBlocAttempts += 1
         $global:AVNCompanyData_CurrentPlayer.teamhealth -= 1
         $global:AVNCompanyData_CurrentPlayer.clienthealth -= 2
         ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile
@@ -43,7 +43,13 @@ Function Close-AVNProjectStage {
 
         If ($global:AVNCompanyDataCommon.ProjectStage1BlocsRemaining -gt 0) {
             If ($global:AVNCompanyData_CurrentPlayer.ProjectStage1BlocDefeated -gt 0) {
-                Write-Host "`nYou have already closed your Project Stage 1 bloc.`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                #Bloc Complete graphic
+                $AVNStagesCompleteAnim = Get-Content ($AVNRootPath + "\Media\AVNBlocCompleteAnim")
+                $AVNStagesCompleteAnim  | ForEach-Object {
+                    Write-Host $_ -foregroundcolor $global:AVNDefaultBannerForegroundColor
+                    Start-Sleep -Milliseconds 20
+                }
+                Write-Host "`nYou have already closed your Project Stage 1 Bloc.`nThere are" $global:AVNCompanyDataCommon.ProjectStage1BlocsRemaining "Blocs waiting for other players to close them.`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
                 Return
             } Else {
                 [int]$AVNProjectCurrentStage = 1
@@ -57,7 +63,13 @@ Function Close-AVNProjectStage {
             } 
         } ElseIf ($global:AVNCompanyDataCommon.ProjectStage2BlocsRemaining -gt 0) {
             If ($global:AVNCompanyData_CurrentPlayer.ProjectStage2BlocDefeated -gt 0) {
-                Write-Host "`nYou have already closed your Project Stage 2 bloc.`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                #Bloc Complete graphic
+                $AVNStagesCompleteAnim = Get-Content ($AVNRootPath + "\Media\AVNBlocCompleteAnim")
+                $AVNStagesCompleteAnim  | ForEach-Object {
+                    Write-Host $_ -foregroundcolor $global:AVNDefaultBannerForegroundColor
+                    Start-Sleep -Milliseconds 20
+                }
+                Write-Host "`nYou have already closed your Project Stage 2 Bloc.`nThere are" $global:AVNCompanyDataCommon.ProjectStage2BlocsRemaining "Blocs waiting for other players to close them.`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
                 Return
             } Else {
                 [int]$AVNProjectCurrentStage = 2
@@ -71,7 +83,13 @@ Function Close-AVNProjectStage {
             }
         } ElseIf ($global:AVNCompanyDataCommon.ProjectStage3BlocsRemaining -gt 0) {
             If ($global:AVNCompanyData_CurrentPlayer.ProjectStage3BlocDefeated -gt 0) {
-                Write-Host "`nYou have already closed your Project Stage 3 bloc.`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                #Bloc Complete graphic
+                $AVNStagesCompleteAnim = Get-Content ($AVNRootPath + "\Media\AVNBlocCompleteAnim")
+                $AVNStagesCompleteAnim  | ForEach-Object {
+                    Write-Host $_ -foregroundcolor $global:AVNDefaultBannerForegroundColor
+                    Start-Sleep -Milliseconds 20
+                }
+                Write-Host "`nYou have already closed your Project Stage 3 Bloc.`nThere are" $global:AVNCompanyDataCommon.ProjectStage3BlocsRemaining "Blocs waiting for other players to close them.`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
                 Return
             } Else {
                 [int]$AVNProjectCurrentStage = 3
@@ -86,10 +104,10 @@ Function Close-AVNProjectStage {
         } Else {
             #Complete graphic
             $AVNStagesCompleteAnim = Get-Content ($AVNRootPath + "\Media\AVNStagesCompleteAnim")
-                $AVNStagesCompleteAnim  | ForEach-Object {
-                    Write-Host $_ -foregroundcolor $global:AVNDefaultBannerForegroundColor
-                    Start-Sleep -Milliseconds 20
-                }
+            $AVNStagesCompleteAnim  | ForEach-Object {
+                Write-Host $_ -foregroundcolor $global:AVNDefaultBannerForegroundColor
+                Start-Sleep -Milliseconds 20
+            }
             
             Write-Host "After all remaining turns have been used, this season of AdventureNet will have been completed." -foregroundcolor $global:AVNDefaultTextForegroundColor
             Wait-AVNKeyPress
@@ -216,7 +234,7 @@ Function Close-AVNProjectStage {
                 }
 
                 #Informing/prepping the player
-                Write-Host "The project looms before you--three stages with three waves apiece. You are on Stage" $AVNProjectCurrentStage "`b, Wave" $AVNProjectCurrentWave "." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "`nThe project looms before you--three stages with three waves apiece. You are on Stage" $AVNProjectCurrentStage "`b, Wave" $AVNProjectCurrentWave "`b." -foregroundcolor $global:AVNDefaultTextForegroundColor
                 Write-Host "`n⣿ADVENTURENET⣿Project⣿`n`nYou see the following defenses for this wave:" -foregroundcolor $global:AVNDefaultTextForegroundColor
                 $AVNProjectCurrentStageCurrentWaveHashTable.defenses
 
@@ -341,7 +359,9 @@ Function Close-AVNProjectStage {
                 $AVNDiceRollChoicePass = $False
             }  ElseIf ($AVNDiceRollChoice -eq '') {
                 $AVNDiceRollChoiceArray = @()
-                For ($I = 1; $I -le $AVNAvailableDice.count; $I++) {
+                $AVNAvailableDiceMin = $AVNAvailableDice.keys | Select-Object -first 1
+                $AVNAvailableDiceMax = $AVNAvailableDice.keys | Select-Object -last 1
+                For ($I = $AVNAvailableDiceMin; $I -le $AVNAvailableDiceMax; $I++) {
                     $AVNDiceRollChoiceArray += [string]$I
                 }
                 $AVNDiceRollChoicePass = $True
@@ -397,33 +417,60 @@ Function Close-AVNProjectStage {
                     Wait-AVNKeyPress
                 } Else {
                     Do {
-                        $AVNInjectionSpecialsHashTable = [ordered]@{}
+                        <#$AVNInjectionSpecialsHashTable = [ordered]@{}
                         $AVNInjectionSpecialsHashTableI = 0
                         $AVNInjectionSpecials | ForEach-Object {
                             $AVNInjectionSpecialsHashTableI++
                             $AVNInjectionSpecialsHashTable.add($AVNInjectionSpecialsHashTableI, $_.name)
+                        }#>
+                        $AVNInjectionSpecialsTable = @(
+                            $AVNInjectionSpecials | ForEach-Object {
+                                $AVNInjectionSpecialProperties = [ordered]@{
+                                    Name = $_.name
+                                    Count = 1
+                                    Effect = $_.effectdescription
+                                }
+                                New-Object psobject -property $AVNInjectionSpecialProperties
+                            }
+                        )
+                        $AVNInjectionSpecialsTable = $AVNInjectionSpecialsTable | Sort-Object name
+                        $AVNInjectionSpecialsTableRolled = @()
+                        $AVNInjectionSpecialsTableRolledI = 0
+                        $AVNInjectionSpecialsTableRolledTracker = @()
+                        ForEach ($AVNInjectionSpecial in $AVNInjectionSpecialsTable) {
+                            If ($AVNInjectionSpecial.name -notin $AVNInjectionSpecialsTableRolledTracker) {
+                                $AVNInjectionSpecialsTableRolledI++
+                                $AVNInjectionSpecialsTableRolledTracker += $AVNInjectionSpecial.name
+                                $AVNInjectionSpecial | Add-Member -NotePropertyName Item -NotePropertyValue $AVNInjectionSpecialsTableRolledI
+                                $AVNInjectionSpecialsTableRolled += $AVNInjectionSpecial
+                            } Else {
+                                ForEach ($AVNInjectionSpecialsTableRolledSpecial in $AVNInjectionSpecialsTableRolled) {
+                                    If ($AVNInjectionSpecialsTableRolledSpecial.name -eq $AVNInjectionSpecial.name) {
+                                        $AVNInjectionSpecialsTableRolledSpecial.count += 1
+                                    }
+                                }
+                            }
                         }
 
                         Write-Host "`nYou have the following Specials available to inject into your roll:" -foregroundcolor $global:AVNDefaultTextForegroundColor
-                        $AVNInjectionSpecialsHashTable
-
+                        Write-Output $AVNInjectionSpecialsTableRolled | Sort-Object name | Format-Table Item,Name,Count,Effect
                         $AVNInjectionSpecialsEntry = Read-Host "Enter the number of one you'd like to inject (enter nothing to skip)"
 
                         #Verifying entry
                         If (($AVNInjectionSpecialsEntry -notmatch "\d+") -and ($AVNInjectionSpecialsEntry -ne "")) {
-                            Write-Host "Something seems to be wrong with your entry. Please make sure to enter only the integer that's next to your choice." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                            Write-Host "`nSomething seems to be wrong with your entry. Please make sure to enter only the integer that's next to your choice." -foregroundcolor $global:AVNDefaultTextForegroundColor
                             Wait-AVNKeyPress
                         }
-                        If (($AVNInjectionSpecialsEntry -notin $AVNInjectionSpecialsHashTable.keys) -and ($AVNInjectionSpecialsEntry -ne "")) {
-                            Write-Host "Please only enter the integer of an item in the list." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                        If (($AVNInjectionSpecialsEntry -notin ($AVNInjectionSpecialsTableRolled | ForEach-Object {$_.Item})) -and ($AVNInjectionSpecialsEntry -ne "")) {
+                            Write-Host "`nPlease only enter the integer of an item in the list." -foregroundcolor $global:AVNDefaultTextForegroundColor
                             Wait-AVNKeyPress
                         }
-                    } Until (($AVNInjectionSpecialsEntry -in $AVNInjectionSpecialsHashTable.keys) -or ($AVNInjectionSpecialsEntry -eq ""))
+                    } Until (($AVNInjectionSpecialsEntry -in ($AVNInjectionSpecialsTableRolled | ForEach-Object {$_.Item})) -or ($AVNInjectionSpecialsEntry -eq ""))
 
                     If ($AVNInjectionSpecialsEntry -ne "") {
                         $AVNInjectionSpecialsEntry = [int]$AVNInjectionSpecialsEntry
                         $AVNInjectionSpecials | ForEach-Object {
-                            If ($_.name -eq $AVNInjectionSpecialsHashTable.$AVNInjectionSpecialsEntry) {
+                            If ($_.name -eq ($AVNInjectionSpecialsTableRolled | Where-Object {$AVNInjectionSpecialsEntry -eq $_.item}).name) {
                                 $AVNInjectionSpecialSelected = $_
                             }
                         }
@@ -497,7 +544,7 @@ Function Close-AVNProjectStage {
                     $global:AVNProjectCounterAttackRate *= 1.25
                 }
                 If ($AVNProjectCounterAttackRoll -le ($global:AVNProjectCounterAttackRate * 100)) {
-                    Write-Host "The Project Retaliates!" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                    Write-Host "`nThe Project Retaliates!" -foregroundcolor $global:AVNDefaultTextForegroundColor
                     Invoke-Expression $AVNProjectCurrentStageCurrentWaveHashTable.counterattack
                     Write-Host $AVNProjectCurrentStageCurrentWaveHashTable.counterattacktext -foregroundcolor $global:AVNDefaultTextForegroundColor
                 }
@@ -540,7 +587,7 @@ Function Close-AVNProjectStage {
         $global:AVNCompanyData_CurrentPlayer.clienthealth += 2
 
         If ($AVNProjectCurrentStage -lt 3) {
-            Write-Host "`n⣿ADVENTURENET⣿Project⣿Success!⣿`n`nYou completed your bloc of stage" $AVNProjectCurrentStage "of the project." -foregroundcolor $global:AVNDefaultTextForegroundColor
+            Write-Host "`n⣿ADVENTURENET⣿Project⣿Success!⣿`n`nYou completed your Bloc of Stage" $AVNProjectCurrentStage "of the project." -foregroundcolor $global:AVNDefaultTextForegroundColor
             If ($True -eq $AVNProjectPrecedeDeadlineSwitch) {
                 Write-Host "`nFor completing this bloc prior to the stage's deadline, you..." -foregroundcolor $global:AVNDefaultTextForegroundColor
                 #Invoke bonuses
@@ -571,7 +618,7 @@ Function Close-AVNProjectStage {
             Wait-AVNKeyPress
         }
     } Else {
-        Write-Host "`n⣿ADVENTURENET⣿Project⣿Failure⣿`n`nThe Project, in its immensity, has overwhelmed you." -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "`n⣿ADVENTURENET⣿Project⣿Failure⣿`n`nThe Project, in its immensity, has overwhelmed you.`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
         $global:AVNPlayerData_CurrentPlayer.globalnotice = "was overcome by a project bloc."
     }
     ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile

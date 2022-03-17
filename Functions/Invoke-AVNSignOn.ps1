@@ -92,7 +92,7 @@ Function Invoke-AVNSignOn {
         }
 
         #Resetting Project Stage attempts
-        $global:AVNPlayerData_CurrentPlayer.ProjectStageAttempts = 0
+        $global:AVNPlayerData_CurrentPlayer.ProjectBlocAttempts = 0
 
         #Training:
         #I'm not allowing players to amass training. If you miss it that day, you miss it.

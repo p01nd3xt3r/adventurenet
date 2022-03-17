@@ -54,7 +54,7 @@ You're here. Adding -dice or -functions specifies what kind of help you want to 
 Close-AVNServiceTicket
 The meat-and-potatoes of each day. Players will engage Service Tickets here, gaining Kudos and GIFs while decreasing Team Health. Unanswered Service Tickets become Technical Questions after a specified interval and decrease Client Health in the process. Failed Service Tickets become Technical Questions immediately and decrease Team and Client Health an additional amount. Players will also have a chance of finding Specials here.
 
-Close-AVNProjectStage
+Close-AVNProjectBloc
 The big momma. Projects have three stages with three waves of defenses apiece. They also have a chance of counter-attacking. Defeating Stages before their deadlines provides bonuses to Client Health and to a player's Kudos, and defeating the final Stage ends the season (once players use all their remaining turns). Functions much the same as Close-AVNServiceTicket.
 "@
         Wait-AVNKeyPress
@@ -200,7 +200,7 @@ Close-AVNSeason converts current data in all player data files into historical d
                 }
             }
         )
-        Write-Host "`n⣿ADVENTURENET⣿Help⣿Specials⣿Type: PreEmptive⣿`nPreEmptive Specials are used before the first wave during either Close-AVNServiceTicket or Close-AVNProjectStage." -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "`n⣿ADVENTURENET⣿Help⣿Specials⣿Type: PreEmptive⣿`nPreEmptive Specials are used before the first wave during either Close-AVNServiceTicket or Close-AVNProjectBloc." -foregroundcolor $global:AVNDefaultTextForegroundColor
         Write-Output $AVNPreEmptiveSpecialsTable | Sort-Object "type" | Format-Table Name,Effect
 
         $AVNInterruptSpecialsTable = @(
@@ -216,7 +216,7 @@ Close-AVNSeason converts current data in all player data files into historical d
                 }
             }
         )
-        Write-Host "`n⣿ADVENTURENET⣿Help⣿Specials⣿Type: Interrupt⣿`nInterrupt Specials are used before the second or third waves during either Close-AVNServiceTicket or Close-AVNProjectStage." -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "`n⣿ADVENTURENET⣿Help⣿Specials⣿Type: Interrupt⣿`nInterrupt Specials are used before the second or third waves during either Close-AVNServiceTicket or Close-AVNProjectBloc." -foregroundcolor $global:AVNDefaultTextForegroundColor
         Write-Output $AVNInterruptSpecialsTable | Sort-Object "type" | Format-Table Name,Effect
 
         $AVNInjectionSpecialsTable = @(

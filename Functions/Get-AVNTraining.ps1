@@ -51,14 +51,14 @@ Function Get-AVNTraining {
 
         $AVNTrainingDiceTypes = [ordered]@{
             '?' = 'Show information about your options.'
-            1 = "Microsoft365"
+            1 = "CoreValues"
             2 = "Datto"
-            3 = "MimecastUmbrella"
-            4 = "Windows"
-            5 = "HuntressDefender"
-            6 = "CoreValues"
-            7 = "ITGlue"
-            8 = "Ubiquiti"
+            3 = "HuntressDefender"
+            4 = "ITGlue"
+            5 = "Microsoft365"
+            6 = "MimecastUmbrella"
+            7 = "Ubiquiti"
+            8 = "Windows"
         }
         
         If ($global:AVNCompanyData_CurrentPlayer.teamhealthpenaltylevel -lt 5) {

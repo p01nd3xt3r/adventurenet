@@ -27,7 +27,7 @@ Function Enter-AVNTeams {
     $AVNDataFileContent | ForEach-Object {
     Invoke-Expression $_
     }
-    
+    $AVNSpecials = $AVNSpecials | Sort-Object 'teamscost' -descending
     [int]$AVNSpecialsI = 0
     $AVNSpecialsPossibleChoices = @('?')
     $AVNSpecialsTable = @(

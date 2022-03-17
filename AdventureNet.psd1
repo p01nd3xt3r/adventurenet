@@ -73,7 +73,7 @@ Copyright = '(c) Patrick D. Pace. All rights reserved.'
 NestedModules = @(
     '.\Functions\Add-AVNPlayer.ps1',
     '.\Functions\Add-AVNProjectBloc.ps1',
-    '.\Functions\Close-AVNProjectStage.ps1',
+    '.\Functions\Close-AVNProjectBloc.ps1',
     '.\Functions\Close-AVNSeason.ps1',
     '.\Functions\Close-AVNServiceTicket.ps1',
     '.\Functions\Close-AVNTechnicalQuestion.ps1',
@@ -95,7 +95,7 @@ NestedModules = @(
 FunctionsToExport = @(
     'Add-AVNPlayer',
     'Add-AVNProjectBloc',
-    'Close-AVNProjectStage',
+    'Close-AVNProjectBloc',
     'Close-AVNSeason',
     'Close-AVNServiceTicket',
     'Close-AVNTechnicalQuestion',

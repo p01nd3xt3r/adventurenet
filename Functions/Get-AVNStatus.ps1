@@ -128,7 +128,7 @@ Function Get-AVNStatus {
             ForEach ($AVNOwnedSpecial in $global:AVNSpecials_CurrentPlayer) {
                 $AVNDecipheredSpecial = $AVNSpecials | Where-Object {$_.name -eq $AVNOwnedSpecial}
                 $AVNOwnedSpecialProperties = [ordered]@{
-                    Specials = $AVNOwnedSpecial
+                    Name = $AVNOwnedSpecial
                     Type = $AVNDecipheredSpecial.type
                     Effect = $AVNDecipheredSpecial.effectdescription
                     Count = 1
@@ -136,23 +136,22 @@ Function Get-AVNStatus {
                 New-Object psobject -property $AVNOwnedSpecialProperties
             }
         )
-        #Old. The below script rolls it up and displays a count for each.
-        #Write-Output $global:AVNSpecialsTable | Sort-Object type,specials | Format-Table Specials,Type,Effect
+        #Old. The below script rolls it up and displays a count for each. Write-Output $global:AVNSpecialsTable | Sort-Object type,specials | Format-Table Specials,Type,Effect
         $AVNSpecialsTableRolled = @()
         $AVNSpecialsTableRolledTracker = @()
         ForEach ($AVNSpecialsTableSpecial in $global:AVNSpecialsTable) {
-            If ($AVNSpecialsTableSpecial.specials -notin $AVNSpecialsTableRolledTracker) {
+            If ($AVNSpecialsTableSpecial.name -notin $AVNSpecialsTableRolledTracker) {
                 $AVNSpecialsTableRolled += $AVNSpecialsTableSpecial
-                $AVNSpecialsTableRolledTracker += $AVNSpecialsTableSpecial.specials
+                $AVNSpecialsTableRolledTracker += $AVNSpecialsTableSpecial.name
             } Else {
                 ForEach ($AVNSpecialsTableRolledSpecial in $AVNSpecialsTableRolled) {
-                    If ($AVNSpecialsTableSpecial.specials -eq $AVNSpecialsTableRolledSpecial.specials) {
+                    If ($AVNSpecialsTableSpecial.name -eq $AVNSpecialsTableRolledSpecial.name) {
                         $AVNSpecialsTableRolledSpecial.count += 1
                     }
                 }
             }
         }
-        Write-Output $AVNSpecialsTableRolled | Sort-Object type,specials | Format-Table Specials,Type,Effect,Count
+        Write-Output $AVNSpecialsTableRolled | Sort-Object type,name | Format-Table Name,Count,Type,Effect
         
     }
     If ($True -eq $Historical) {

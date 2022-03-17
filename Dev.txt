@@ -49,18 +49,19 @@ again, show what dice you have when you go to training
 note what project stage we're on when engaging service tickets
 sell your specials or dice?
 something to break up just going through service ticket? recharging?
-some other work thing than just service tickets? internal work?
+some other work thing than just service tickets? internal work? something that helps other players and gains kudos.
 alphabetize roll results
-roll up specials/dice so that you see the name and (x3) or however many you have? Would make lists much easier to read. i would have a lot of lists to adjust.
+STARTED roll up specials/dice so that you see the name and (x3) or however many you have? Would make lists much easier to read. Also alphabetize. I would have a lot of lists to adjust. Injections available when attacking now DONE.
 decrease chance of injection specials? need to see what subsequent stages are like; maybe change it based on the stage.
-order enter-avnteams list by cost
-order training dice list by name
 see screenshot of technical questions available for patrick2. math must be wrong somewhere.
-project counterattacks need to show their effects
+Xproject counterattacks need to show their effects--I don't have the effects written yet, and I will add them to the current text field.
 need to show what you gain or lose with project results.
 special that's a thank you from the client
-crisis that's a boss being a jerk
-need to show how many waves there are in the project in status and double check that it's showing right when starting the stage. can also say what's left when trying to start the stage if you've already defeated one
-change "you have already closed your project stage 1 bloc" responses to show how many need to be closed by other people.
-need to make clear that someone else has already defeated their bloc of this stage and how many are left to be beaten
+crisis that's a boss having a bad day
 losses giving training--after all, you learn as you fail.
+stronger specials available per stage? double injections, etc. Injections of mixed types. specials that are already there have different strengths per stage.
+Finish going through old Stage text and change to bloc
+Update readme about blocs.
+make sure when service tickets are converted to tech questions that they are being removed from service ticket array for player.
+if you are the player to defeat the final bloc of a project, let it tell you. Likewise, if a player defeated the last bloc, other players should find out at their next sign in. A "while you were away" section, perhaps.
+Update all lists to use objects instead of hashes? They have headings.
