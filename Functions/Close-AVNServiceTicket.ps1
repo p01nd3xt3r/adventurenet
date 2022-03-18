@@ -157,23 +157,6 @@ Function Close-AVNServiceTicket {
                     $AvailableDiceI++
                     $AVNAvailableDice.add($AvailableDiceI, $_)
                 }
-                <#
-                Before alphebetizing.
-                $global:AVNDicePerm_CurrentPlayer | ForEach-Object {
-                    $AvailableDiceI++
-                    $AVNAvailableDice.add($AvailableDiceI, $_)
-                }
-                $global:AVNDiceDaily_CurrentPlayer | ForEach-Object {
-                    $AvailableDiceI++
-                    $AVNAvailableDice.add($AvailableDiceI, $_)
-                }
-                If ($AVNSpecialDice.count -gt 0) {
-                    $AVNSpecialDice | ForEach-Object {
-                        $AvailableDiceI++
-                        $AVNAvailableDice.add($AvailableDiceI, $_)
-                    }
-                }
-                #>
 
                 ###I did an array for these instead of working with the hash table above. I fixed it. Need to test.
                 #Penalties from client health being low. Removing dice from available dice.
@@ -275,20 +258,31 @@ Function Close-AVNServiceTicket {
                         }
 
                         #Default choices.
-                        [int]$AVNOptionI = 0
-                        $AVNSTCurrentWaveOptions = [ordered]@{
-                            '?' = 'Show information about your options.'
-                            'R' = 'Run away!'
-                        }
                         If ($AVNAvailableDice.count -gt 0) {
-                            $AVNOptionI++
-                            $AVNSTCurrentWaveOptions.add($AVNOptionI, 'Attack!')
+                            #Default choices.
+                            $AVNSTCurrentWaveOptionRunProperties = @{
+                                Item = "R"
+                                Action = "Run Away!"
+                            }
+                            $AVNOptionI = 1
+                            $AVNSTCurrentWaveOptionAttackProperties = @{
+                                Item = $AVNOptionI
+                                Action = "Attack!"
+                            }
+                            $AVNSTCurrentWaveOptionsTable = @()
+                            $AVNSTCurrentWaveOptionsTable += New-Object psobject -property $AVNSTCurrentWaveOptionRunProperties
+                            $AVNSTCurrentWaveOptionsTable += New-Object psobject -property $AVNSTCurrentWaveOptionAttackProperties
                         } Else {
                             Write-Host "`nYou have no dice with which to attack!" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                            Break
                         }
                         If (($True -eq $AVNSTCurrentEncounter.opportunity) -and ($global:AVNPlayerData_CurrentPlayer.opportunities -gt 0)) {
                             $AVNOptionI++
-                            $AVNSTCurrentWaveOptions.add($AVNOptionI, 'Opportunity')
+                            $AVNSTCurrentWaveOptionOpportunityProperties = @{
+                                Item = $AVNOptionI
+                                Action = "Opportunity"
+                            }
+                            $AVNSTCurrentWaveOptionsTable += New-Object psobject -property $AVNSTCurrentWaveOptionOpportunityProperties
                         } 
                         #Adding specials to the choices. Changes based on what wave we're on. Also adds all the ints of these specials to $AVNSpecialIntegers, so I can know a special has been chosen later. I might not need, this, though, if I only do ?, attack, and specials. I'd always know the range, and the ints of those options would be constant.
                         If ($AVNSTCurrentWave -eq 1) {
@@ -297,7 +291,11 @@ Function Close-AVNServiceTicket {
                                 $AVNPreEmptiveSpecials | ForEach-Object {
                                     $AVNOptionI++
                                     $AVNSpecialIntegers += $AVNOptionI
-                                    $AVNSTCurrentWaveOptions.add($AVNOptionI, $_.name)
+                                    $AVNPreEmptiveSpecialProperties = @{
+                                        Item = $AVNOptionI
+                                        Action = $_.name
+                                    }
+                                    $AVNSTCurrentWaveOptionsTable += New-Object psobject -property $AVNPreEmptiveSpecialProperties
                                 }
                             }
                         } Else {
@@ -306,7 +304,11 @@ Function Close-AVNServiceTicket {
                                 $AVNInterruptSpecials | ForEach-Object {
                                     $AVNOptionI++
                                     $AVNSpecialIntegers += $AVNOptionI
-                                    $AVNSTCurrentWaveOptions.add($AVNOptionI, $_.name)
+                                    $AVNInterruptSpecialProperties = @{
+                                        Item = $AVNOptionI
+                                        Action = $_.name
+                                    }
+                                    $AVNSTCurrentWaveOptionsTable += New-Object psobject -property $AVNInterruptSpecialProperties
                                 }
                             }
                         }
@@ -315,32 +317,38 @@ Function Close-AVNServiceTicket {
                         $AVNSTCurrentWaveDefenses
 
                         Write-Host "`nWhat would you like to do?" -foregroundcolor $global:AVNDefaultTextForegroundColor
-                        $AVNSTCurrentWaveOptions
+                        Write-Output $AVNSTCurrentWaveOptionsTable | Sort-Object Item | Format-Table Item,Action
                         
-                        $AVNSTActionEntry = Read-Host "`nEnter your choice"
+                        $AVNSTActionEntry = Read-Host "`nEnter the item of your choice or ? for more info"
                         #Making sure the entry is valid.
                         If (($AVNSTActionEntry -notmatch "\d+") -and ($AVNSTActionEntry -ne "?") -and ($AVNSTActionEntry -ne "r")) {
                             Write-Host `n"Something seems to be wrong with your entry. Please make sure to enter only the integer that's next to your choice or a single ?." -foregroundcolor $global:AVNDefaultTextForegroundColor
                             Wait-AVNKeyPress
-                        } ElseIf ($AVNSTActionEntry -notin $AVNSTCurrentWaveOptions.keys) {
+                        } ElseIf (($AVNSTActionEntry -notin ($AVNSTCurrentWaveOptionsTable | ForEach-Object {$_.Item})) -and ($AVNSTCurrentWaveOptionsTable -ne "?")) {
                             Write-Host "`nPlease only enter the integer of an item in the list." -foregroundcolor $global:AVNDefaultTextForegroundColor
                             Wait-AVNKeyPress
                         }
-                    } Until ($AVNSTActionEntry -in $AVNSTCurrentWaveOptions.keys)
-                    #Converting the string that read-host creates into an int to match the $AVNSTCurrentWaveOptions keys.
-                    If (($AVNSTActionEntry -ne "?") -and ($AVNSTActionEntry -ne "r")) {
-                        $AVNSTActionEntry = [int]$AVNSTActionEntry
+                        #Converting the string that read-host creates into an int to match the $AVNSTCurrentWaveOptions keys.
+                        If (($AVNSTActionEntry -ne "?") -and ($AVNSTActionEntry -ne "r")) {
+                            $AVNSTActionEntry = [int]$AVNSTActionEntry
+                        }
+                    } Until ($AVNSTActionEntry -in ($AVNSTCurrentWaveOptionsTable | ForEach-Object {$_.Item}))
+
+                    If ($AVNAvailableDice.count -lt 1) {
+                        Break
                     }
+
                     #Branches based on what's entered.
                     If ($AVNSTActionEntry -eq "r") {
-                        Write-Host "`nYou ran away, converting your adversary into a Technical Question." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                        Write-Host "`nYou ran away, converting your adversary into a Technical Question.`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
                         Return
                     }
                     If ($AVNSTActionEntry -eq "?") {
                         Get-AVNHelp -encounters
                     }
-                    If ($AVNSTCurrentWaveOptions.$AVNSTActionEntry -eq 'Opportunity') {
-                        Write-Host "`nYou have converted the service ticket into an Opportunity, reducing Service Tickets by 1." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                    
+                    If (($AVNSTCurrentWaveOptionsTable | Where-Object {$AVNSTActionEntry -eq $_.item}).action -eq 'Opportunity') {
+                        Write-Host "`nYou have converted the service ticket into an Opportunity, reducing Service Tickets by 1.`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
                         #Adding back health and technical question default removals. Sending off to an opportunity reduces turns and service ticket counts only.
                         $global:AVNCompanyData_CurrentPlayer.TechnicalQuestionsAdded -= 1
                         $global:AVNCompanyData_CurrentPlayer.teamhealth += 2
@@ -353,16 +361,17 @@ Function Close-AVNServiceTicket {
                     }
                     If ($AVNSTActionEntry -in $AVNSpecialIntegers) {
                         #Displaying the option. 
-                        
+                        #($AVNSTCurrentWaveOptionsTable | ForEach-Object {$_.Item})
+                        #($AVNSTCurrentWaveOptionsTable | Where-Object {$AVNSTActionEntry -eq $_.item}).action
                         If ($AVNSTCurrentWave -eq 1) {
                             $AVNPreEmptiveSpecials | ForEach-Object {
-                                If ($_.name -eq $AVNSTCurrentWaveOptions.$AVNSTActionEntry) {
+                                If ($_.name -eq ($AVNSTCurrentWaveOptionsTable | Where-Object {$AVNSTActionEntry -eq $_.item}).action) {
                                     $AVNSTChosenSpecial = $_
                                 }
                             }
                         } Else {
                             $AVNInterruptSpecials | ForEach-Object {
-                                If ($_.name -eq $AVNSTCurrentWaveOptions.$AVNSTActionEntry) {
+                                If ($_.name -eq ($AVNSTCurrentWaveOptionsTable | Where-Object {$AVNSTActionEntry -eq $_.item}).action) {
                                     $AVNSTChosenSpecial = $_
                                 }
                             }
@@ -397,8 +406,13 @@ Function Close-AVNServiceTicket {
                         }
                         Wait-AVNKeypress
                     }
-                } Until ($AVNSTCurrentWaveOptions.$AVNSTActionEntry -eq 'Attack!')
+                } Until ($AVNSTActionEntry -eq 1)
                 #With this, once the player chooses attack, the player can keep doing other things beforehand.
+
+                If ($AVNAvailableDice.count -lt 1) {
+                    Break
+                    $AVNDiceRollSuccess = $False
+                }
 
                 #Getting inputted dice by their keys in $AVNAvailableDice, creating a simple array of the ints entered, removing hashes of those dice by their int.
                 Do {
@@ -458,7 +472,7 @@ Function Close-AVNServiceTicket {
                     $AVNDiceRolls += $AVNDiceRollChoiceTypeWeightArray[(Get-Random -minimum 0 -maximum 5)]
                 }
                 Write-Host "`nYou rolled the following work types:" -foregroundcolor $global:AVNDefaultTextForegroundColor
-                $AVNDiceRolls
+                $AVNDiceRolls | Sort-Object
 
                 If ($AVNInjectionSpecials.count -gt 0) {
                     Do {
@@ -636,6 +650,7 @@ Function Close-AVNServiceTicket {
                 #Failure results. 
                 Write-Host "`nYou failed to close the Service Ticket, adding 1 Technical Question and losing 1 Client Health in the process." -foregroundcolor $global:AVNDefaultTextForegroundColor
                 $AVNSTCurrentEncounter.failuretext
+                Write-Host ""
             }
         } Else {
             #If the player gets a roll for a special, then roll again to see if it's a crisis or not.

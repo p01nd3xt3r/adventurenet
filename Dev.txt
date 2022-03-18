@@ -45,12 +45,10 @@ vanity purchases:
 	set a permanent global or title
 add an easter egg or two...
 maybe indicate who you are in the scoreboard
-again, show what dice you have when you go to training
 note what project stage we're on when engaging service tickets
 sell your specials or dice?
 something to break up just going through service ticket? recharging?
 some other work thing than just service tickets? internal work? something that helps other players and gains kudos.
-alphabetize roll results
 STARTED roll up specials/dice so that you see the name and (x3) or however many you have? Would make lists much easier to read. Also alphabetize. I would have a lot of lists to adjust. Injections available when attacking now DONE.
 decrease chance of injection specials? need to see what subsequent stages are like; maybe change it based on the stage.
 see screenshot of technical questions available for patrick2. math must be wrong somewhere.
@@ -64,4 +62,9 @@ Finish going through old Stage text and change to bloc
 Update readme about blocs.
 make sure when service tickets are converted to tech questions that they are being removed from service ticket array for player.
 if you are the player to defeat the final bloc of a project, let it tell you. Likewise, if a player defeated the last bloc, other players should find out at their next sign in. A "while you were away" section, perhaps.
-Update all lists to use objects instead of hashes? They have headings.
+Update all lists to use objects instead of hashes? More fields, better headings. 
+work through project completion forks for stage and deadline.
+project counterattack effects
+servicetickets lists to be converted to objects:
+    available dice
+    using and removing available dice
