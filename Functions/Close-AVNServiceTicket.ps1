@@ -24,7 +24,7 @@ Function Close-AVNServiceTicket {
         Write-Host $_ -foregroundcolor $global:AVNDefaultBannerForegroundColor
         Start-Sleep -Milliseconds 20
     }
-    Write-Host "⣿ADVENTURENET⣿Service Ticket⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
+    Write-Host "⣿ADVENTURENET⣿ Service Ticket ⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
     
 
     If ($global:AVNServiceTickets_CurrentPlayer.count -lt 1) { 
@@ -630,7 +630,7 @@ Function Close-AVNServiceTicket {
                 Write-Host "`nYou have defeated all waves!" -foregroundcolor $global:AVNDefaultTextForegroundColor
                 $AVNSTCurrentEncounter.deathtext
 
-                Write-Host "`n⣿ADVENTURENET⣿Service Ticket⣿Success!⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "`n⣿ADVENTURENET⣿ Service Ticket ⣿ Success! ⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
 
                 #GIF award
                 If ($global:AVNCompanyDataCommon.CurrentStage = 1) {
@@ -687,7 +687,7 @@ Function Close-AVNServiceTicket {
 
                 $AVNSTAttainedCrisisSpecial = Get-Random $AVNSTCrisisSpecials
 
-                Write-Host "`n⣿ADVENTURENET⣿Service Ticket⣿Special⣿`n`nThe Special you found is, in fact, a Crisis!" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "`n⣿ADVENTURENET⣿ Service Ticket ⣿ Special ⣿`n`nThe Special you found is, in fact, a Crisis!" -foregroundcolor $global:AVNDefaultTextForegroundColor
                 $AVNSTAttainedCrisisSpecial.Name
                 $AVNSTAttainedCrisisSpecial.description
                 $AVNSTAttainedCrisisSpecial.effectdescription
@@ -727,7 +727,7 @@ Function Close-AVNServiceTicket {
                 }
                 $AVNSTAttainedSpecial = Get-Random $AVNSTSpecialByTypeArray
 
-                Write-Host "`n⣿ADVENTURENET⣿Service Ticket⣿Special⣿`n`nYou found the following Special!" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "`n⣿ADVENTURENET⣿ Service Ticket ⣿ Special ⣿`n`nYou found the following Special!" -foregroundcolor $global:AVNDefaultTextForegroundColor
                 $AVNSTAttainedSpecial.Name
                 $AVNSTAttainedSpecial.description
                 $AVNSTAttainedSpecial.effectdescription

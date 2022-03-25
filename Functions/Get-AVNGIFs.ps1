@@ -55,13 +55,13 @@ Function Get-AVNGIFs {
     )
 
     If ($AVNPlayerSpecials.count -lt 1) {
-        Write-Host "⣿ADVENTURENET⣿GIFs⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "⣿ADVENTURENET⣿ GIFs ⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
         Write-Host "`nSorry, you don't have any Specials.`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
         Return
     } Else {
         Do {
             Do {
-                Write-Host "⣿ADVENTURENET⣿GIFs⣿`n`nTrade unwanted Specials for a GIF reward." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "⣿ADVENTURENET⣿ GIFs ⣿`n`nTrade unwanted Specials for a GIF reward." -foregroundcolor $global:AVNDefaultTextForegroundColor
                 Write-Output $AVNPlayerSpecialsTable | Sort-Object "item" | Format-Table item,name,type,reward,effect
                 $AVNPlayerSpecialChoice = Read-Host "Enter the number of the Special you'd like to trade, ? for more information, or nothing to exit"
                 

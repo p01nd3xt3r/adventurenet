@@ -12,7 +12,7 @@
 .Functionality
 #>
 Function Wait-AVNKeyPress {
-    Write-Host "`n⣿ADVENTURENET⣿Press any key to continue⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
+    Write-Host "`n⣿ADVENTURENET⣿ Press any key to continue ⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
     $HOST.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown,AllowCtrlC") | OUT-NULL  
     $HOST.UI.RawUI.Flushinputbuffer()   
 }

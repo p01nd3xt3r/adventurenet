@@ -20,7 +20,7 @@ Function Get-AVNTraining {
         Start-Sleep -Milliseconds 20
     }
     
-    Write-Host "⣿ADVENTURENET⣿Training⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
+    Write-Host "⣿ADVENTURENET⣿ Training ⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
 
     If ($global:AVNPlayerData_CurrentPlayer.training -gt 0) {
         If ($global:AVNCompanyData_CurrentPlayer.teamhealthpenaltylevel -ge 2) {

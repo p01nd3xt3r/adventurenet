@@ -228,7 +228,7 @@ Function Close-AVNProjectBloc {
                 Write-Host "`nThe project looms before you--three stages with three waves apiece. You are on Stage" $AVNProjectCurrentStage "`b, Wave" $AVNProjectCurrentWave "`b," $AVNProjectCurrentStageCurrentWaveHashTable.name "`b." -foregroundcolor $global:AVNDefaultTextForegroundColor
                 $AVNProjectCurrentStageCurrentWaveHashTable.IntroductionText
 
-                Write-Host "`n⣿ADVENTURENET⣿Project⣿`n`nYou see the following defenses for this wave:" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "`n⣿ADVENTURENET⣿ Project ⣿`n`nYou see the following defenses for this wave:" -foregroundcolor $global:AVNDefaultTextForegroundColor
                 $AVNProjectCurrentStageCurrentWaveHashTable.defenses | Sort-Object
 
                 If ($AVNAvailableDice.count -gt 0) {
@@ -618,7 +618,7 @@ Function Close-AVNProjectBloc {
             Write-Host $_ -foregroundcolor $global:AVNDefaultBannerForegroundColor
             Start-Sleep -Milliseconds 20
         }
-        Write-Host "`n⣿ADVENTURENET⣿Project⣿Victory!⣿`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "`n⣿ADVENTURENET⣿ Project ⣿ Victory! ⣿`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
         
         #Already -= 2 at the beginning. Player's only lose that if they fail.
         $global:AVNCompanyData_CurrentPlayer.clienthealth += 2
@@ -678,7 +678,7 @@ Function Close-AVNProjectBloc {
         }
 
     } Else {
-        Write-Host "`n⣿ADVENTURENET⣿Project⣿Failure⣿`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "`n⣿ADVENTURENET⣿ Project ⣿ Failure ⣿`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
         $AVNProjectCurrentStageCurrentWaveHashTable.failuretext
         Write-Host "Client Health decreases by 2.`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
         $global:AVNPlayerData_CurrentPlayer.globalnotice = "was overcome by a project bloc."

@@ -20,7 +20,7 @@ Function Close-AVNTechnicalQuestion {
         Write-Host $_ -foregroundcolor $global:AVNDefaultBannerForegroundColor
         Start-Sleep -Milliseconds 20
     }
-    Write-Host "⣿ADVENTURENET⣿Technical Questions⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
+    Write-Host "⣿ADVENTURENET⣿ Technical Questions ⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
     
     If ($global:AVNCompanyDataCommon.technicalquestionsavailable -lt 1) {
         Write-Host "`nThere are no Technical Questions to close.`n" -foregroundcolor $global:AVNDefaultTextForegroundColor

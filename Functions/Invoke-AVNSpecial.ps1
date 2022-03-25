@@ -53,14 +53,14 @@ Function Invoke-AVNSpecial {
     )
 
     If ($AVNGeneralSpecials.count -lt 1) {
-        Write-Host "⣿ADVENTURENET⣿Specials⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "⣿ADVENTURENET⣿ Specials ⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
         Write-Host "`nSorry, you don't have any Specials of General type.`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
         Return
     } Else {
         Do {
             Do {
                 #Old $AVNGeneralSpecialsHashTable
-                Write-Host "⣿ADVENTURENET⣿Specials⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "⣿ADVENTURENET⣿ Specials ⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
                 Write-Output $AVNGeneralSpecialsTable | Sort-Object "item" | Format-Table item,name,effect
                 $AVNGeneralSpecialChoice = Read-Host "Enter the number of the Special you'd like to use, ? for more information, or nothing to exit"
                 

@@ -135,7 +135,7 @@ Function Invoke-AVNSignOn {
                 $AVNDiceOfferNumber++
                 $AVNDiceOffer.add($AVNDiceOfferNumber, $AVNDiceTypes[$_])
             }
-            Write-Host "`n⣿ADVENTURENET⣿Daily Dice Allotment⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
+            Write-Host "`n⣿ADVENTURENET⣿ Daily Dice Allotment ⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
             Write-Host "`nChoose $global:AVNDiceChoicePerDay of the following to keep for the day:" -foregroundcolor $global:AVNDefaultTextForegroundColor
 
             $AVNChoiceText = @("first","second","third","fourth","fifth","sixth","seventh","eighth","ninth","tenth")
@@ -184,7 +184,7 @@ Function Invoke-AVNSignOn {
             $global:AVNSpecials_CurrentPlayer += $AVNInjectionSpecials[$AVNInjectionRewardRoll].name
             $AVNInjectionSpecialsAdded += $AVNInjectionSpecials[$AVNInjectionRewardRoll].name
         }
-        Write-Host "`n⣿ADVENTURENET⣿Injection Specials Allotment⣿`n`nThe following injection specials have been added to your collection:" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "`n⣿ADVENTURENET⣿ Injection Specials Allotment ⣿`n`nThe following injection specials have been added to your collection:" -foregroundcolor $global:AVNDefaultTextForegroundColor
         $AVNInjectionSpecialsAdded
 
         #Writing back to data file.

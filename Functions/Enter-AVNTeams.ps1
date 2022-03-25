@@ -49,7 +49,7 @@ Function Enter-AVNTeams {
 
     Do {
         Do {
-            Write-Host "⣿ADVENTURENET⣿Specials⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
+            Write-Host "⣿ADVENTURENET⣿ Specials ⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
             Write-Output $AVNSpecialsTable | Sort-Object "item" | Format-Table item,cost,type,name,effect
 
             Write-Host "You have" $global:AVNPlayerData_CurrentPlayer.gifs "GIFs." -foregroundcolor $global:AVNDefaultTextForegroundColor

@@ -41,11 +41,11 @@ Function Get-AVNStatus {
                 New-Object psobject -property $AVNPlayerProperties
             }
         )
-        Write-Host "`n⣿ADVENTURENET⣿Scoreboard⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "`n⣿ADVENTURENET⣿ Scoreboard ⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
         $AVNPlayerTable | Sort-Object kudos,player -descending | Format-Table player,global,kudos
     }
     If ($True -eq $Team) {
-        Write-Host "`n⣿ADVENTURENET⣿Team Stats⣿`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "`n⣿ADVENTURENET⣿ Team Stats ⣿`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
         Write-Host "Team Health:                      " $global:AVNCompanyDataCommon.teamhealth "out of" $global:AVNHealthDefault
         Write-Host "Daily Team Health Penalty Level:  " $global:AVNCompanyData_CurrentPlayer.teamhealthpenaltylevel
         Write-Host "Client Health:                    " $global:AVNCompanyDataCommon.clienthealth "out of" $global:AVNHealthDefault
@@ -94,7 +94,7 @@ Function Get-AVNStatus {
         }
     }
     If ($True -eq $Player) {
-        Write-Host "`n`n⣿ADVENTURENET⣿Player Stats⣿`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "`n`n⣿ADVENTURENET⣿ Player Stats ⣿`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
         Write-Host "Player Name:                      " $global:AVNPlayerData_CurrentPlayer.playername
         Write-Host "GIFs:                             " $global:AVNPlayerData_CurrentPlayer.gifs
         Write-Host "Training Available:               " $global:AVNPlayerData_CurrentPlayer.training
@@ -122,7 +122,7 @@ Function Get-AVNStatus {
                 New-Object psobject -property $AVNDailyDiceProperties
             }
         )
-        Write-Host "`n`n⣿ADVENTURENET⣿Inventory⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "`n`n⣿ADVENTURENET⣿ Inventory ⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
         Write-Output $AVNDiceTable | Sort-Object dice,type | Format-Table Dice,Type
         
         #Getting specials
@@ -164,7 +164,7 @@ Function Get-AVNStatus {
     }
     If ($True -eq $Historical) {
         #Really, this should show for all players.
-        Write-Host "`n⣿ADVENTURENET⣿Historical Stats⣿`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "`n⣿ADVENTURENET⣿ Historical Stats ⣿`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
         Write-Host "Recent Client Health Contributions:  " $global:AVNHistoricalData_CurrentPlayer.RecentClientHealthContributions
         Write-Host "Recent Team Health Contributions:    " $global:AVNHistoricalData_CurrentPlayer.RecentTeamHealthContributions
         Write-Host "Recent Project Stage Blocs Completed:" $global:AVNHistoricalData_CurrentPlayer.RecentProjectStageBlocsCompleted
@@ -177,7 +177,7 @@ Function Get-AVNStatus {
         Write-Host "Total GIFs Attained:                 " $global:AVNHistoricalData_CurrentPlayer.TotalGIFs "`n"
     }
     If ($Type -eq "dev") {
-        Write-Host "`n⣿ADVENTURENET⣿Dev⣿`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "`n⣿ADVENTURENET⣿ Dev ⣿`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
         '`n$global:AVNSpecials_CurrentPlayer'
         $global:AVNSpecials_CurrentPlayer
         '`n$global:AVNDicePerm_CurrentPlayer'
