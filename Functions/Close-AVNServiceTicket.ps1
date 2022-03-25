@@ -146,7 +146,7 @@ Function Close-AVNServiceTicket {
             #Dice that are added as specials during the encounter. There are the complete hashes of the actual dice. Leave it outside of the loop because these will be added later on in the script.
             $AVNSpecialDice = @()
             Function GatherAvailableDice {
-                $AVNAvailableDice = [ordered]@{}
+                <#$AVNAvailableDice = [ordered]@{}
                 [int]$AvailableDiceI = 0
                 $AVNAllDice = @()
                 $AVNAllDice += $global:AVNDicePerm_CurrentPlayer
@@ -156,11 +156,13 @@ Function Close-AVNServiceTicket {
                 $AVNAllDice | ForEach-Object {
                     $AvailableDiceI++
                     $AVNAvailableDice.add($AvailableDiceI, $_)
-                }
+                }#>
+                $AVNAllDice = @()
+                $AVNAllDice += $global:AVNDicePerm_CurrentPlayer
+                $AVNAllDice += $global:AVNDiceDaily_CurrentPlayer
+                $AVNAllDice += $AVNSpecialDice
 
-                ###I did an array for these instead of working with the hash table above. I fixed it. Need to test.
                 #Penalties from client health being low. Removing dice from available dice.
-                $ANVUnavailableDice = [ordered]@{}
                 If ($global:AVNCompanyData_CurrentPlayer.clienthealthpenaltylevel -ge 5) {
                     $AVNDicePenaltyIterations = 3
                 } ElseIf ($global:AVNCompanyData_CurrentPlayer.clienthealthpenaltylevel -ge 3) {
@@ -168,28 +170,43 @@ Function Close-AVNServiceTicket {
                 } ElseIf ($global:AVNCompanyData_CurrentPlayer.clienthealthpenaltylevel -ge 1) {
                     $AVNDicePenaltyIterations = 1
                 }
-                If (($AVNDicePenaltyIterations -gt 0) -and ($AVNAvailableDice.count -lt 2)) {
-                    $AVNAvailableDice = [ordered]@{}
+
+                $ANVUnavailableDice = @()
+                If (($AVNDicePenaltyIterations -gt 0) -and ($AVNAllDice.count -lt 2)) {
+                    $AVNAllDice = @()
                     Write-Host "`nLow client health has removed all of your available dice! Have you trained today?" -foregroundcolor $global:AVNDefaultTextForegroundColor
                 } ElseIf ($AVNDicePenaltyIterations -gt 0) {
-                    While (($AVNDicePenaltyIterations -gt 0) -and ($AVNAvailableDice.count -gt 1)) {
-                        $AVNAvailableDiceTemporaryHashTable = [ordered]@{}
-                        $AVNDicePenaltyRandomizer = $AVNAvailableDice.keys | Get-Random
-                        $AVNAvailableDice.keys | ForEach-Object {
-                            If ($_ -ne $AVNDicePenaltyRandomizer) {
-                                $AVNAvailableDiceTemporaryHashTable.add($_, $AVNAvailableDice.$_)
+                    While (($AVNDicePenaltyIterations -gt 0) -and ($AVNAllDice.count -gt 0)) {
+                        $AVNAvailableDiceTemporaryArray = @()
+                        $AVNDicePenaltyRandomizer = $AVNAllDice | Get-Random
+                        $AVNDicePenaltyRemoved = $False
+                        $AVNAllDice | ForEach-Object {
+                            If (($_ -ne $AVNDicePenaltyRandomizer) -or ($AVNDicePenaltyRemoved -eq $True)) {
+                                $AVNAvailableDiceTemporaryArray += $_
                             } Else {
-                                $ANVUnavailableDice.add($_, $AVNAvailableDice.$_)
+                                $ANVUnavailableDice += $_
+                                $AVNDicePenaltyRemoved = $True
                             }
                         }
-                        $AVNAvailableDice = $AVNAvailableDiceTemporaryHashTable
+                        $AVNAllDice = $AVNAvailableDiceTemporaryArray
                         $AVNDicePenaltyIterations--
                     }
                     Write-Host "`nLow client health has rendered the following dice unusable for this encounter:" -foregroundcolor $global:AVNDefaultTextForegroundColor
-                    $ANVUnavailableDice.keys | ForEach-Object {
-                        Write-Host $ANVUnavailableDice.$_
+                    $ANVUnavailableDice | ForEach-Object {Write-Host $_}
+                }
+
+                $AvailableDiceI = 0
+                $AVNAvailableDice = @()
+                $AVNAllDice = $AVNAllDice | Sort-Object
+                $AVNAllDice | ForEach-Object {
+                    $AvailableDiceI++
+                    $AVNDieProperties = @{
+                        Item = $AvailableDiceI
+                        Dice = $_
                     }
-                }        
+                    $AVNAvailableDice += New-Object psobject -property $AVNDieProperties
+                }
+                
                 Return $AVNAvailableDice
             }
             $AVNAvailableDice = GatherAvailableDice
@@ -351,7 +368,7 @@ Function Close-AVNServiceTicket {
                         Write-Host "`nYou have converted the service ticket into an Opportunity, reducing Service Tickets by 1.`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
                         #Adding back health and technical question default removals. Sending off to an opportunity reduces turns and service ticket counts only.
                         $global:AVNCompanyData_CurrentPlayer.TechnicalQuestionsAdded -= 1
-                        $global:AVNCompanyData_CurrentPlayer.teamhealth += 2
+                        $global:AVNCompanyData_CurrentPlayer.teamhealth += 1
                         $global:AVNCompanyData_CurrentPlayer.clienthealth += 1
                         #Removing the opportunity from the player's alottment.
                         $global:AVNPlayerData_CurrentPlayer.opportunities -= 1
@@ -417,7 +434,7 @@ Function Close-AVNServiceTicket {
                 #Getting inputted dice by their keys in $AVNAvailableDice, creating a simple array of the ints entered, removing hashes of those dice by their int.
                 Do {
                     Write-Host "`nYou have the following dice available to roll:" -foregroundcolor $global:AVNDefaultTextForegroundColor
-                    $AVNAvailableDice
+                    Write-Output $AVNAvailableDice | Sort-Object item | Format-Table Item,Dice
 
                     [string]$AVNDiceRollChoice = Read-Host "Choose which die or dice you'd like to roll by its number in the above table; for multiple, separate numbers by a comma (ex: 1,2); enter ? to display work-type value alottment per dice; enter nothing to roll all"
                     If ($AVNDiceRollChoice -eq '?') {
@@ -425,8 +442,8 @@ Function Close-AVNServiceTicket {
                         $AVNDiceRollChoicePass = $False
                     } ElseIf ($AVNDiceRollChoice -eq '') {
                         $AVNDiceRollChoiceArray = @()
-                        $AVNAvailableDiceMin = $AVNAvailableDice.keys | Select-Object -first 1
-                        $AVNAvailableDiceMax = $AVNAvailableDice.keys | Select-Object -last 1
+                        $AVNAvailableDiceMin = $AVNAvailableDice | ForEach-Object {$_.item} | Select-Object -first 1
+                        $AVNAvailableDiceMax = $AVNAvailableDice | ForEach-Object {$_.item} | Select-Object -last 1
                         For ($I = $AVNAvailableDiceMin; $I -le $AVNAvailableDiceMax; $I++) {
                             $AVNDiceRollChoiceArray += [string]$I
                         }
@@ -446,7 +463,7 @@ Function Close-AVNServiceTicket {
                                 $AVNDiceRollChoicePass = $False
                                 Write-Host "`nSomething is odd about your entry. Please make sure to enter using the appropriate format. No letters or special characters are permitted, and if you're trying to get information about the dice, please enter a solitary ?." -foregroundcolor $global:AVNDefaultTextForegroundColor
                                 Wait-AVNKeyPress
-                            } ElseIf ([int]$_ -notin $AVNAvailableDice.keys){
+                            } ElseIf ([int]$_ -notin ($AVNAvailableDice | ForEach-Object {$_.item})){
                                 $AVNDiceRollChoicePass = $False
                                 Write-Host "`nPlease only enter a number that's in your list of available dice." -foregroundcolor $global:AVNDefaultTextForegroundColor
                                 Wait-AVNKeyPress
@@ -454,13 +471,15 @@ Function Close-AVNServiceTicket {
                         }
                     }
                 } Until ($AVNDiceRollChoicePass -eq $True)
+
                 $AVNDiceRolls = @()
-                $AVNDiceRollChoiceArray | ForEach-Object {
+                ForEach ($AVNDiceRollChoiceSingle in $AVNDiceRollChoiceArray) {
                     #Converting the current int that the person entered into the worktype that it represents.
-                    $AVNSTRollChoiceType = $AVNAvailableDice.([int]$_)
-                    $AVNDiceRollChoiceTypeHashTable = $AVNDiceValues.$AVNSTRollChoiceType
+                    $AVNDiceRollChoiceSingle = [int]$AVNDiceRollChoiceSingle
+                    $AVNProjectRollChoiceType = ($AVNAvailableDice | Where-Object {$_.item -eq $AVNDiceRollChoiceSingle}).dice
+                    $AVNDiceRollChoiceTypeHashTable = $AVNDiceValues.$AVNProjectRollChoiceType
                     #Removing it from the available dice by the int that the player entered.
-                    $AVNAvailableDice.remove([int]$_)
+                    $AVNAvailableDice = $AVNAvailableDice | Where-Object {$_.item -ne $AVNDiceRollChoiceSingle}
                     $AVNDiceRollChoiceTypeWeightArray = @()
                     #Goes through each dice type's values and adds an array entry for each side of the die, so to speak, to properly weight a random roll. Dice with multiple sides that have the same value should end up with multiple of that value in the array, and then get-random chooses from all of them--even the multiples. This basically just adds an entry to the $AVNDiceRollChoiceTypeWeightArray array for each int in $AVNDiceRollChoiceTypeHashTable.
                     $AVNDiceRollChoiceTypeHashTable.keys | ForEach-Object {
@@ -472,7 +491,7 @@ Function Close-AVNServiceTicket {
                     $AVNDiceRolls += $AVNDiceRollChoiceTypeWeightArray[(Get-Random -minimum 0 -maximum 5)]
                 }
                 Write-Host "`nYou rolled the following work types:" -foregroundcolor $global:AVNDefaultTextForegroundColor
-                $AVNDiceRolls | Sort-Object
+                Write-Output $AVNDiceRolls | Sort-Object | Format-Table
 
                 If ($AVNInjectionSpecials.count -gt 0) {
                     Do {
@@ -640,6 +659,7 @@ Function Close-AVNServiceTicket {
                     $global:AVNSpecials_CurrentPlayer += $AVNInjectionSpecials[$AVNInjectionRewardRoll].name
                     Write-Host "`nYou found the following Injection Special!" -foregroundcolor $global:AVNDefaultTextForegroundColor
                     $AVNInjectionSpecials[$AVNInjectionRewardRoll].name
+                    Write-Host ""
                 }
 
                 $global:AVNCompanyData_CurrentPlayer.TechnicalQuestionsAdded -= 1
@@ -648,7 +668,7 @@ Function Close-AVNServiceTicket {
                 $global:AVNPlayerData_CurrentPlayer.kudos += 1
             } Else {
                 #Failure results. 
-                Write-Host "`nYou failed to close the Service Ticket, adding 1 Technical Question and losing 1 Client Health in the process." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "`nYou failed to close the Service Ticket, adding 1 Technical Question and losing 1 Client Health." -foregroundcolor $global:AVNDefaultTextForegroundColor
                 $AVNSTCurrentEncounter.failuretext
                 Write-Host ""
             }

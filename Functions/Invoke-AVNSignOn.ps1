@@ -16,7 +16,8 @@ Function Invoke-AVNSignOn {
 
     #Making sure the player can't sign in if the season has ended. They can still finish all their turns, though.
     If ($True -eq $global:AVNCompanyDataCommon.SeasonComplete) {
-        Throw "The season is over! A new season will need to be generated before you can sign in again."
+        Write-Host "The season is over! A new season will need to be generated before you can sign in again." -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Return
     }
 
     #Checking if it's been 24 hours since the last Invoke-AVNSignOn before running everything.
@@ -91,7 +92,7 @@ Function Invoke-AVNSignOn {
             $global:AVNServiceTickets_CurrentPlayer += $AVNDate
         }
 
-        #Resetting Project Stage attempts
+        #Resetting Project Bloc attempts
         $global:AVNPlayerData_CurrentPlayer.ProjectBlocAttempts = 0
 
         #Training:
@@ -107,7 +108,6 @@ Function Invoke-AVNSignOn {
             Write-Host $_ -foregroundcolor $global:AVNDefaultBannerForegroundColor
             Start-Sleep -Milliseconds 20
         }
-        Wait-AVNKeyPress
 
         Write-Host "`nWelcome to AdventureNet." -foregroundcolor $global:AVNDefaultTextForegroundColor
 
@@ -125,7 +125,6 @@ Function Invoke-AVNSignOn {
 
         #Generating random dice
         #Have some kind of animation for the roll process.
-        #Show information about the dice if asked. Can use the hash.
         $global:AVNDiceDaily_CurrentPlayer = @()
         If ($global:AVNCompanyData_CurrentPlayer.teamhealthpenaltylevel -lt 1) {        
             $AVNDiceOffer = [ordered]@{}

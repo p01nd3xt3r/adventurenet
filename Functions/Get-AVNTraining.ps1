@@ -68,21 +68,10 @@ Function Get-AVNTraining {
         )
         Write-Host "`nYou have the following dice:" -foregroundcolor $global:AVNDefaultTextForegroundColor
         Write-Output $AVNDiceTable | Sort-Object dice,type | Format-Table Dice,Type
-
-        <#$AVNTrainingDiceTypes = [ordered]@{
-            '?' = 'Show information about your options.'
-            1 = "CoreValues"
-            2 = "Datto"
-            3 = "HuntressDefender"
-            4 = "ITGlue"
-            5 = "Microsoft365"
-            6 = "MimecastUmbrella"
-            7 = "Ubiquiti"
-            8 = "Windows"
-        }#>
+        
         $AVNTrainingDiceTypesTableI = 0
         $AVNTrainingDiceTypesTable = @(
-            $AVNDiceValues.keys | ForEach-Object {
+            $AVNDiceValues.keys | Sort-Object | ForEach-Object {
                 $AVNTrainingDiceTypesTableI++
                 $AVNTrainingDiceTypesProperties = [ordered]@{
                     Item = $AVNTrainingDiceTypesTableI
@@ -108,11 +97,11 @@ Function Get-AVNTraining {
                     If (($AVNTrainingChoice -notmatch "\d+") -and ($AVNTrainingChoice -ne "?")) {
                         Write-Host "`nSomething seems to be wrong with your entry. Please make sure to enter only the integer that's next to your choice or a single ?." -foregroundcolor $global:AVNDefaultTextForegroundColor
                         Wait-AVNKeyPress
-                    } ElseIf ($AVNTrainingChoice -notin ($AVNTrainingDiceTypesTable | ForEach-Object {$_.Item})) {
+                    } ElseIf (($AVNTrainingChoice -notin ($AVNTrainingDiceTypesTable | ForEach-Object {$_.Item})) -and ($AVNTrainingChoice -ne "?")) {
                         Write-Host "`nPlease only enter ? or the integer of an item in the list." -foregroundcolor $global:AVNDefaultTextForegroundColor
                         Wait-AVNKeyPress
                     }
-                } Until ($AVNTrainingChoice -in ($AVNTrainingDiceTypesTable | ForEach-Object {$_.Item}))
+                } Until (($AVNTrainingChoice -in ($AVNTrainingDiceTypesTable | ForEach-Object {$_.Item})) -or ($AVNTrainingChoice -eq "?"))
                 #Showing info about the dice.
                 If ($AVNTrainingChoice -eq "?") {
                     Get-AVNHelp -dice

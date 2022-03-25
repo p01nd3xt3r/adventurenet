@@ -13,7 +13,8 @@
 #>
 Function Get-AVNGIFs {
     #For selling specials and dice, the idea being that you're trading resources in your frivolous search for entertainment.
-    #break up into specials and dice? or just specials? what about converting one into the other?
+
+    Get-AVNConfig
 
     $AVNGIFsAnim = Get-Content ($AVNRootPath + "\Media\AVNGIFsAnim")
     $AVNGIFsAnim  | ForEach-Object {

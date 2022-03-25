@@ -52,6 +52,14 @@ Function Get-AVNStatus {
         Write-Host "Daily Client Health Penalty Level:" $global:AVNCompanyData_CurrentPlayer.clienthealthpenaltylevel
         Write-Host "Current Project Stage:            " $global:AVNCompanyDataCommon.currentstage
         If ($global:AVNCompanyDataCommon.currentstage -eq 1) {
+            $AVNCurrentProjectDeadline = (Get-Date $global:AVNProjectStage1Deadline).date
+        } ElseIf ($global:AVNCompanyDataCommon.currentstage -eq 2) {
+            $AVNCurrentProjectDeadline = (Get-Date $global:AVNProjectStage2Deadline).date
+        } ElseIf ($global:AVNCompanyDataCommon.currentstage -eq 3) {
+            $AVNCurrentProjectDeadline = (Get-Date $global:AVNProjectStage3Deadline).date
+        }
+        Write-Host "Current Project Stage Deadline:   " $AVNCurrentProjectDeadline
+        If ($global:AVNCompanyDataCommon.currentstage -eq 1) {
             Write-Host "Remaining Project Stage Blocs:    " $global:AVNCompanyDataCommon.ProjectStage1BlocsRemaining
         } ElseIf ($global:AVNCompanyDataCommon.currentstage -eq 2) {
             Write-Host "Remaining Project Stage Blocs:    " $global:AVNCompanyDataCommon.ProjectStage2BlocsRemaining
@@ -90,7 +98,7 @@ Function Get-AVNStatus {
         Write-Host "Player Name:                      " $global:AVNPlayerData_CurrentPlayer.playername
         Write-Host "GIFs:                             " $global:AVNPlayerData_CurrentPlayer.gifs
         Write-Host "Training Available:               " $global:AVNPlayerData_CurrentPlayer.training
-        Write-Host "Project Stage Attempts Available: " ($global:AVNProjectStageDailyAllowance - $global:AVNPlayerData_CurrentPlayer.projectstageattempts)
+        Write-Host "Project Bloc Attempts Available:  " ($global:AVNProjectBlocDailyAllowance - $global:AVNPlayerData_CurrentPlayer.projectblocattempts)
         Write-Host "Service Tickets:                  " $global:AVNServiceTickets_CurrentPlayer.count
         Write-Host "Turns Available:                  " $global:AVNPlayerData_CurrentPlayer.turns
         Write-Host "Opportunities Available:          " $global:AVNPlayerData_CurrentPlayer.opportunities
@@ -128,7 +136,7 @@ Function Get-AVNStatus {
             ForEach ($AVNOwnedSpecial in $global:AVNSpecials_CurrentPlayer) {
                 $AVNDecipheredSpecial = $AVNSpecials | Where-Object {$_.name -eq $AVNOwnedSpecial}
                 $AVNOwnedSpecialProperties = [ordered]@{
-                    Name = $AVNOwnedSpecial
+                    Specials = $AVNOwnedSpecial
                     Type = $AVNDecipheredSpecial.type
                     Effect = $AVNDecipheredSpecial.effectdescription
                     Count = 1
@@ -140,18 +148,18 @@ Function Get-AVNStatus {
         $AVNSpecialsTableRolled = @()
         $AVNSpecialsTableRolledTracker = @()
         ForEach ($AVNSpecialsTableSpecial in $global:AVNSpecialsTable) {
-            If ($AVNSpecialsTableSpecial.name -notin $AVNSpecialsTableRolledTracker) {
+            If ($AVNSpecialsTableSpecial.specials -notin $AVNSpecialsTableRolledTracker) {
                 $AVNSpecialsTableRolled += $AVNSpecialsTableSpecial
-                $AVNSpecialsTableRolledTracker += $AVNSpecialsTableSpecial.name
+                $AVNSpecialsTableRolledTracker += $AVNSpecialsTableSpecial.specials
             } Else {
                 ForEach ($AVNSpecialsTableRolledSpecial in $AVNSpecialsTableRolled) {
-                    If ($AVNSpecialsTableSpecial.name -eq $AVNSpecialsTableRolledSpecial.name) {
+                    If ($AVNSpecialsTableSpecial.specials -eq $AVNSpecialsTableRolledSpecial.specials) {
                         $AVNSpecialsTableRolledSpecial.count += 1
                     }
                 }
             }
         }
-        Write-Output $AVNSpecialsTableRolled | Sort-Object type,name | Format-Table Name,Count,Type,Effect
+        Write-Output $AVNSpecialsTableRolled | Sort-Object type,specials | Format-Table Specials,Count,Type,Effect
         
     }
     If ($True -eq $Historical) {

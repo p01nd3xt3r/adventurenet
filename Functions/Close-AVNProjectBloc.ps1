@@ -173,21 +173,6 @@ Function Close-AVNProjectBloc {
 
     $AVNSpecialDice = @()
     Function GatherAvailableDice {
-        <#$AVNAvailableDice = [ordered]@{}
-        [int]$AvailableDiceI = 0
-        $AVNAllDice = @()
-        $AVNAllDice += $global:AVNDicePerm_CurrentPlayer
-        $AVNAllDice += $global:AVNDiceDaily_CurrentPlayer
-        $AVNAllDice += $AVNSpecialDice
-        $AVNAllDice = $AVNAllDice | Sort-Object
-        $AVNAllDice | ForEach-Object {
-            $AvailableDiceI++
-            $AVNAvailableDice.add($AvailableDiceI, $_)
-        }
-        ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile
-        Get-AVNConfig
-        Return $AVNAvailableDice#>
-
         [int]$AvailableDiceI = 0
         $AVNAvailableDice = @()
         $AVNAllDice = @()
@@ -215,7 +200,11 @@ Function Close-AVNProjectBloc {
     $AVNInjectionSpecials = GatherAvailableInjectionSpecials
     
 
-
+    #For counter attacks
+    $AVNNonDiceCounterAttacks = @()
+    $AVNNonDiceCounterAttacks += @{EffectDescription = 'You lost 75 GIFs.'; Effect = '$global:AVNPlayerData_CurrentPlayer.gifs -= 75; ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile; Get-AVNConfig'}
+    $AVNNonDiceCounterAttacks += @{EffectDescription = 'You lost 1 Training.'; Effect = '$global:AVNPlayerData_CurrentPlayer.training -= 1; ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile; Get-AVNConfig'}
+    $AVNNonDiceCounterAttacks += @{EffectDescription = 'You lost 3 Opportunities.'; Effect = '$global:AVNPlayerData_CurrentPlayer.opportunities -= 3; ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile; Get-AVNConfig'}
 
 
     $AVNProjectCurrentWave = 1
@@ -236,9 +225,11 @@ Function Close-AVNProjectBloc {
                 }
 
                 #Informing/prepping the player
-                Write-Host "`nThe project looms before you--three stages with three waves apiece. You are on Stage" $AVNProjectCurrentStage "`b, Wave" $AVNProjectCurrentWave "`b." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "`nThe project looms before you--three stages with three waves apiece. You are on Stage" $AVNProjectCurrentStage "`b, Wave" $AVNProjectCurrentWave "`b," $AVNProjectCurrentStageCurrentWaveHashTable.name "`b." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                $AVNProjectCurrentStageCurrentWaveHashTable.IntroductionText
+
                 Write-Host "`n⣿ADVENTURENET⣿Project⣿`n`nYou see the following defenses for this wave:" -foregroundcolor $global:AVNDefaultTextForegroundColor
-                $AVNProjectCurrentStageCurrentWaveHashTable.defenses
+                $AVNProjectCurrentStageCurrentWaveHashTable.defenses | Sort-Object
 
                 If ($AVNAvailableDice.count -gt 0) {
                     #Default choices.
@@ -288,7 +279,7 @@ Function Close-AVNProjectBloc {
                     }
                 }
 
-                Write-Host "You have the following options:" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "`nYou have the following options:" -foregroundcolor $global:AVNDefaultTextForegroundColor
                 #$AVNProjectCurrentWaveOptions
                 Write-Output $AVNProjectCurrentWaveOptionsTable | Sort-Object item | Format-Table Item,Action
                 $AVNProjectCurrentWaveChoice = Read-Host "Enter the item of your choice or ? for more info"
@@ -308,7 +299,7 @@ Function Close-AVNProjectBloc {
             }
 
             If ($AVNProjectCurrentWaveChoice -eq "r") {
-                Write-Host "`nYou ran away, and the Project Stage chuckled." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "`nYou ran away, and the Project Stage chuckled.`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
                 Return
             }
 
@@ -374,7 +365,7 @@ Function Close-AVNProjectBloc {
             $AVNDiceRollChoicePass = $True
 
             Write-Host "`nDefenses for this wave are:" -foregroundcolor $global:AVNDefaultTextForegroundColor
-            $AVNProjectCurrentStageCurrentWaveHashTable.defenses
+            $AVNProjectCurrentStageCurrentWaveHashTable.defenses | Sort-Object
             Write-Host "And you have the following dice available to roll:" -ForegroundColor $global:AVNDefaultTextForegroundColor
             Write-Output $AVNAvailableDice | Sort-Object item | Format-Table Item,Dice
 
@@ -556,6 +547,8 @@ Function Close-AVNProjectBloc {
                 $AVNProjectCurrentWave++
             } Else {
                 Write-Host "`nSuccess! You defeated the current wave." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                $AVNProjectCurrentStageCurrentWaveHashTable.deathtext
+
                 $AVNProjectCurrentWave++
 
                 #Rolling for counterattack.
@@ -565,9 +558,31 @@ Function Close-AVNProjectBloc {
                     $global:AVNProjectCounterAttackRate *= 1.25
                 }
                 If ($AVNProjectCounterAttackRoll -le ($global:AVNProjectCounterAttackRate * 100)) {
-                    Write-Host "`nThe Project Retaliates!" -foregroundcolor $global:AVNDefaultTextForegroundColor
-                    Invoke-Expression $AVNProjectCurrentStageCurrentWaveHashTable.counterattack
+                    Write-Host "`nThe Project retaliates!" -foregroundcolor $global:AVNDefaultTextForegroundColor
                     Write-Host $AVNProjectCurrentStageCurrentWaveHashTable.counterattacktext -foregroundcolor $global:AVNDefaultTextForegroundColor
+                    
+                    $AVNCounterAttackTypeRoll = Get-Random -minimum 1 -maximum 100
+                    If ($AVNCounterAttackTypeRoll -ge 51) {
+                        If ($AVNAvailableDice.count -gt 0) {
+                            $AVNDiceToRemove = $AVNAvailableDice | Get-Random
+                            $AVNDiceTempArray = @()
+                            $AVNAvailableDice | ForEach-Object {
+                                If ($_ -ne $AVNDiceToRemove) {
+                                    $AVNDiceTempArray += $_
+                                }
+                            }
+                            $AVNAvailableDice = $AVNDiceTempArray
+                            Write-Host "The following die has been removed from your available dice:"
+                            Write-Output $AVNDiceToRemove.dice
+                        } Else {
+                            Write-Host "You would have lost a die, but you don't have any." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                        }
+                    } Else {
+                        #Everything else; $AVNNonDiceCounterAttacks has been declared above the loop. It's an array of hashtables with effectdescription and effect, which is just a literal string that can be invoked.
+                        $AVNNonDiceCounterAttacksSelected = $AVNNonDiceCounterAttacks | Get-Random
+                        Write-Output $AVNNonDiceCounterAttacksSelected.effectdescription
+                        Invoke-Expression $AVNNonDiceCounterAttacksSelected.effect
+                    }
                 }
                 Wait-AVNKeyPress
             }
@@ -582,17 +597,17 @@ Function Close-AVNProjectBloc {
     If ($True -eq $AVNProjectAllWavesComplete) {
         If ($AVNProjectCurrentStage -eq 1) {
             $global:AVNCompanyData_CurrentPlayer.ProjectStage1BlocDefeated = 1
-            If ((Get-Date) -lt (Get-Date $global:AVNProjectStage1Deadline)) {
+            If ((Get-Date).date -le (Get-Date $global:AVNProjectStage1Deadline).date) {
                 $AVNProjectPrecedeDeadlineSwitch = $True
             }
         } ElseIf ($AVNProjectCurrentStage -eq 2) {
             $global:AVNCompanyData_CurrentPlayer.ProjectStage2BlocDefeated = 1
-            If ((Get-Date) -lt (Get-Date $global:AVNProjectStage2Deadline)) {
+            If ((Get-Date).date -le (Get-Date $global:AVNProjectStage2Deadline).date) {
                 $AVNProjectPrecedeDeadlineSwitch = $True
             }
         } ElseIf ($AVNProjectCurrentStage -eq 3) {
             $global:AVNCompanyData_CurrentPlayer.ProjectStage3BlocDefeated = 1
-            If ((Get-Date) -lt (Get-Date $global:AVNProjectStage3Deadline)) {
+            If ((Get-Date).date -le (Get-Date $global:AVNProjectStage3Deadline).date) {
                 $AVNProjectPrecedeDeadlineSwitch = $True
             }
         }
@@ -603,12 +618,13 @@ Function Close-AVNProjectBloc {
             Write-Host $_ -foregroundcolor $global:AVNDefaultBannerForegroundColor
             Start-Sleep -Milliseconds 20
         }
+        Write-Host "`n⣿ADVENTURENET⣿Project⣿Victory!⣿`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
         
         #Already -= 2 at the beginning. Player's only lose that if they fail.
         $global:AVNCompanyData_CurrentPlayer.clienthealth += 2
 
         If ($AVNProjectCurrentStage -lt 3) {
-            Write-Host "`n⣿ADVENTURENET⣿Project⣿Success!⣿`n`nYou completed your bloc of Stage" $AVNProjectCurrentStage "of the project." -foregroundcolor $global:AVNDefaultTextForegroundColor
+            Write-Host "`nYou completed your bloc of Stage" $AVNProjectCurrentStage "of the project." -foregroundcolor $global:AVNDefaultTextForegroundColor
             
             If ($AVNProjectCurrentStage -eq 1) {
                 If ($global:AVNCompanyDataCommon.ProjectStage1BlocsRemaining -eq 1) {
@@ -623,43 +639,48 @@ Function Close-AVNProjectBloc {
                     Write-Host "`nYou have reduced the number of Project Stage 2 blocs to" ($global:AVNCompanyDataCommon.ProjectStage2BlocsRemaining - 1) "`b." -foregroundcolor $global:AVNDefaultTextForegroundColor
                 }
             }
-
-            If ($True -eq $AVNProjectPrecedeDeadlineSwitch) {
-                Write-Host "`nFor completing this bloc prior to the stage's deadline, you..." -foregroundcolor $global:AVNDefaultTextForegroundColor
-                #Invoke bonuses
-                $global:AVNPlayerData_CurrentPlayer.globalnotice = "defeated a Project bloc before its deadline."
-                $global:AVNPlayerData_CurrentPlayer.kudos += 5
-                $global:AVNCompanyData_CurrentPlayer.clienthealth += 2
-            } Else {
-                $global:AVNPlayerData_CurrentPlayer.globalnotice = "defeated a Project bloc."
-                $global:AVNPlayerData_CurrentPlayer.kudos += 2
-            }
-            Wait-AVNKeyPress
         } Else {
-            Write-Host "`n⣿ADVENTURENET⣿Project⣿Victory!⣿`n`nYou completed your bloc of the final stage of the project!`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
+            Write-Host "`nYou completed your bloc of the final stage of the project!" -foregroundcolor $global:AVNDefaultTextForegroundColor
 
             If ($global:AVNCompanyDataCommon.ProjectStage3BlocsRemaining -eq 1) {
                 Write-Host "`nYours was the final bloc of the final Project Stage. Once all players have completed their turns, the season is over!" -foregroundcolor $global:AVNDefaultTextForegroundColor
             } Else {
                 Write-Host "`nYou have reduced the number of Project Stage 3 blocs to" ($global:AVNCompanyDataCommon.ProjectStage3BlocsRemaining - 1) "`b."  -foregroundcolor $global:AVNDefaultTextForegroundColor
             }
-
-            #########################################################################################Check this. Seems that this only happens when the player finishes his own bloc. Players in this stage only get here after they go through all the above script.
-
-            If ($True -eq $AVNProjectPrecedeDeadlineSwitch) {
-                Write-Host "`nAnd for completing it prior to its deadline, you..." -foregroundcolor $global:AVNDefaultTextForegroundColor
-                #Invoke bonuses
-                $global:AVNPlayerData_CurrentPlayer.globalnotice = "defeated a bloc in the final Project Stage before its deadline."
-                $global:AVNPlayerData_CurrentPlayer.kudos += 5
-                $global:AVNCompanyData_CurrentPlayer.clienthealth += 2
-            } Else {
-                $global:AVNPlayerData_CurrentPlayer.globalnotice = "defeated a bloc in the final Project Stage."
-                $global:AVNPlayerData_CurrentPlayer.kudos += 2
-            }
-            Wait-AVNKeyPress
         }
+
+        If ($True -eq $AVNProjectPrecedeDeadlineSwitch) {
+            Write-Host "`nFor completing this bloc prior to this Stage's deadline, you gain 5 kudos and add 5 to Client Health." -foregroundcolor $global:AVNDefaultTextForegroundColor
+            #Invoke bonuses
+            $global:AVNPlayerData_CurrentPlayer.globalnotice = "defeated a Project bloc before its deadline."
+            $global:AVNPlayerData_CurrentPlayer.kudos += 5
+            $global:AVNCompanyData_CurrentPlayer.clienthealth += 2
+        } Else {
+            Write-Host "`nYou failed to completed this bloc prior to this Stage's deadline, but you still gain 2 kudos."
+            $global:AVNPlayerData_CurrentPlayer.globalnotice = "defeated a Project bloc."
+            $global:AVNPlayerData_CurrentPlayer.kudos += 2
+        }
+
+        #Rolling for counterattack but not including dice removal for this one.
+        $AVNProjectCounterAttackRoll = Get-Random -minimum 0 -maximum 100
+        #Penalty for low team health.
+        If ($global:AVNCompanyData_CurrentPlayer.teamhealthpenaltylevel -ge 3) {
+            $global:AVNProjectCounterAttackRate *= 1.25
+        }
+        If ($AVNProjectCounterAttackRoll -le ($global:AVNProjectCounterAttackRate * 100)) {
+            Write-Host "`nThe Project throws a parting blow!" -foregroundcolor $global:AVNDefaultTextForegroundColor
+            Write-Host $AVNProjectCurrentStageCurrentWaveHashTable.counterattacktext -foregroundcolor $global:AVNDefaultTextForegroundColor
+
+            #$AVNNonDiceCounterAttacks has been declared above the loop. It's an array of hashtables with effectdescription and effect, which is just a literal string that can be invoked.
+            $AVNNonDiceCounterAttacksSelected = $AVNNonDiceCounterAttacks | Get-Random
+            Write-Output $AVNNonDiceCounterAttacksSelected.effectdescription "`n"
+            Invoke-Expression $AVNNonDiceCounterAttacksSelected.effect
+        }
+
     } Else {
-        Write-Host "`n⣿ADVENTURENET⣿Project⣿Failure⣿`n`nThe Project, in its immensity, has overwhelmed you.`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "`n⣿ADVENTURENET⣿Project⣿Failure⣿`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
+        $AVNProjectCurrentStageCurrentWaveHashTable.failuretext
+        Write-Host "Client Health decreases by 2.`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
         $global:AVNPlayerData_CurrentPlayer.globalnotice = "was overcome by a project bloc."
     }
     ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile

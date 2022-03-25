@@ -26,15 +26,11 @@ https://www.cit-devops.com/post/encrypt-and-decrypt-strings-in-powershell-code
 
 temp: 
 add a note about how many turns left after taking a turn. maybe just show changes. you have used 1 turn and now have x turns left. you have lost 1 team health, and team health is now X. you have used one GIF and now have X. So maybe say all gains and losses when you get them.
-DONE WHEN I ADD MORE CONTENT Players should have more buy options and should be able to buy on the first day.
 What about a player having their own ability upgrades? Increasing GIF yield, for instance.
 What about dice that add specials like bonus gifs?
-maybe reduce chance of finding specials. 
 more service tickets that can be taken care of by opportunities.
-DONE-ISH should finding specials reduce service tickets? I have 6 turns and 12 service tickets left. that's too big a disparity. i have a .2 special rate right now, so 1/5 are specials. else, I could start with less service tickets than turns. i changed it to 18. Players should have enough turns to dig out of a hole (as a group).
 do I really need interrupt and preemptive specials? it feels like i have a whole lot of specials that i don't care to use. those should be coming in and going out more often
 What if specials are permanent, but you have a limit, and you have to manage what you hang onto? maximum number of injections? maximum nimber of dice?
-Maybe separate specials by type in avnstatus
 should later stages have harsher effects in health? Probably. Needs testing.
 I can buy client health specials for cheaper than closing tech questions? Cp buying turns, buying client health...
 vanity purchases: 
@@ -45,26 +41,22 @@ vanity purchases:
 	set a permanent global or title
 add an easter egg or two...
 maybe indicate who you are in the scoreboard
-note what project stage we're on when engaging service tickets
-sell your specials or dice?
 something to break up just going through service ticket? recharging?
-some other work thing than just service tickets? internal work? something that helps other players and gains kudos.
-STARTED roll up specials/dice so that you see the name and (x3) or however many you have? Would make lists much easier to read. Also alphabetize. I would have a lot of lists to adjust. Injections available when attacking now DONE.
+*some other work thing than just service tickets? internal work? something that helps other players and gains kudos.
 decrease chance of injection specials? need to see what subsequent stages are like; maybe change it based on the stage.
-see screenshot of technical questions available for patrick2. math must be wrong somewhere.
-Xproject counterattacks need to show their effects--I don't have the effects written yet, and I will add them to the current text field.
 need to show what you gain or lose with project results.
-special that's a thank you from the client
-crisis that's a boss having a bad day
 losses giving training--after all, you learn as you fail.
 stronger specials available per stage? double injections, etc. Injections of mixed types. specials that are already there have different strengths per stage.
-Finish going through old Stage text and change to bloc
 Update readme about blocs.
 make sure when service tickets are converted to tech questions that they are being removed from service ticket array for player.
 if you are the player to defeat the final bloc of a project, let it tell you. Likewise, if a player defeated the last bloc, other players should find out at their next sign in. A "while you were away" section, perhaps.
-Update all lists to use objects instead of hashes? More fields, better headings. 
-work through project completion forks for stage and deadline.
-project counterattack effects
-servicetickets lists to be converted to objects:
-    available dice
-    using and removing available dice
+Does invoke-signon change current penalty level before or after service tickets are converted into tech questions?
+break up get-avngifs into specials and dice? or just specials? what about converting one into the other?
+change ps current location line to show basic stats like turns and health and gifs? maybe have a command to turn this off and on, saving previous settings for when you turn it off
+Make long test lines break according to best practice instead of in the middle of words. Enforce a manual width?
+
+
+
+
+
+'Cloud Injection','Workstation Injection','Networking Injection','Security Injection','Character Injection','OnPrem Injection','Cloud Injection','Workstation Injection','Networking Injection','Security Injection','Character Injection','OnPrem Injection','Cloud Injection','Workstation Injection','Networking Injection','Security Injection','Character Injection','OnPrem Injection','Cloud Injection','Workstation Injection','Networking Injection','Security Injection','Character Injection','OnPrem Injection','Cloud Injection','Workstation Injection','Networking Injection','Security Injection','Character Injection','OnPrem Injection','Cloud Injection','Workstation Injection','Networking Injection','Security Injection','Character Injection','OnPrem Injection','Cloud Injection','Workstation Injection','Networking Injection','Security Injection','Character Injection','OnPrem Injection','Cloud Injection','Workstation Injection','Networking Injection','Security Injection','Character Injection','OnPrem Injection','Cloud Injection','Workstation Injection','Networking Injection','Security Injection','Character Injection','OnPrem Injection','Cloud Injection','Workstation Injection','Networking Injection','Security Injection','Character Injection','OnPrem Injection','Cloud Injection','Workstation Injection','Networking Injection','Security Injection','Character Injection','OnPrem Injection','Cloud Injection','Workstation Injection','Networking Injection','Security Injection','Character Injection','OnPrem Injection','Cloud Injection','Workstation Injection','Networking Injection','Security Injection','Character Injection','OnPrem Injection','Cloud Injection','Workstation Injection','Networking Injection','Security Injection','Character Injection','OnPrem Injection','Cloud Injection','Workstation Injection','Networking Injection','Security Injection','Character Injection','OnPrem Injection','Cloud Injection','Workstation Injection','Networking Injection','Security Injection','Character Injection','OnPrem Injection','Cloud Injection','Workstation Injection','Networking Injection','Security Injection','Character Injection','OnPrem Injection','Cloud Injection','Workstation Injection','Networking Injection','Security Injection','Character Injection','OnPrem Injection','Cloud Injection','Workstation Injection','Networking Injection','Security Injection','Character Injection','OnPrem Injection','Cloud Injection','Workstation Injection','Networking Injection','Security Injection','Character Injection','OnPrem Injection','Cloud Injection','Workstation Injection','Networking Injection','Security Injection','Character Injection','OnPrem Injection','Cloud Injection','Workstation Injection','Networking Injection','Security Injection','Character Injection','OnPrem Injection','Cloud Injection','Workstation Injection','Networking Injection','Security Injection','Character Injection','OnPrem Injection','Cloud Injection','Workstation Injection','Networking Injection','Security Injection','Character Injection','OnPrem Injection','Cloud Injection','Workstation Injection','Networking Injection','Security Injection','Character Injection','OnPrem Injection','Cloud Injection','Workstation Injection','Networking Injection','Security Injection','Character Injection','OnPrem Injection','Cloud Injection','Workstation Injection','Networking Injection','Security Injection','Character Injection','OnPrem Injection','Cloud Injection','Workstation Injection','Networking Injection','Security Injection','Character Injection','OnPrem Injection','Cloud Injection','Workstation Injection','Networking Injection','Security Injection','Character Injection','OnPrem Injection','Cloud Injection','Workstation Injection','Networking Injection','Security Injection','Character Injection','OnPrem Injection','Cloud Injection','Workstation Injection','Networking Injection','Security Injection','Character Injection','OnPrem Injection','Cloud Injection','Workstation Injection','Networking Injection','Security Injection','Character Injection','OnPrem Injection','Cloud Injection','Workstation Injection','Networking Injection','Security Injection','Character Injection','OnPrem Injection','Cloud Injection','Workstation Injection','Networking Injection','Security Injection','Character Injection','OnPrem Injection','Cloud Injection','Workstation Injection','Networking Injection','Security Injection','Character Injection','OnPrem Injection','Cloud Injection','Workstation Injection','Networking Injection','Security Injection','Character Injection','OnPrem Injection','Cloud Injection','Workstation Injection','Networking Injection','Security Injection','Character Injection','OnPrem Injection','Cloud Injection','Workstation Injection','Networking Injection','Security Injection','Character Injection','OnPrem Injection','Cloud Injection','Workstation Injection','Networking Injection','Security Injection','Character Injection','OnPrem Injection','Cloud Injection','Workstation Injection','Networking Injection','Security Injection','Character Injection','OnPrem Injection','Cloud Injection','Workstation Injection','Networking Injection','Security Injection','Character Injection','OnPrem Injection','Cloud Injection','Workstation Injection','Networking Injection','Security Injection','Character Injection','OnPrem Injection'
