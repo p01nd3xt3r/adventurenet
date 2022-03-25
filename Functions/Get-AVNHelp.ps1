@@ -46,16 +46,16 @@ Invoke-AVNSignOn
 The first function you'll use at the beginning of each day. It initiates your different daily alottments: turns, service ticket assignments, opportunities, and daily dice alottments. It also converts old service tickets into Technical Questions that other users can answer.
 
 Get-AVNStatus
-Currently diplays a smattering of information. Eventually it will only show formatted info that standard players would  use. Several other functions call this automatically.
+Displays current stats of yours and of your team's.
 
 Get-AVNHelp 
-You're here. Adding -dice or -functions specifies what kind of help you want to see.
+You're here. Adding -dice or -specials or -encounters or -rolls or -functions specifies what kind of help you want to see.
 
 Close-AVNServiceTicket
-The meat-and-potatoes of each day. Players will engage Service Tickets here, gaining Kudos and GIFs while decreasing Team Health. Unanswered Service Tickets become Technical Questions after a specified interval and decrease Client Health in the process. Failed Service Tickets become Technical Questions immediately and decrease Team and Client Health an additional amount. Players will also have a chance of finding Specials here.
+The meat-and-potatoes of each day. Players will engage Service Tickets here, gaining Kudos and GIFs while decreasing Team Health. Unanswered Service Tickets become Technical Questions after a specified interval and decrease Client Health in the process. Failed Service Tickets become Technical Questions immediately and decrease Client Health as well. Players will also have a chance of finding Specials or Crises here.
 
 Close-AVNProjectBloc
-The big momma. Projects have three stages with three waves of defenses apiece. They also have a chance of counter-attacking. Defeating Stages before their deadlines provides bonuses to Client Health and to a player's Kudos, and defeating the final Stage ends the season (once players use all their remaining turns). Functions much the same as Close-AVNServiceTicket.
+The big momma. Projects have three stages with three waves of defenses apiece. At the beginning of each season, blocs are added to the Project based on the number of players that join--note, though, that this can be less than the total number of players, so attack them while you can. Differences between the Project and Service Tickets are that the Project's waves of defenses are always the same, while Service Tickets vary (and are generally easier). Projects also have a chance of counter-attacking. Defeating blocs of a particular stage before the stage's deadline provides bonuses to Client Health and to a player's Kudos, and defeating the final Stage ends the season (once players use all their remaining turns).
 "@
         Wait-AVNKeyPress
 @"
@@ -74,9 +74,9 @@ Players are allowed to train once per day. Training allows players to add a sing
 Invoke-AVNSpecial
 Players will find different Specials while closing service tickets, and any Specials of the General type will be available for use here.
 
-Get-AVNConfig is also import to know about, though you'll almost never need to run it by itself, since most functions run it right away. This is how PS gets information from the data files created for each player and also how it gets information from AdventureNet.config for setting game options. This is, along with the actual data files, provides the framework for the rest of the functions. Running it by itself doesn't hurt anything, though.
+Get-AVNConfig is also import to know about, though you'll almost never need to run it by itself, since most functions run it right away. This is how PS gets information from the data files created for each player and also how it gets information from AdventureNet.config for setting game options. This, along with the actual data files, provides the framework for the rest of the functions. Running it by itself doesn't hurt anything, though.
 
-Close-AVNSeason converts current data in all player data files into historical data and then to reset current data. This cannot be undone, but it will need to be done before any subsequent season.
+Close-AVNSeason converts current data in all player data files into historical data and then resets current data. This cannot be undone, but it will need to be done before any subsequent season.
 "@
         Wait-AVNKeyPress
     }
@@ -153,7 +153,7 @@ Close-AVNSeason converts current data in all player data files into historical d
         }
 
         Write-Host "`n⣿ADVENTURENET⣿Help⣿Specials⣿" -foregroundcolor $global:AVNDefaultTextForegroundColor
-        Write-Host "A Special's type determines where it may be used, from where it may be attained, and what kinds of things it allows you to do." -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Host "A Special's type determines where it may be used, where it may be found, and what kinds of things it allows you to do." -foregroundcolor $global:AVNDefaultTextForegroundColor
         
         $AVNGeneralSpecialsTable = @(
             ForEach ($AVNSpecial in $AVNSpecials) {
@@ -169,7 +169,7 @@ Close-AVNSeason converts current data in all player data files into historical d
             }
         )
         Write-Host "`n`n⣿ADVENTURENET⣿Help⣿Specials⣿Type: General⣿`nGeneral Specials are used within the Invoke-AVNSpecial function." -foregroundcolor $global:AVNDefaultTextForegroundColor
-        Write-Output $AVNGeneralSpecialsTable | Sort-Object "type" | Format-Table Name,Effect
+        Write-Output $AVNGeneralSpecialsTable | Sort-Object name | Format-Table Name,Effect
 
         $AVNInstantSpecialsTable = @(
             ForEach ($AVNSpecial in $AVNSpecials) {
@@ -184,8 +184,8 @@ Close-AVNSeason converts current data in all player data files into historical d
                 }
             }
         )
-        Write-Host "`n⣿ADVENTURENET⣿Help⣿Specials⣿Type: Instant⣿`nInstant Specials take effect as soon as you attain them." -foregroundcolor $global:AVNDefaultTextForegroundColor
-        Write-Output $AVNInstantSpecialsTable | Sort-Object "type" | Format-Table Name,Effect
+        Write-Host "`n⣿ADVENTURENET⣿Help⣿Specials⣿Type: Instant⣿`nInstant Specials take effect as soon as you find them." -foregroundcolor $global:AVNDefaultTextForegroundColor
+        Write-Output $AVNInstantSpecialsTable | Sort-Object name | Format-Table Name,Effect
 
         $AVNPreEmptiveSpecialsTable = @(
             ForEach ($AVNSpecial in $AVNSpecials) {
@@ -201,7 +201,7 @@ Close-AVNSeason converts current data in all player data files into historical d
             }
         )
         Write-Host "`n⣿ADVENTURENET⣿Help⣿Specials⣿Type: PreEmptive⣿`nPreEmptive Specials are used before the first wave during either Close-AVNServiceTicket or Close-AVNProjectBloc." -foregroundcolor $global:AVNDefaultTextForegroundColor
-        Write-Output $AVNPreEmptiveSpecialsTable | Sort-Object "type" | Format-Table Name,Effect
+        Write-Output $AVNPreEmptiveSpecialsTable | Sort-Object name | Format-Table Name,Effect
 
         $AVNInterruptSpecialsTable = @(
             ForEach ($AVNSpecial in $AVNSpecials) {
@@ -217,7 +217,7 @@ Close-AVNSeason converts current data in all player data files into historical d
             }
         )
         Write-Host "`n⣿ADVENTURENET⣿Help⣿Specials⣿Type: Interrupt⣿`nInterrupt Specials are used before the second or third waves during either Close-AVNServiceTicket or Close-AVNProjectBloc." -foregroundcolor $global:AVNDefaultTextForegroundColor
-        Write-Output $AVNInterruptSpecialsTable | Sort-Object "type" | Format-Table Name,Effect
+        Write-Output $AVNInterruptSpecialsTable | Sort-Object name | Format-Table Name,Effect
 
         $AVNInjectionSpecialsTable = @(
             ForEach ($AVNSpecial in $AVNSpecials) {
@@ -233,7 +233,7 @@ Close-AVNSeason converts current data in all player data files into historical d
             }
         )
         Write-Host "`n⣿ADVENTURENET⣿Help⣿Specials⣿Type: Injection⣿`nInjection Specials provide a boost to any roll, adding additional worktypes to the dice results that you've already rolled." -foregroundcolor $global:AVNDefaultTextForegroundColor
-        Write-Output $AVNInjectionSpecialsTable | Sort-Object "type" | Format-Table Name,Effect
+        Write-Output $AVNInjectionSpecialsTable | Sort-Object name | Format-Table Name,Effect
 
         $AVNTeamsSpecialsTable = @(
             ForEach ($AVNSpecial in $AVNSpecials) {
@@ -249,7 +249,7 @@ Close-AVNSeason converts current data in all player data files into historical d
             }
         )
         Write-Host "`n⣿ADVENTURENET⣿Help⣿Specials⣿Type: Teams-Purchasable⣿`nThese varied Specials may be purchased with GIFs within Enter-AVNTeams." -foregroundcolor $global:AVNDefaultTextForegroundColor
-        Write-Output $AVNTeamsSpecialsTable | Sort-Object "type" | Format-Table Name,Type,Effect
+        Write-Output $AVNTeamsSpecialsTable | Sort-Object name | Format-Table Name,Type,Effect
 
         $AVNCrisisSpecialsTable = @(
             ForEach ($AVNSpecial in $AVNSpecials) {
@@ -265,7 +265,7 @@ Close-AVNSeason converts current data in all player data files into historical d
             }
         )
         Write-Host "`n⣿ADVENTURENET⣿Help⣿Specials⣿Type: Crisis⣿`nCrises work like Instant Specials, but you don't want to find these." -foregroundcolor $global:AVNDefaultTextForegroundColor
-        Write-Output $AVNPreEmptiveSpecialsTable | Sort-Object "type" | Format-Table Name,Effect
+        Write-Output $AVNCrisisSpecialsTable | Sort-Object name | Format-Table Name,Effect
         
         Wait-AVNKeyPress
     }
