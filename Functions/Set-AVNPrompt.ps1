@@ -14,7 +14,8 @@
 Function Set-AVNPrompt {
     Get-AVNConfig
     Function global:Prompt {
-        $AVNInfoLine = "⣿ADVENTURENET⣿ Stage: " + $global:AVNCompanyDataCommon.currentstage + " ⣿ Turns: " + $global:AVNPlayerData_CurrentPlayer.turns + " ⣿ ClientHealth: " + $global:AVNCompanyDataCommon.teamhealth + " ⣿ TeamHealth: " + $global:AVNCompanyDataCommon.teamhealth + " ⣿ Kudos: " + $global:AVNPlayerData_CurrentPlayer.kudos + " ⣿ GIFs: " + $global:AVNPlayerData_CurrentPlayer.gifs + " ⣿`n> "
+        $AVNInfoLine = "⣿ADVENTURENET⣿ Stage: " + $global:AVNCompanyDataCommon.currentstage + " ⣿ Turns: " + $global:AVNPlayerData_CurrentPlayer.turns + " ⣿ ClientHealth: " + $global:AVNCompanyDataCommon.teamhealth + " ⣿ TeamHealth: " + $global:AVNCompanyDataCommon.teamhealth + " ⣿ Kudos: " + $global:AVNPlayerData_CurrentPlayer.kudos + " ⣿ GIFs: " + $global:AVNPlayerData_CurrentPlayer.gifs + " ⣿`nPS " + (get-location).path + "> "
+        
         "`e[32m$AVNInfoLine`e[0m"
     }
 

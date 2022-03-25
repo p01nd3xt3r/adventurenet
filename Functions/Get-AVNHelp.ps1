@@ -77,6 +77,8 @@ Players will find different Specials while closing service tickets, and any Spec
 Get-AVNConfig is also import to know about, though you'll almost never need to run it by itself, since most functions run it right away. This is how PS gets information from the data files created for each player and also how it gets information from AdventureNet.config for setting game options. This, along with the actual data files, provides the framework for the rest of the functions. Running it by itself doesn't hurt anything, though.
 
 Close-AVNSeason converts current data in all player data files into historical data and then resets current data. This cannot be undone, but it will need to be done before any subsequent season.
+
+Set-AVNPrompt will change your PS prompt to an infograph of some useful stats. Close and reopen Powershell to reset it to normal.
 "@
         Wait-AVNKeyPress
     }
