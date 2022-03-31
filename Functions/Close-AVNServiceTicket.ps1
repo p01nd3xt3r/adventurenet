@@ -341,7 +341,7 @@ Function Close-AVNServiceTicket {
                         If (($AVNSTActionEntry -notmatch "\d+") -and ($AVNSTActionEntry -ne "?") -and ($AVNSTActionEntry -ne "r")) {
                             Write-Host `n"Something seems to be wrong with your entry. Please make sure to enter only the integer that's next to your choice or a single ?." -foregroundcolor $global:AVNDefaultTextForegroundColor
                             Wait-AVNKeyPress
-                        } ElseIf (($AVNSTActionEntry -notin ($AVNSTCurrentWaveOptionsTable | ForEach-Object {$_.Item})) -and ($AVNSTCurrentWaveOptionsTable -ne "?")) {
+                        } ElseIf (($AVNSTActionEntry -notin ($AVNSTCurrentWaveOptionsTable | ForEach-Object {$_.Item})) -and ($AVNSTActionEntry -ne "?")) {
                             Write-Host "`nPlease only enter the integer of an item in the list." -foregroundcolor $global:AVNDefaultTextForegroundColor
                             Wait-AVNKeyPress
                         }
@@ -576,9 +576,6 @@ Function Close-AVNServiceTicket {
                             }
                         }
                     } Until (($AVNInjectionSpecials.count -lt 1) -or ($AVNInjectionSpecialsEntry -eq ""))
-                } Else {
-                    Write-Host "You have no available Specials to inject into your roll." -foregroundcolor $global:AVNDefaultTextForegroundColor
-                    $AVNDiceRolls
                 }
 
                 #Matching dice rolls to defenses and seeing if the player rolled enough of each work type to beat the wave.
@@ -645,7 +642,7 @@ Function Close-AVNServiceTicket {
                 }
                 $AVNSTGifAwardRoll = Get-Random -minimum $AVNSTGifAwardMin -maximum $AVNSTGifAwardMax
                 $global:AVNPlayerData_CurrentPlayer.gifs += $AVNSTGifAwardRoll
-                Write-Host "`nYou found $AVNSTGifAwardRoll GIFs! You have a total of" $global:AVNPlayerData_CurrentPlayer.gifs "GIFs." -foregroundcolor $global:AVNDefaultTextForegroundColor
+                Write-Host "`nYou found $AVNSTGifAwardRoll GIFs! You have a total of" $global:AVNPlayerData_CurrentPlayer.gifs "GIFs.`n" -foregroundcolor $global:AVNDefaultTextForegroundColor
 
                 $AVNInjectionSpecials = @()
                 $AVNSpecials | ForEach-Object {
@@ -657,7 +654,7 @@ Function Close-AVNServiceTicket {
                 $AVNInjectionRewardRoll = Get-Random -minimum 0 -maximum $AVNInjectionRewardRollMax
                 If ($AVNInjectionRewardRoll -le ($AVNInjectionSpecials.count -1)) {
                     $global:AVNSpecials_CurrentPlayer += $AVNInjectionSpecials[$AVNInjectionRewardRoll].name
-                    Write-Host "`nYou found the following Injection Special!" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                    Write-Host "You found the following Injection Special!" -foregroundcolor $global:AVNDefaultTextForegroundColor
                     $AVNInjectionSpecials[$AVNInjectionRewardRoll].name
                     Write-Host ""
                 }

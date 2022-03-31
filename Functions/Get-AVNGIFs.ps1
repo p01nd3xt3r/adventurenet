@@ -74,8 +74,7 @@ Function Get-AVNGIFs {
                 If (($AVNPlayerSpecialChoice -notmatch "\d+") -and ($AVNPlayerSpecialChoice -ne "?")) {
                     Write-Host "`nSomething seems to be wrong with your entry. Please make sure to enter only an ? or the number that's next to your choice." -foregroundcolor $global:AVNDefaultTextForegroundColor
                     Wait-AVNKeyPress
-                }
-                If (($AVNPlayerSpecialChoice -notin $AVNPlayerSpecialsPossibleChoices) -and ($AVNPlayerSpecialChoice -ne "?")) {
+                } ElseIf (($AVNPlayerSpecialChoice -notin $AVNPlayerSpecialsPossibleChoices) -and ($AVNPlayerSpecialChoice -ne "?")) {
                     Write-Host "`nPlease only enter the integer of an item in the list." -foregroundcolor $global:AVNDefaultTextForegroundColor
                     Wait-AVNKeyPress
                 }

@@ -76,7 +76,7 @@ Function Get-AVNConfig {
 
     $AVNDataFiles | ForEach-Object {
         #Getting content from the current data file and invoking each line of it. Each line is its own variable declaration.
-        $AVNCurrentDataFileContent = ConvertFrom-AVNObfuscated -path $_
+        $AVNCurrentDataFileContent = ConvertFrom-AVNObfuscated -path $_.fullname
         $AVNCurrentDataFileContent | ForEach-Object {
             Invoke-Expression $_
         }

@@ -53,8 +53,9 @@ if you are the player to defeat the final bloc of a project, let it tell you. Li
 Does invoke-signon change current penalty level before or after service tickets are converted into tech questions?
 break up get-avngifs into specials and dice? or just specials? what about converting one into the other?
 change ps current location line to show basic stats like turns and health and gifs? maybe have a command to turn this off and on, saving previous settings for when you turn it off
-Make long test lines break according to best practice instead of in the middle of words. Enforce a manual width?
-
+Make long text lines break according to best practice instead of in the middle of words. Enforce a manual width?
+track how many times a player has logged in?
+change prompt to have yellow as well? or blue. blue is also in our colors. yes, i need to include blues in the scheme.
 
 
 
