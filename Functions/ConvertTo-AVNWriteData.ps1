@@ -80,7 +80,11 @@ Function ConvertTo-AVNWriteData {
 
     #Service ticket specials. Now it's just going to be an array of strings, with the strings being the names of the specials.
     If ($global:AVNSpecials_CurrentPlayer.count -gt 0) {
-        $AVNWriteSpecials = $global:AVNSpecials_CurrentPlayer | Join-String -Separator "','" -OutputPrefix "'" -OutputSuffix "'"
+        If ($global:AVNSpecials_CurrentPlayer.count -gt 1) {
+            $AVNWriteSpecials = $global:AVNSpecials_CurrentPlayer | Join-String -Separator "','" -OutputPrefix "'" -OutputSuffix "'"
+        } Else {
+            $AVNWriteSpecials = "'" + $global:AVNSpecials_CurrentPlayer.tostring() + "'"
+        }
     } Else {
         $AVNWriteSpecials = ""
     }

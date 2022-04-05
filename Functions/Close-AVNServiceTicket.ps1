@@ -650,13 +650,21 @@ Function Close-AVNServiceTicket {
                         $AVNInjectionSpecials += $_
                     }
                 }
-                $AVNInjectionRewardRollMax = ($AVNInjectionSpecials.count -1) / $global:AVNServiceTicketInjectionSpecialRewardRate
+                <#$AVNInjectionRewardRollMax = ($AVNInjectionSpecials.count -1) / $global:AVNServiceTicketInjectionSpecialRewardRate
                 $AVNInjectionRewardRoll = Get-Random -minimum 0 -maximum $AVNInjectionRewardRollMax
                 If ($AVNInjectionRewardRoll -le ($AVNInjectionSpecials.count -1)) {
                     $global:AVNSpecials_CurrentPlayer += $AVNInjectionSpecials[$AVNInjectionRewardRoll].name
                     Write-Host "You found the following Injection Special!" -foregroundcolor $global:AVNDefaultTextForegroundColor
                     $AVNInjectionSpecials[$AVNInjectionRewardRoll].name
                     Write-Host ""
+                }#>
+                $AVNInjectionRewardRoll = Get-Random -minimum 1 -maximum 100
+                If ($AVNInjectionRewardRoll -le (100 * $global:AVNServiceTicketInjectionSpecialRewardRate))
+                {
+                    $AVNInjectionRandomized = Get-Random $AVNInjectionSpecials
+                    $global:AVNSpecials_CurrentPlayer += $AVNInjectionRandomized.name
+                    Write-Host "You found the following Injection Special!" -foregroundcolor $global:AVNDefaultTextForegroundColor
+                    Write-Output $AVNInjectionRandomized.name "`n"
                 }
 
                 $global:AVNCompanyData_CurrentPlayer.TechnicalQuestionsAdded -= 1

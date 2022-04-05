@@ -180,12 +180,12 @@ Function Invoke-AVNSignOn {
 
         $AVNInjectionSpecialsAdded = @()
         For ($I = 0; $I -lt $global:AVNInjectionSpecialsPerDay; $I++) {
-            $AVNInjectionRewardRoll = Get-Random -minimum 0 -maximum ($AVNInjectionSpecials.count - 1)
-            $global:AVNSpecials_CurrentPlayer += $AVNInjectionSpecials[$AVNInjectionRewardRoll].name
-            $AVNInjectionSpecialsAdded += $AVNInjectionSpecials[$AVNInjectionRewardRoll].name
+            $AVNInjectionRewardRoll = Get-Random $AVNInjectionSpecials
+            $global:AVNSpecials_CurrentPlayer += $AVNInjectionRewardRoll.name
+            $AVNInjectionSpecialsAdded += $AVNInjectionRewardRoll.name
         }
         Write-Host "`n⣿ADVENTURENET⣿ Injection Specials Allotment ⣿`n`nThe following injection specials have been added to your collection:" -foregroundcolor $global:AVNDefaultTextForegroundColor
-        $AVNInjectionSpecialsAdded
+        Write-Output $AVNInjectionSpecialsAdded
 
         #Writing back to data file.
         ConvertTo-AVNWriteData -system | ConvertTo-AVNObfuscated -path $global:AVNCurrentPlayerDataFile

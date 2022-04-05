@@ -56,6 +56,10 @@ change ps current location line to show basic stats like turns and health and gi
 Make long text lines break according to best practice instead of in the middle of words. Enforce a manual width?
 track how many times a player has logged in?
 change prompt to have yellow as well? or blue. blue is also in our colors. yes, i need to include blues in the scheme.
+if it's a special in your list of actions, show the effect/type?
+specify help only for the added items in the list
+say every time you lose or gain any stat
+can buy random injection special (maybe for 15 gifs?)
 
 
 
